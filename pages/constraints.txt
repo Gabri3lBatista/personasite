@@ -1,0 +1,13 @@
+# requirements.txt
+
+distlib==0.3.8
+filelock==3.13.1
+pbr==6.0.0
+platformdirs==4.1.0
+stevedore==5.1.0
+virtualenv==20.25.0
+virtualenv-clone==0.5.7
+virtualenvwrapper==6.0.0
+
+
+https://coolors.co/fdfffc-235789-c1292e-f1d302-161925

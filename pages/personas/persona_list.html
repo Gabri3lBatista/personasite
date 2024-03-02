@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<ul class="list-group">
+    {% for persona in personas %}
+        <li class="list-group-item">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ persona.nome }}</h5>
+                    <p class="card-text">Idade: {{ persona.idade }}</p>
+                    <p class="card-text">Interesses: {{ persona.interesses }}</p>
+                    <a href="{% url 'persona:persona_delete' persona.id %}" class="btn btn-danger">Deletar</a>
+                    <a href="{% url 'persona:persona_update' persona.id %}" class="btn btn-primary">Atualizar</a>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

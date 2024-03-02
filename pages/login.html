@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form  method="post" action="{% url 'login' %}">
+   
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-3">Faça seu Login</h1>
+                {% csrf_token %}
+    
+                <div class="form-group card-body">
+                <label class="card-title" for="username">Username</label>
+                <input type="text" id="username" name="username">
+                {% if form.username.errors %}
+                    <p class="error-message">{{ form.username.errors }}</p>
+                {% endif %}
+            
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password">
+                {% if form.password.errors %}
+                    <p class="error-message">{{ form.password.errors }}</p>
+                {% endif %}
+              
+                    <button class="btn btn-primary" type="submit">Login</button>
+                    <a class= "btn btn-danger "href="{% url 'registrar' %}">Registrar</a>
+            </div>
+        </div>
+</div>
+
+  
+</form>
+{% endblock %}
+ 

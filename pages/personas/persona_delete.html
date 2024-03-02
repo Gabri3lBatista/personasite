@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card-body">
+    <h2>Confirmar Exclusão</h2>
+    <p>Tem certeza de que deseja excluir "{{ persona.nome }}"?</p>
+    <form method="post" action="{% url 'persona:persona_delete' persona.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+        <a href="{% url 'persona:persona_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
