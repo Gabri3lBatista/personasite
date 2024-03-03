@@ -9,5 +9,4 @@ urlpatterns = [
     path('criar_persona/', persona_create, name='persona_create'),
     path('editar_persona/<int:pk>/', persona_update, name='persona_update'),
     path('deletar_persona/<int:pk>/', persona_delete, name='persona_delete'),
-
 ]

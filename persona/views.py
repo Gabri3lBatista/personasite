@@ -1,10 +1,11 @@
 # Importações necessárias do Django
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,  get_object_or_404
 from .models import Persona
 from .forms import PersonaForm
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 # Função para listar todas as personas
 
@@ -24,6 +25,7 @@ def persona_create(request):
         form = PersonaForm(request.POST)
         if form.is_valid():
             persona = form.save(commit=False)
+            persona.user = request.user
             persona.save()
             print("valido" )
             return redirect('persona:persona_list')
@@ -34,9 +36,18 @@ def persona_create(request):
 
 # Função para atualizar uma persona existente
 @login_required
+
 def persona_update(request, pk):
     # Obtém a persona pelo ID (pk)
-    persona = Persona.objects.get(pk=pk)
+    try:
+        persona = Persona.objects.get(pk=pk)
+    except Persona.DoesNotExist:
+        raise Http404("A Persona não existe.")
+        
+    if persona.user != request.user:
+        # Persona não pertence ao usuário, redirecione para uma página de erro ou outra página
+        return render(request, 'error_page.html', {'message': 'Você não tem permissão para acessar esta persona.'})
+
     if request.method == "POST":
         form = PersonaForm(request.POST, instance=persona)
         if form.is_valid():
@@ -46,6 +57,9 @@ def persona_update(request, pk):
             persona.save()
             # Redireciona para a lista de personas após a atualização
             return redirect('persona:persona_list')
+        else:
+            print("não validoedita")
+            print(form.errors)
     else:
         # Cria um formulário preenchido com os dados da persona para exibir no método GET
         form = PersonaForm(instance=persona)
