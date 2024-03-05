@@ -1,7 +1,5 @@
-div {
-    border: 1px solid red;
-    width: 100px;
-    height: 100px;
-    color: red;
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
 }
-

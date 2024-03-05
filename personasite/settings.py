@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'persona',
     'users',
-    'django_extensions'
+    'django_extensions',
+    "django_bootstrap5",
+
 ]
 
 MIDDLEWARE = [
