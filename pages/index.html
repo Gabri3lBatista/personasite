@@ -1,21 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container-fluid">
+<div class="pagina_principal">
 
-        
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center min-vh-100">
+
+            <div class="mx-auto w-25" >
+
         {% if user.is_authenticated %}
             <p class="h1">Welcome, {{ user.username }}!</p>
-            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'users:logout' %}">Logout</a>
         {% else %}
             <p>You are not logged in.</p>
-            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'users:login' %}">Login</a>
         {% endif %}
 
         <h2>Personas</h2>
         <a href="{% url 'persona:persona_create' %}" class="btn btn-primary">Criar</a>
         <a href="{% url 'persona:persona_list' %}" class="btn btn-secondary">Lista de Personas </a>
-
-
+            </div>
+        </div>
     </div>
+</div>
 
 {% endblock %}

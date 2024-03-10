@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/css/user/userRegister.css">
+{% endblock %}
+
+{% block content %}
+<div class="pagina_registrar container-fluid">
+    <div class="row justify-content-center align-items-center min-vh-100">
+
+        <form class="mx-auto w-25" method="post">
+            {% csrf_token %}
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h4 class="text-center">Faça seu Registro</h4>
+                    <div class="form-group card-body">
+                        <label class="card-title" for="username">Nome do usuário:</label>
+                        <input type="text" class="form-control" id="username" name="username">
+                        {% if form.username.errors %}
+                        <p class="error-message">{{ form.username.errors }}</p>
+                        {% endif %}
+
+                        <label for="password">Senha:</label>
+                        <input type="password" class="form-control" name="password" maxlength="128" required
+                            id="id_password">
+                        {% if form.password.errors %}
+                        <p class="error-message">{{ form.password.errors }}</p>
+                        {% endif %}
+
+                        <label for="senha_confirmacao">Confirmar senha:</label>
+                        <input type="password" class="form-control" name="senha_confirmacao" required
+                            id="id_senha_confirmacao">
+                        {% if form.senha_confirmacao.errors %}
+                        <p class="error-message">{{ form.senha_confirmacao.errors }}</p>
+                        {% endif %}
+
+                        {% if errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ errors }}
+                        </div>
+                        {% endif %}
+
+                        <div class="pt-3 float-end">
+                            <a class="btn btn-dark" href="{% url 'users:login' %}">Voltar</a>
+                            <button class="btn btn-primary" type="submit">Registrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

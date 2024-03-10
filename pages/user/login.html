@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/css/user/userLogin.css">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="pagina_login container-fluid">
+    <div class="row justify-content-center align-items-center min-vh-100  "">
+        <form class=" mx-auto w-25" method="post" action="{% url 'users:login' %}">
+        {% csrf_token %}
+        <div class="jumbotron jumbotron-fluid ">
+            <div class="container">
+                <h4 class="text-center">Faça seu Login</h4>
+                <div class="form-group card-body">
+                    <label class="card-title" for="username">Digite seu Login</label>
+                    <input type="text" class="form-control" id="username" name="username">
+                    {% if form.username.errors %}
+                    <p class="error-message">{{ form.username.errors }}</p>
+                    {% endif %}
+
+                    <label for="password">Escreva sua senha</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                    {% if form.password.errors %}
+                    <p class="error-message">{{ form.password.errors }}</p>
+                    {% endif %}
+                    
+                    <div class="pt-3 float-end ">
+                        <a class="btn btn-danger " href="{% url 'users:register' %}">Registrar</a>
+                        <button class="btn btn-primary" type="submit">Login</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

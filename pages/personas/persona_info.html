@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="list-group">
+    <li class="list-group-item">
+        <div class="card">
+            <a href="{% url 'persona:persona_list' %}" class="btn btn-danger">Voltar</a>
+
+            <div class="card-body">
+                <h5 class="card-title">{{ persona.nome }}</h5>
+                <p class="card-text">Idade: {{ persona.idade }}</p>
+                <p class="card-text">Interesses: {{ persona.interesses }}</p>
+                <p class="card-text">Sexo: {{ persona.get_sexo_display }}</p>
+                <h2>Neurodivergências:</h2>
+                {% for info_neurodivergencia in info_neurodivergencias %}
+                    <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
+                    <ul>
+                        {% for problema in info_neurodivergencia.problemas %}
+                            <li>Problema: {{ problema.descricao }}</li>
+                            <ul>
+                                {% for solucao in info_neurodivergencia.solucoes %}
+                                    {% if solucao.problema == problema %}
+                                        <li>Solução: {{ solucao.descricao }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+                <a href="{% url 'persona:persona_delete' persona.id %}" class="btn btn-danger">Deletar</a>
+                <a href="{% url 'persona:persona_update' persona.id %}" class="btn btn-primary">Atualizar</a>
+            </div>
+        </div>
+    </li>
+    </ul>
+    {% endblock %}
