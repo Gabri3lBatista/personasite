@@ -20,7 +20,7 @@ def minha_view_login(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)    
-                return redirect('../')
+                return redirect('persona:persona_create')
     else:
         form = LoginForm()
     return render(request, 'user/login.html', {'form': form})

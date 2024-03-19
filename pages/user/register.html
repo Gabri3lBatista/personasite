@@ -1,53 +1,48 @@
 {% extends 'base.html' %}
 
 {% block style %}
-<link rel="stylesheet" type="text/css" href="/static/css/user/userRegister.css">
+
+<link rel="stylesheet" href="/static/css/user/user_register.css">
+
 {% endblock %}
-
 {% block content %}
-<div class="pagina_registrar container-fluid">
-    <div class="row justify-content-center align-items-center min-vh-100">
-
-        <form class="mx-auto w-25" method="post">
-            {% csrf_token %}
-            <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                    <h4 class="text-center">Faça seu Registro</h4>
-                    <div class="form-group card-body">
-                        <label class="card-title" for="username">Nome do usuário:</label>
-                        <input type="text" class="form-control" id="username" name="username">
+<main>
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-lg-6 col-md-6">
+                <form class="p-4 border rounded shadow text-start" method="post">
+                    {% csrf_token %}
+                    <h4 class="text-center mb-4">Faça seu Registro</h4>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nome do usuário:</label>
+                        <input  placeholder="Coloque seu nome aqui" type="text" class="form-control" id="username" name="username">
                         {% if form.username.errors %}
-                        <p class="error-message">{{ form.username.errors }}</p>
+                        <div class="text-danger">{{ form.username.errors }}</div>
                         {% endif %}
-
-                        <label for="password">Senha:</label>
-                        <input type="password" class="form-control" name="password" maxlength="128" required
-                            id="id_password">
-                        {% if form.password.errors %}
-                        <p class="error-message">{{ form.password.errors }}</p>
-                        {% endif %}
-
-                        <label for="senha_confirmacao">Confirmar senha:</label>
-                        <input type="password" class="form-control" name="senha_confirmacao" required
-                            id="id_senha_confirmacao">
-                        {% if form.senha_confirmacao.errors %}
-                        <p class="error-message">{{ form.senha_confirmacao.errors }}</p>
-                        {% endif %}
-
-                        {% if errors %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ errors }}
-                        </div>
-                        {% endif %}
-
-                        <div class="pt-3 float-end">
-                            <a class="btn btn-dark" href="{% url 'users:login' %}">Voltar</a>
-                            <button class="btn btn-primary" type="submit">Registrar</button>
-                        </div>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Senha:</label>
+                        <input placeholder="Coloque sua senha aqui" type="password" class="form-control" id="password" name="password">
+                        {% if form.password.errors %}
+                        <div class="text-danger">{{ form.password.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Confirmar senha:</label>
+                        <input placeholder="Reescreva sua senha" type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                        {% if form.password_confirmation.errors %}
+                        <div class="text-danger">{{ form.password_confirmation.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn registrar" type="submit">Registrar</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'users:login' %}" class="login btn btn-primary  ">Voltar</a>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</main>
 {% endblock %}

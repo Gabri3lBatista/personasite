@@ -1,26 +1,61 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="pagina_principal">
-
-    <div class="container-fluid">
-        <div class="row justify-content-center align-items-center min-vh-100">
-
-            <div class="mx-auto w-25" >
-
-        {% if user.is_authenticated %}
-            <p class="h1">Welcome, {{ user.username }}!</p>
-            <a href="{% url 'users:logout' %}">Logout</a>
-        {% else %}
-            <p>You are not logged in.</p>
-            <a href="{% url 'users:login' %}">Login</a>
-        {% endif %}
-
-        <h2>Personas</h2>
-        <a href="{% url 'persona:persona_create' %}" class="btn btn-primary">Criar</a>
-        <a href="{% url 'persona:persona_list' %}" class="btn btn-secondary">Lista de Personas </a>
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/css/index.css">
+{% endblock %}
+<div id="page" class="mt-2 ">
+    <main class="container">
+        <div class="miolo ">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="neuro text-center p-3" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Descrição do neurodivergente">
+                        <h1 class="mb-3">O que é um neurodivergente?</h1>
+                        <hr>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos eum consequatur incidunt
+                            exercitationem consectetur, ea est, quibusdam nemo perferendis rem natus odit aliquam rerum
+                            dolor? Blanditiis dicta repudiandae odit numquam!</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="persona text-center p-3" data-bs-toggle="tooltip" data-bs-placement="left"
+                        title="Descrição da persona">
+                        <h1 class="mb-3">O que é uma persona?</h1>
+                        <hr>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos eum consequatur incidunt
+                            exercitationem consectetur, ea est, quibusdam nemo perferendis rem natus odit aliquam rerum
+                            dolor? Blanditiis dicta repudiandae odit numquam!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="criar-persona text-center p-3" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Crie sua persona ao clicar no botão verde">
+                        <h1>Crie sua persona <i class="bi bi-person"></i></h1>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'persona:persona_create' %}" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Clique para criar sua persona" class="btn botao-persona"><i
+                                class="fa-solid fa-user pe-2"></i>Criar</a>
+                        {% else %}
+                        <a href="{% url 'users:login' %}" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Clique para criar sua persona" class="btn botao-persona"><i
+                                class="fa-solid fa-user pe-2"></i>Criar</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 </div>
-
+{% endblock %}
+{% block scripts %}
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl,
+            { delay: { "show": 500, "hide": 100 } }
+        )
+    })
+</script>
 {% endblock %}

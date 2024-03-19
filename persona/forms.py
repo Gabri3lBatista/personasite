@@ -15,8 +15,7 @@ class PersonaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        # Ajuste as escolhas do campo neurodivergente para mostrar apenas algumas opções
+   # Ajuste as escolhas do campo neurodivergente para mostrar apenas algumas opções
         allowed_neurodivergentes = Neurodivergente.objects.filter(nome__in=['Dislexia', 'Autismo', 'TDAH'])
         self.fields['neurodivergente'].queryset = allowed_neurodivergentes
-        
         

@@ -18,18 +18,69 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
-    {% block style %} {% endblock %}
-  
+    <link rel="stylesheet" type="text/css" href="/static/css/main_page.css">
+
+    <script src="https://kit.fontawesome.com/c19fb70d9b.js" crossorigin="anonymous"></script>   
+    
+    
+    {% block style %}
+
+    {% endblock %}
+
 </head>
 
 <body>
+    <div class="d-flex h-100 text-center text-white bg-dark min-vh-100  ">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <header class="mb-auto ">
+                <div>
+                    <h3 class="float-md-start mb-0">NeuroPersona</h3>
+                    <nav class="nav nav-masthead justify-content-center float-md-end  ">
+                        <a class="pe-2 nav-link active" aria-current="page" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Página Principal" href="{% url 'persona:main_page' %}">Home</a>
 
-    {% block content %}
+                        {% if user.is_authenticated %}
+                        <a class="pe-2 nav-link active " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clique parar ir na criar uma peronsa" href="{% url 'persona:persona_create' %}">Criar Persona</a>
+                        <a class="pe-2 nav-link active " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clique parar ir na Lista de personas" href="{% url 'persona:persona_list' %}">Lista de Personas</a>
+                        
+                        <a href="{% url 'users:logout' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Clique para sair da conta" class=" ms-2 btn btn-danger">Logout</a>
+                        {% else %}
+                        <a href="{% url 'users:login' %}" class="  ms-2 btn btn-primary">Login</a>
+                        {% endif %}
+                    </nav>
+                </div>
+            </header>
+            {% block content %}
 
-    {% endblock %}
+            {% endblock %}
+
+            <footer class="text-white-50 ">
+                <p>Site desenvolvido pelo <a href="https://www.linkedin.com/in/gabriel-batista1/" class="text-white">Gabriel Batista</a>, veja o <a href="https://github.com/Gabri3lBatista/personasite" class="text-white">Github do Projeto</a>.</p>
+            </footer>
+        </div>
+
+    </div>
     {% block scripts %}
-    <!-- Coloque os scripts comuns aqui -->
-    {% endblock %}
-</body>
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl,
+                { delay: { "show": 500, "hide": 100 } }
+            )
+        })
 
+        function changeContrast() {
+        var body = document.body;
+        var currentContrast = body.classList.contains('high-contrast');
+            if (currentContrast) {
+                body.classList.remove('high-contrast');
+            } else {
+                body.classList.add('high-contrast');
+            }
+        }
+    </script>
+
+    
+    {% endblock %}
+    
+</body>
 </html>

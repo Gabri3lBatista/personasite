@@ -1,35 +1,50 @@
 {% extends 'base.html' %}
-{% block content %}
-<div class="list-group">
-    <li class="list-group-item">
-        <div class="card">
-            <a href="{% url 'persona:persona_list' %}" class="btn btn-danger">Voltar</a>
 
-            <div class="card-body">
-                <h5 class="card-title">{{ persona.nome }}</h5>
-                <p class="card-text">Idade: {{ persona.idade }}</p>
-                <p class="card-text">Interesses: {{ persona.interesses }}</p>
-                <p class="card-text">Sexo: {{ persona.get_sexo_display }}</p>
-                <h2>Neurodivergências:</h2>
-                {% for info_neurodivergencia in info_neurodivergencias %}
-                    <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
-                    <ul>
-                        {% for problema in info_neurodivergencia.problemas %}
-                            <li>Problema: {{ problema.descricao }}</li>
-                            <ul>
-                                {% for solucao in info_neurodivergencia.solucoes %}
-                                    {% if solucao.problema == problema %}
-                                        <li>Solução: {{ solucao.descricao }}</li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        {% endfor %}
-                    </ul>
-                {% endfor %}
-                <a href="{% url 'persona:persona_delete' persona.id %}" class="btn btn-danger">Deletar</a>
-                <a href="{% url 'persona:persona_update' persona.id %}" class="btn btn-primary">Atualizar</a>
+{% block content %}
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="">
+                <div class="card-body">
+                    <h2>Imagem da Persona</h2>
+                    <!-- Insira aqui a tag para exibir a imagem da persona -->
+                </div>
             </div>
         </div>
-    </li>
-    </ul>
-    {% endblock %}
+        <div class="col-md-8">
+            <div class="">
+                <div class="card-body">
+                    <h2>{{ persona.nome }}</h2>
+                    <p>Idade: {{ persona.idade }}</p>
+                    <p>Interesses: {{ persona.interesses }}</p>
+                    <p>Sexo: {{ persona.get_sexo_display }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="">
+                <div class="">
+                    <h2>Neurodivergências:</h2>
+                    {% for info_neurodivergencia in info_neurodivergencias %}
+                        <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
+                        <ul>
+                            {% for problema in info_neurodivergencia.problemas %}
+                                <li>Problema: {{ problema.descricao }}</li>
+                                <ul class=" ">
+                                    {% for solucao in info_neurodivergencia.solucoes %}
+                                        {% if solucao.problema == problema %}
+                                            <li>Solução: {{ solucao.descricao }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

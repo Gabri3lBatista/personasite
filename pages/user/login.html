@@ -2,42 +2,41 @@
 
 
 {% block style %}
-<link rel="stylesheet" type="text/css" href="/static/css/user/userLogin.css">
+ <link rel="stylesheet" href="/static/css/user/user_login.css">
 {% endblock %}
 
-
-
 {% block content %}
-<div class="pagina_login container-fluid">
-    <div class="row justify-content-center align-items-center min-vh-100  "">
-        <form class=" mx-auto w-25" method="post" action="{% url 'users:login' %}">
-        {% csrf_token %}
-        <div class="jumbotron jumbotron-fluid ">
-            <div class="container">
-                <h4 class="text-center">Faça seu Login</h4>
-                <div class="form-group card-body">
-                    <label class="card-title" for="username">Digite seu Login</label>
-                    <input type="text" class="form-control" id="username" name="username">
+<main >
+<div class="container  ">
+    <div class="row justify-content-center align-items-center min-vh-100 ">
+        <div class="col-lg-6 col-md-6">
+            <form class="p-4 border rounded shadow text-start" method="post" action="{% url 'users:login' %}">
+                {% csrf_token %}
+                <h4 class="text-center mb-4">Faça seu Login</h4>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Usuário:</label>
+                    <input placeholder="Ex: Joao, Gabriel"  type="text" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" title="Digite o nome do usuario"id="username" name="username">
                     {% if form.username.errors %}
-                    <p class="error-message">{{ form.username.errors }}</p>
+                    <div class="text-danger">{{ form.username.errors }}</div>
                     {% endif %}
-
-                    <label for="password">Escreva sua senha</label>
-                    <input type="password" class="form-control" id="password" name="password">
-                    {% if form.password.errors %}
-                    <p class="error-message">{{ form.password.errors }}</p>
-                    {% endif %}
-                    
-                    <div class="pt-3 float-end ">
-                        <a class="btn btn-danger " href="{% url 'users:register' %}">Registrar</a>
-                        <button class="btn btn-primary" type="submit">Login</button>
-
-                    </div>
                 </div>
-            </div>
+                <div class="mb-3  ">
+                    <label for="password" class="form-label">Senha:</label>
+                    <input  placeholder="**********" type="password" data-bs-toggle="tooltip" data-bs-placement="right" title="Digite sua senha"class="form-control" id="password" name="password">
+                    {% if form.password.errors %}
+                    <div class="text-danger">{{ form.password.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="d-grid gap-2">
+                    <button class="btn login" type="submit">Login</button>
+                </div>
+                <div class="d-grid gap-2 mt-3 ">
+                    <a href="{% url 'users:register' %}" class="btn registrar">Registrar</a>
+                </div>
+            </form>
         </div>
-        </form>
     </div>
-
 </div>
+
+</main>
 {% endblock %}

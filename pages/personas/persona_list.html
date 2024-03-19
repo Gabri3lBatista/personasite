@@ -1,19 +1,55 @@
 {% extends 'base.html' %}
-{% block content %}
-<ul class="list-group">
-    {% for persona in personas %}
-        <li class="list-group-item">
-            <div class="card">
-                <a href="{% url 'persona:main_page' %}" class="btn btn-danger">Voltar</a>
 
-                <div class="card-body">
-                    <h5 class="card-title">{{ persona.nome }}</h5>
-                    <a href="{% url 'persona:persona_info' persona.id %}" class="btn btn-info  ">Informaçôes</a>
-                    <a href="{% url 'persona:persona_update' persona.id %}" class="btn btn-primary">Atualizar</a>
-                    <a href="{% url 'persona:persona_delete' persona.id %}" class="btn btn-danger">Deletar</a>
-                </div>
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/css/persona/persona_list.css">
+{% endblock %}
+
+{% block content %}
+
+<main class="mt-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <ul class="list-group">
+                    {% for persona in personas %}
+                    <li class="list-group-item">
+                        <div class="">
+                            <div class="">
+                                <h5 class="card-title">{{ persona.nome }}</h5>
+                                <a href="{% url 'persona:persona_info' persona.id %}"
+                                    class="btn btn-info me-2">Informações</a>
+                                <a href="{% url 'persona:persona_update' persona.id %}"
+                                    class="btn btn-primary me-2">Atualizar</a>
+                                <a href="{% url 'persona:persona_delete' persona.id %}"
+                                    class="btn btn-danger">Deletar</a>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% if personas.has_other_pages %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center mt-4">
+                        {% if personas.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">Primeira</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="?page={{ personas.previous_page_number }}">Anterior</a></li>
+                        {% endif %}
+                        {% if personas %}
+                        <li class="page-item disabled"><a class="page-link" href="#">Página {{ personas.number|add:1 }} de {{ personas.paginator.num_pages }}</a></li>
+                        {% endif %}
+                        {% if personas.has_next %}
+                        <li class="page-item"><a class="page-link"
+                                href="?page={{ personas.next_page_number }}">Próxima</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="?page={{ personas.paginator.num_pages }}">Última</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
             </div>
-        </li>
-    {% endfor %}
-</ul>
+        </div>
+    </div>
+</main>
+
 {% endblock %}

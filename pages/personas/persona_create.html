@@ -1,57 +1,64 @@
 {% extends 'base.html' %}
 
 {% block style %}
-<link rel="stylesheet" type="text/css" href="/static/css/userLogin.css">
+<link rel="stylesheet" type="text/css" href="/static/css/personas/create.css">
 {% endblock %}
 
 {% block content %}
-<div class="pagina_login container-fluid">
-    <div class="row justify-content-center align-items-center min-vh-100">
-        <form class="mx-auto w-50" method="post">
-            {% csrf_token %}
-            <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                    <h4 class="text-center">Cadastre sua persona</h4>
-                    <div class="form-group card-body">
-                        <label class="card-title" for="nome">Nome</label>
-                        <input type="text" class="form-control" id="nome" name="nome">
+<main class="mt-2 mb-5">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <form class="col-md-6 border rounded shadow w-75" method="post">
+                {% csrf_token %}
+                <div class="p-4 text-start">
+                    <h4 class="text-center mb-4 fw-bold">Cadastre sua persona</h4>
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome:</label>
+                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome da sua persona">
                         {% if form.nome.errors %}
                         <p class="error-message">{{ form.nome.errors }}</p>
                         {% endif %}
-
-                        <label for="idade">Idade</label>
-                        <input type="number" class="form-control" id="idade" name="idade">
+                    </div>
+                    <div class="mb-3">
+                        <label for="idade" class="form-label">Idade:</label>
+                        <input type="number" class="form-control" id="idade" name="idade" placeholder="Digite a idade da sua persona">
                         {% if form.idade.errors %}
                         <p class="error-message">{{ form.idade.errors }}</p>
                         {% endif %}
-
-                        <label for="interesses">Interesses</label>
-                        <input type="text" class="form-control" id="interesses" name="interesses">
+                    </div>
+                    <div class="mb-3">
+                        <label for="interesses" class="form-label">Interesses:</label>
+                        <input type="text" class="form-control" id="interesses" name="interesses" placeholder="Digite os interesses da sua persona">
                         {% if form.interesses.errors %}
                         <p class="error-message">{{ form.interesses.errors }}</p>
                         {% endif %}
-
-                        <div class="mt-3">
-                            {{ form.sexo }}
-                            {{ form.sexo.errors }}
-                              
-                        </div>
-
-                        <div class="mt-3">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sexo:</label>
+                        <select class="form-select" id="id_sexo" name="sexo" style="color: #000000;" aria-placeholder="Escolha uma opção" required>
+                            <option value="" aria-placeholder="Escolha uma opção" disabled selected hidden >Escolha uma opção</option>
+                            {% for choice in form.sexo.field.choices %}
+                                <option value="{{ choice.0 }}" {% if choice.0 == form.sexo.value %} selected {% endif %}>{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        {{ form.sexo.errors }}
+                    </div>
+                    <div class="mb-3 custom-form-group">
+                        <label class="form-label custom-label">Neurodivergente:</label>
+                        <div class="d-flex">
                             {{ form.neurodivergente }}
-                            {{ form.neurodivergente.errors }}
-                        </div>
-
-
-                        
-                        <div class="pt-3 float-end">
-                            <a class="btn btn-group " href="{% url 'persona:main_page' %}">Voltar</a>
-                            <button class="btn btn-primary" type="submit">Criar</button>
-                        </div>
+                        </div> 
+                        {{ form.neurodivergente.errors }}
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="submit">Criar:</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'persona:main_page' %}" class="text-decoration-none">Voltar:</a>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+</main>
 {% endblock %}
