@@ -3,15 +3,15 @@
 {% block content %}
 <div class="container mt-2">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4  border rounded shadow ">
             <div class="">
                 <div class="card-body">
-                    <h2>Imagem da Persona</h2>
+                    <h2> Persona</h2>
                     <!-- Insira aqui a tag para exibir a imagem da persona -->
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8  border rounded shadow ">
             <div class="">
                 <div class="card-body">
                     <h2>{{ persona.nome }}</h2>
@@ -22,12 +22,13 @@
             </div>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col-md-12">
+    <div class="row ">
+        <div class="col-md-12 border rounded shadow ">
             <div class="">
                 <div class="">
                     <h2>Neurodivergências:</h2>
                     {% for info_neurodivergencia in info_neurodivergencias %}
+                    <div class="d-flex ">
                         <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
                         <ul>
                             {% for problema in info_neurodivergencia.problemas %}
@@ -41,6 +42,7 @@
                                 </ul>
                             {% endfor %}
                         </ul>
+                    </div>
                     {% endfor %}
                 </div>
             </div>

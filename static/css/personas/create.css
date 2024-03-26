@@ -15,3 +15,16 @@
 options{
     color: #000000;
 }
+
+main{
+
+
+}
+
+form{
+    height: 100%;
+}
+
+button{
+ border: 3vh solid red;
+}

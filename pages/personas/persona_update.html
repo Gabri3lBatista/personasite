@@ -1,17 +1,60 @@
 {% extends 'base.html' %}
 
-
-{% block content %}
-<div class="card">
-    <div class="card-body">
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create</button>
-    </form>
-
-    </div>
-</div>
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/css/personas/create.css">
 {% endblock %}
 
-
+{% block content %}
+<main class="mt-2 ">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <form class="col-md-12 border rounded shadow  " method="post">
+                {% csrf_token %}
+                <div class="px-4 pt-4 pb-2  text-start">
+                    <h4 class="text-center fw-bold">Editar sua persona</h4>
+                    <div class="mb-3">
+                        <label for="nome" class="form-label fw-bold">Nome:</label>
+                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome da sua persona" value="{{ form.instance.nome }}">
+                        {% if form.nome.errors %}
+                        <p class="error-message">{{ form.nome.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3 fw-bold">
+                        <label for="idade" class="form-label ">Idade:</label>
+                        <input type="number" class="form-control" id="idade" name="idade" placeholder="Digite a idade da sua persona" value="{{ form.instance.idade }}">
+                        {% if form.idade.errors %}
+                        <p class="error-message">{{ form.idade.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3 fw-bold">
+                        <label for="interesses" class="form-label">Interesses:</label>
+                        <input type="text" class="form-control" id="interesses" name="interesses" placeholder="Digite os interesses da sua persona" value="{{ form.instance.interesses }}">
+                        {% if form.interesses.errors %}
+                        <p class="error-message">{{ form.interesses.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3 fw-bold">
+                        <label class="form-label">Sexo:</label>
+                        <select class="form-select" id="id_sexo" name="sexo" style="color: #000000;" aria-placeholder="Escolha uma opção" required>
+                            {% for choice in form.sexo.field.choices %}
+                                <option value="{{ choice.0 }}" {% if choice.0 == form.instance.sexo %} selected {% endif %}>{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        {{ form.sexo.errors }}
+                    </div>
+                    <div class="custom-form-group fw-bold">
+                        <label class="form-label custom-label">Neurodivergente:</label>
+                        <div class="d-grid">
+                            {{ form.neurodivergente }}
+                        </div> 
+                        {{ form.neurodivergente.errors }}
+                    </div>
+                    <div class="d-grid mt-3">
+                        <button type="submit"  style="margin-top: -14px" class=" btn btn-success ">Editar Persona</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

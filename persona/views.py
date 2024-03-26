@@ -20,7 +20,7 @@ def persona_list(request):
     personas = Persona.objects.filter(user=request.user)
     neurodivergentes = Neurodivergente.objects.all()
 
-    paginator = Paginator(personas, 4)  # Define 6 personas por página
+    paginator = Paginator(personas, 5) 
     page_number = request.GET.get('page') or 1
     page_number = int(page_number)  # Converte para inteiro
 
