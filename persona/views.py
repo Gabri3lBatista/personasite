@@ -1,86 +1,112 @@
-# Importações necessárias do Django
-from django.shortcuts import render, redirect,  get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Persona, Neurodivergente, Problemas, Solucoes
 from .forms import PersonaForm
-from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-import random 
+import random
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Persona, Neurodivergente, Problemas, Solucoes
+from .forms import PersonaForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+import random
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
+import tempfile
 
-# Função para listar todas as personas
 
+
+
+# Função para a página principal
 def main_page(request):
     return render(request, 'index.html')
 
+def sobre_page(request):
+    return render(request, 'sobre.html')
+
+
+# Função para listar todas as personas
 @login_required
 def persona_list(request):
-    personas = Persona.objects.filter(user=request.user)
+    personas = Persona.objects.filter(user=request.user).order_by('nome')  # Adicione uma ordenação aqui
     neurodivergentes = Neurodivergente.objects.all()
 
-    paginator = Paginator(personas, 5) 
+    paginator = Paginator(personas, 5)
     page_number = request.GET.get('page') or 1
-    page_number = int(page_number)  # Converte para inteiro
+    page_number = int(page_number)
 
-    personas_paginadas = paginator.page(page_number)
+    try:
+        personas_paginadas = paginator.page(page_number)
+    except EmptyPage:
+        personas_paginadas = paginator.page(paginator.num_pages)
 
     success_message = request.session.pop('success_message', None)
 
-    return render(request, 'personas/persona_list.html', {'personas': personas_paginadas, 'neurodivergentes': neurodivergentes, 'paginator': paginator})
+    return render(request, 'personas/persona_list.html', {
+        'personas': personas_paginadas, 
+        'neurodivergentes': neurodivergentes, 
+        'paginator': paginator,
+        'success_message': success_message
+    })
+    
+    
+#ramdomizar as cores
 
+def random_color():
+    colors = ['bg-primary', 'bg-secondary', 'bg-success', 'bg-danger',  'bg-info', ]
+    return random.choice(colors)
+
+
+# Função para exibir informações detalhadas da persona
+@login_required
 def persona_info(request, pk):
     persona = get_object_or_404(Persona, pk=pk)
+    color = random_color()  # Gerar cor aleatória
 
     if persona.user != request.user:
         return redirect('persona:persona_list')
 
     neurodivergencias = persona.neurodivergente.all()
-
     info_neurodivergencias = []
+
     for neurodivergencia in neurodivergencias:
-        problemas = list(Problemas.objects.filter(neurodivergente=neurodivergencia))
-        solucoes = []
-
-        # Garanta que as soluções correspondam aos problemas
-        for problema in problemas:
-            solucoes_problema = Solucoes.objects.filter(problema=problema)
-            solucoes.extend(list(solucoes_problema))
-
-        # Use a ID da persona como semente para a aleatoriedade
-        random.seed(persona.id)
-
-        # Randomize a ordem dos problemas e soluções
-        random.shuffle(problemas)
-      
-
-        # Limite a quantidade de problemas e soluções a serem exibidos
-        max_problemas_exibidos = 2
-        max_solucoes_exibidas = 2
-
-        # Limite a quantidade de problemas e soluções a serem exibidos
-        problemas = problemas[:max_problemas_exibidos]
-        solucoes = solucoes
+        problemas = Problemas.objects.filter(neurodivergente=neurodivergencia, id__in=persona.problemas.all())
+        solucoes = Solucoes.objects.filter(problema__in=problemas)
 
         info_neurodivergencias.append({
             'neurodivergencia': neurodivergencia,
             'problemas': problemas,
             'solucoes': solucoes,
+             # Passar cor para o contexto
+
         })
 
     context = {
         'persona': persona,
         'info_neurodivergencias': info_neurodivergencias,
+        'random_colors': color,
     }
 
     return render(request, 'personas/persona_info.html', context)
 
+# Função para exibir soluções para um problema específico
+def problema_solucoes(request, pk):
+    problema = get_object_or_404(Problemas, pk=pk)
+    solucoes = Solucoes.objects.filter(problema=problema)
+
+    return render(request, 'personas/problema_solucoes.html', {'problema': problema, 'solucoes': solucoes})
+
+# Função para criar uma nova persona
+
+
 @login_required
 def persona_create(request):
-    print("entrou")
-
-    # Certifique-se de que as instâncias de Neurodivergente existam no banco de dados
     neurodivergentes_names = ['Dislexia', 'Autismo', 'TDAH']
     for neuro_name in neurodivergentes_names:
         Neurodivergente.objects.get_or_create(nome=neuro_name)
@@ -91,62 +117,52 @@ def persona_create(request):
             persona = form.save(commit=False)
             persona.user = request.user
             persona.save()
-
-            # Associe as neurodivergências escolhidas à persona
             neurodivergentes_escolhidos = form.cleaned_data.get('neurodivergente')
+            print(f'Neurodivergentes escolhidos: {neurodivergentes_escolhidos}')  # Debug
             persona.neurodivergente.set(neurodivergentes_escolhidos)
-            persona.save()
 
-            print("válido")
+            problemas_escolhidos = form.cleaned_data.get('problemas')
+            print(f'Problemas escolhidos: {problemas_escolhidos}')  # Debug
+            if problemas_escolhidos:
+                persona.problemas.set(problemas_escolhidos)
+            
+            persona.save()
             messages.success(request, 'Persona criada com sucesso!')
             request.session['success_message'] = 'Persona criada com sucesso!'
             return redirect('persona:persona_list')
         else:
-            print(form.errors)
+            # Para debug
+            print(f'Erros do formulário: {form.errors}')
     else:
         form = PersonaForm()
 
     return render(request, 'personas/persona_create.html', {'form': form})
-
 # Função para atualizar uma persona existente
 @login_required
 def persona_update(request, pk):
-    # Obtém a persona pelo ID (pk)
-    try:
-        persona = Persona.objects.get(pk=pk)
-    except Persona.DoesNotExist:
-        raise Http404("A Persona não existe.")
-        
+    persona = get_object_or_404(Persona, pk=pk)
+
     if persona.user != request.user:
-        # Persona não pertence ao usuário, redirecione para uma página de erro ou outra página
-        return redirect('persona:persona_list')  # 403.html é um template de erro padrão do Django para permissões
+        return redirect('persona:persona_list')
 
     if request.method == "POST":
         form = PersonaForm(request.POST, instance=persona)
         if form.is_valid():
-            # Salva as alterações da persona
             persona = form.save(commit=False)
-            
-            # Associe as neurodivergências escolhidas à persona
             neurodivergentes_escolhidos = form.cleaned_data.get('neurodivergente')
             persona.neurodivergente.set(neurodivergentes_escolhidos)
-            
+            persona.problemas.set(form.cleaned_data.get('problemas'))
             persona.save()
-            
-            print("validoedita")
-            # Redireciona para a lista de personas após a atualização
             return redirect('persona:persona_info', pk=persona.pk)
-        else:
-            print("não validoedita")
-            print(form.errors)
     else:
-        # Cria um formulário preenchido com os dados da persona para exibir no método GET
         form = PersonaForm(instance=persona)
+
     return render(request, 'personas/persona_update.html', {'form': form})
-# Classe para lidar com a exclusão de uma persona usando uma View genérica do Django(DeleteView):
+
+# Função para excluir uma persona
 @login_required
 def persona_delete(request, pk):
-    persona = Persona.objects.get(pk=pk)
+    persona = get_object_or_404(Persona, pk=pk)
 
     if request.method == "POST":
         persona.delete()
@@ -154,5 +170,65 @@ def persona_delete(request, pk):
 
     return render(request, 'personas/persona_delete.html', {'persona': persona})
 
-    
-# Path: persona/urls.py
+
+
+@login_required
+@login_required
+def fetch_problems(request):
+    neurodivergente_ids = request.GET.get('neurodivergente_ids', '').split(',')
+    problemas = Problemas.objects.filter(neurodivergente__id__in=neurodivergente_ids).distinct()
+
+    problemas_por_neurodivergencia = {}
+    for problema in problemas:
+        neurodivergencia = problema.neurodivergente.nome
+        if neurodivergencia not in problemas_por_neurodivergencia:
+            problemas_por_neurodivergencia[neurodivergencia] = []
+        problemas_por_neurodivergencia[neurodivergencia].append(problema)
+
+    html = render_to_string('personas/problemas_list.html', {'problemas_por_neurodivergencia': problemas_por_neurodivergencia})
+    return JsonResponse({'html': html})
+
+
+def solution_detail(request):
+    solution_id = request.GET.get('id')
+    solucao = get_object_or_404(Solucoes, pk=solution_id)
+    data = {
+        'description': solucao.descricao,
+        'problem': solucao.problema.descricao,
+    }
+    return JsonResponse(data)
+
+
+
+# Função para gerar o PDF
+@login_required
+def generate_pdf(request, persona_id):
+    persona = get_object_or_404(Persona, pk=persona_id)
+    color = random_color()
+
+    neurodivergencias = persona.neurodivergente.all()
+    info_neurodivergencias = []
+
+    for neurodivergencia in neurodivergencias:
+        problemas = Problemas.objects.filter(neurodivergente=neurodivergencia, id__in=persona.problemas.all())
+        solucoes = Solucoes.objects.filter(problema__in=problemas)
+
+        info_neurodivergencias.append({
+            'neurodivergencia': neurodivergencia,
+            'problemas': problemas,
+            'solucoes': solucoes,
+        })
+
+    html_string = render_to_string('personas/info_persona_pdf.html', {
+        'persona': persona,
+        'info_neurodivergencias': info_neurodivergencias,
+        'random_color': color,
+    })
+
+    html = HTML(string=html_string)
+    result = html.write_pdf()
+
+    response = HttpResponse(result, content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename=persona_{persona_id}.pdf'
+    return response
+

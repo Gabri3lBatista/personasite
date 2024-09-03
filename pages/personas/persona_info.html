@@ -1,52 +1,176 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+    .persona-info {
+        padding: 0;
+    }
+
+    .persona-info h4 {
+        margin-top: 0;
+    }
+
+    .no-espaco {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .no-espaco > .col-md-6 {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .full-width {
+        width: 100%;
+        padding: 0;
+    }
+
+    .border {
+        box-sizing: border-box;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container mt-2">
+<div class="container mt-2 rounded">
     <div class="row">
-        <div class="col-md-4  border rounded shadow ">
-            <div class="">
-                <div class="card-body">
-                    <h2> Persona</h2>
-                    <!-- Insira aqui a tag para exibir a imagem da persona -->
+        <div class="col-12 text-start p-0 mb-2">
+            <button onclick="window.history.back()" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </button>
+            <a  href="{% url 'persona:generate_pdf' persona.id %}" class="btn btn-secondary">
+                <span class="text-white m-0"> <i class="fa-solid fa-file-pdf"></i> Baixar PDF</span>
+            </a>
+            <a  href="{% url 'persona:persona_update' persona.id %}" class="btn btn-warning">
+                <span class=" m-0"> <i class="fa-solid "></i> Editar Persona</span>
+            </a>
+            <a  href="{% url 'persona:persona_delete' persona.id %}" class="btn btn-danger">
+                <span class="text-white m-0"> <i class="fa-solid fa-trash"></i> Deletar Persona</span>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 p-0 m-0 border rounded-start">
+            {% if persona.sexo == 'M' %}
+            <img src="{% static '../media/man.png' %}" class="img-fluid bg-warning" alt="Imagem de uma pessoa">
+            {% else %}
+            <img src="{% static '../media/woman.png' %}" class="img-fluid bg-warning" alt="Imagem de uma pessoa">
+            {% endif %}
+            <h4 class="{{ random_colors }}">Nome: <strong>{{ persona.nome }}</strong></h4>
+            <ul class="list-unstyled text-start ps-2">
+                <li>Idade: <strong>{{ persona.idade }}</strong> </li>
+                <li>Sexo: <strong>{{ persona.get_sexo_display }}</strong></li>
+                <li>Profissão: <strong>{{persona.profissao}}</strong> </li>
+                <li>Neurodivergências:
+                    <ul class="m-0 ps-3">
+                        {% for info_neurodivergencia in info_neurodivergencias %}
+                            {% if info_neurodivergencia.neurodivergencia.nome == 'Autismo' %}
+                            <li><strong>Autismo (Grau 1º)</strong></li>
+                            {% elif info_neurodivergencia.neurodivergencia.nome == 'TDAH' %}    
+                            <li><strong>Transtorno do déficit de atenção com hiperatividade</strong></li>
+                            {% elif info_neurodivergencia.neurodivergencia.nome == 'Dislexia' %}
+                            <li><strong>Dislexia</strong></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-8 border p-0 m-0 rounded-end">
+            <div class="border">
+                <div class="{{ random_colors }} text-white">
+                    <h4><i class="fa-solid fa-user fs-5 pe-1"></i> <strong>Sobre</strong></h4>
+                </div>
+                <div class="p-3">
+                    <p>
+                        {{ persona.interesses }}
+                    </p>
                 </div>
             </div>
-        </div>
-        <div class="col-md-8  border rounded shadow ">
-            <div class="">
-                <div class="card-body">
-                    <h2>{{ persona.nome }}</h2>
-                    <p>Idade: {{ persona.idade }}</p>
-                    <p>Interesses: {{ persona.interesses }}</p>
-                    <p>Sexo: {{ persona.get_sexo_display }}</p>
+            <div>
+                <div class="row">
+                    <div class="col-md-12 shadow">
+                        <div>
+                            <h4 class="{{ random_colors }} py-2" > 
+                                
+                                    <img src="{% static '../media/neuro.png' %} " class="" style="width: 40px;" alt="">
+                           
+                                <strong>Neurodivergências</strong>
+                            </h4>
+                            <div class="row m-0 ">
+                                {% for info_neurodivergencia in info_neurodivergencias %}
+                                <div class=" {% if info_neurodivergencias|length == 1 %}col-12{% elif info_neurodivergencias|length == 2 %}col-6{% elif info_neurodivergencias|length >= 3 %}col-4{% endif %} mb-4">
+                                    <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
+                                    <ul class="list-unstyled  ">
+                                        {% for problema in info_neurodivergencia.problemas %}
+                                        <li>Problema: {{ problema.descricao }}</li>
+                                        <ul class="list-unstyled  bg-white rounded ">
+                                            {% for solucao in info_neurodivergencia.solucoes %}
+                                            {% if solucao.problema == problema %}
+                                            <li>
+                                                <a href="#" class="text-decoration-none text-danger" data-bs-toggle="modal" data-bs-target="#solutionModal" data-solution-id="{{ solucao.id }}">
+                                                    Solução: {{ solucao.descricao|truncatechars:9 }}
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row ">
-        <div class="col-md-12 border rounded shadow ">
-            <div class="">
-                <div class="">
-                    <h2>Neurodivergências:</h2>
-                    {% for info_neurodivergencia in info_neurodivergencias %}
-                    <div class="d-flex ">
-                        <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
-                        <ul>
-                            {% for problema in info_neurodivergencia.problemas %}
-                                <li>Problema: {{ problema.descricao }}</li>
-                                <ul class=" ">
-                                    {% for solucao in info_neurodivergencia.solucoes %}
-                                        {% if solucao.problema == problema %}
-                                            <li>Solução: {{ solucao.descricao }}</li>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endfor %}
-                </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="solutionModal" tabindex="-1" aria-labelledby="solutionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title" id="solutionModalLabel">Detalhes da Solução</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-dark">
+                <h5 id="solutionDescription"></h5>
+                <p id="solutionProblem"></p>
+                <p id="solutionDetails"></p>
+            </div>
+            <div class="modal-footer bg-dark">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#solutionModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var solutionId = button.data('solution-id');
+
+            $.ajax({
+                url: "{% url 'persona:solution_detail' %}",
+                data: { 'id': solutionId },
+                success: function (data) {
+                    $('#solutionDescription').text(data.description);
+                    $('#solutionProblem').text("Problema relacionado: " + data.problem);
+                    $('#solutionDetails').text(data.details);
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

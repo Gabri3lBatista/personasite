@@ -80,7 +80,6 @@ def inicializar_dados(sender, **kwargs):
         ],
         'Sensibilidade a estímulos sensoriais': [
             '1.3.3 - Características sensoriais [A] - Evitar instruções dependentes de formato específico, localização espacial, som ou outras características sensoriais.',
-            '1.2.5 - Audiodescrição (pré-gravado) [AA] - Deve ser fornecida uma audiodescrição ou uma transcrição descritiva em texto para todo conteúdo em vídeo pré-gravado. Nota: Se fornecida uma audiodescrição, o critério 1.2.5 (AA) será atendido. Se Contraste Não-Textual for fornecida uma transcrição, o critério 1.2.8 (AAA) será atendido.',
             '1.4.3 - Contraste (mínimo) [AA] - Textos devem ter uma relação de contraste entre primeiro e segundo plano de ao menos 4.5:1. Nota: Caso o tamanho das fontes de textos seja no mínimo "18pt" ou "14pt bold", a relação de contraste pode ser de 3:1.',
             '1.4.5 - Imagens de texto [AA] - Qualquer trecho na tela que pode ser exibido em formato de texto estilizado não deve ser apresentado em formato de imagem, a menos que possam ser customizados pela pessoa.',
             '1.4.11 - Contraste Não-Textual [AA] - Componentes de interface e imagens essenciais para o entendimento do conteúdo devem ter uma relação de contraste entre primeiro e segundo plano de ao menos 3:1.',

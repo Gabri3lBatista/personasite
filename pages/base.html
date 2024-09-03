@@ -29,8 +29,8 @@
 
 </head>
 
-<body>
-    <div class="d-flex h-100 text-center text-white bg-dark min-vh-100  ">
+<body class="bg-dark ">
+    <div class="d-flex h-100 text-center text-white min-vh-100  ">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
             <header class="mb-auto ">
                 <div>
@@ -49,13 +49,18 @@
                     </nav>
                 </div>
             </header>
-            {% block content %}
+            <main class="mt-2 mb-5"> <!-- Adicionado mb-5 para espaço inferior -->
+                <div class="container">
+                    {% block content %}
 
-            {% endblock %}
-
-            <footer class="text-white-50 mt-1 ">
+                    {% endblock %}
+                        </div>
+            </main>
+          
+            <!--<footer class="text-white-50 mt-1 custom-footer">
                 <p>Site desenvolvido pelo <a href="https://www.linkedin.com/in/gabriel-batista1/" class="text-white">Gabriel Batista</a>, veja o <a href="https://github.com/Gabri3lBatista/personasite" class="text-white">Github do Projeto</a>.</p>
-            </footer>
+            </footer> 
+        -->
         </div>
 
     </div>

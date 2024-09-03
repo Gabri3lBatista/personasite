@@ -37,6 +37,7 @@ main p {
     margin-bottom: -1rem; /* Adiciona margem inferior negativa para remover espaço extra */
     border-radius: 1rem;
     padding: 10px;
+    background-color: black;
     border-radius: 1px solid red;
 }
 

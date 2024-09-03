@@ -30,13 +30,14 @@ class Persona(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
     idade = models.IntegerField()
-    interesses = models.CharField(max_length=255)
+    interesses = models.TextField(max_length=255)
+    profissao = models.CharField(max_length=100)
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
     neurodivergente = models.ManyToManyField('Neurodivergente')
+    problemas = models.ManyToManyField('Problemas', blank=True)
 
     def __str__(self):
         return self.nome
-
 
 # Adicione o limit_choices_to dentro da classe Meta de Neurodivergente
 Neurodivergente._meta.limit_choices_to = models.Q(nome='Dislexia') | models.Q(nome='Autismo') | models.Q(nome='TDAH')

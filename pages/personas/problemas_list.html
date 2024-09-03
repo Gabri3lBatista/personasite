@@ -1,0 +1,21 @@
+<!-- templates/personas/problemas_list.html -->
+ <link rel="stylesheet" href="">
+ <label class="form-label fw-bold">Escolha os problemas:</label>
+
+{% for neurodivergencia, problemas in problemas_por_neurodivergencia.items %}
+    <div class="neurodivergencia-group w-100 border rounded  p-2">
+        <h5 class="text-warning fw-bolder">{{ neurodivergencia }}</h5>
+        <div class="row">
+        {% for problema in problemas %}
+            <div class="form-check col-md-4 col-12 ">
+                <div class="p-2 rounded" >
+                    <input class="form-check-input" type="checkbox" name="problemas" value="{{ problema.id }}" id="problema{{ problema.id }}">
+                    <label class="form-check-label fw-bolder " for="problema{{ problema.id }}">
+                        {{ problema.descricao }}
+                    </label>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+{% endfor %}

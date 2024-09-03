@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Persona Info</title>
+    <style>
+        .{{ random_color }} {
+            background-color: #ccc; /* substitua pelo estilo desejado */
+        }
+    </style>
+</head>
+<body>
+    <h1>Informações da Persona</h1>
+    <h2>Nome: {{ persona.nome }}</h2>
+    <h3>Idade: {{ persona.idade }}</h3>
+    <h3>Sexo: {{ persona.get_sexo_display }}</h3>
+    <h3>Profissão: {{persona.profissao}} <h3>
+
+    <h3>Neurodivergências:</h3>
+    {% for info in info_neurodivergencias %}
+        <div>
+            <h4>{{ info.neurodivergencia.nome }}</h4>
+            <ul>
+                {% for problema in info.problemas %}
+                    <li>Problema: {{ problema.descricao }}</li>
+                    <ul>
+                        {% for solucao in info.solucoes %}
+                            {% if solucao.problema == problema %}
+                                <li>Solução: {{ solucao.descricao }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</body>
+</html>

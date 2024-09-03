@@ -5,12 +5,21 @@
 {% endblock %}
 
 {% block content %}
-<main class="mt-2 ">
+<main class="mt-2"> <!-- Added mb-5 to add bottom margin -->
     <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <form class="col-md-12 border rounded shadow  " method="post">
+        <div class="row justify-content-center">
+           
+            <form class="col-md-12 border rounded shadow" method="post">
                 {% csrf_token %}
-                <div class="px-4 pt-4 pb-2  text-start">
+
+                
+                <div class="px-4 pt-4 pb-2 text-start">
+
+                    <div class="col-md-12  text-start">
+                        <button onclick="window.history.back()" class="btn btn-primary">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar 
+                        </button>
+                    </div>
                     <h4 class="text-center fw-bold">Cadastre sua persona</h4>
                     <div class="mb-3">
                         <label for="nome" class="form-label fw-bold">Nome:</label>
@@ -19,45 +28,92 @@
                         <p class="error-message">{{ form.nome.errors }}</p>
                         {% endif %}
                     </div>
-                    <div class="mb-3 fw-bold">
-                        <label for="idade" class="form-label ">Idade:</label>
-                        <input type="number" class="form-control" id="idade" name="idade" placeholder="Digite a idade da sua persona">
-                        {% if form.idade.errors %}
-                        <p class="error-message">{{ form.idade.errors }}</p>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="idade" class="form-label fw-bold">Idade:</label>
+                            <input type="number" class="form-control" id="idade" name="idade" placeholder="Digite a idade da sua persona">
+                            {% if form.idade.errors %}
+                            <p class="error-message">{{ form.idade.errors }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label fw-bold">Sexo:</label>
+                            <select class="form-select" id="id_sexo" name="sexo" aria-label="Escolha o sexo da sua persona" required>
+                                <option value="" disabled selected hidden>Escolha uma opção</option>
+                                {% for choice in form.sexo.field.choices %}
+                                <option value="{{ choice.0 }}" {% if choice.0 == form.sexo.value %} selected {% endif %}>{{ choice.1 }}</option>
+                                {% endfor %}
+                            </select>
+                            {{ form.sexo.errors }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="interesses" class="form-label fw-bold">Profissão:</label>
+                        <input type="text" class="form-control" id="profissao" name="profissao" placeholder="Digite a profissão da sua persona">
+                        {% if form.interesses.errors %}
+                        <p class="error-message">{{ form.profissao.errors }}</p>
                         {% endif %}
                     </div>
-                    <div class="mb-3 fw-bold">
-                        <label for="interesses" class="form-label">Interesses:</label>
+                    <div class="mb-3">
+                        <label for="interesses" class="form-label fw-bold">Sobre:</label>
                         <input type="text" class="form-control" id="interesses" name="interesses" placeholder="Digite os interesses da sua persona">
                         {% if form.interesses.errors %}
                         <p class="error-message">{{ form.interesses.errors }}</p>
                         {% endif %}
                     </div>
-                    <div class="mb-3 fw-bold">
-                        <label class="form-label">Sexo:</label>
-                        <select class="form-select" id="id_sexo" name="sexo" style="color: #000000;" aria-placeholder="Escolha uma opção" required>
-                            <option value="" aria-placeholder="Escolha uma opção" disabled selected hidden >Escolha uma opção</option>
-                            {% for choice in form.sexo.field.choices %}
-                                <option value="{{ choice.0 }}" {% if choice.0 == form.sexo.value %} selected {% endif %}>{{ choice.1 }}</option>
-                            {% endfor %}
-                        </select>
-                        {{ form.sexo.errors }}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Neurodivergente:</label>
+                        {{ form.neurodivergente }}
+                        {% if form.neurodivergente.errors %}
+                        <p class="error-message">{{ form.neurodivergente.errors }}</p>
+                        {% endif %}
                     </div>
-                    <div class="custom-form-group fw-bold">
-                        <label class="form-label custom-label">Neurodivergente:</label>
-                        <div class="d-inline-grid  "  >
-                            {{ form.neurodivergente }}
-                        </div> 
-                        {{ form.neurodivergente.errors }}
+                    <div class="mb-3">
+                        <div id="problemas-container">
+                            {{ form.problemas }}
+                        </div>
+                        {% if form.problemas.errors %}
+                        <p class="error-message">{{ form.problemas.errors }}</p>
+                        {% endif %}
                     </div>
-                    <div class=" d-grid "  style="margin-top: -14px">
-                        <button type="submit" class="btn btn-success" data-bs-toggle="tooltip"
-                            data-bs-placement="top" title="Clique pra criar outra persona">Criar Persona</button>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Clique pra criar outra persona">Criar Persona</button>
                     </div>
-               
                 </div>
             </form>
         </div>
     </div>
 </main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const neurodivergenteSelect = document.querySelectorAll('input[name="neurodivergente"]');
+        const problemasContainer = document.getElementById('problemas-container');
+        const body = document.querySelector('body');
+
+        function updateProblemas() {
+            const neurodivergenteIds = Array.from(neurodivergenteSelect).filter(input => input.checked).map(input => input.value);
+
+            if (neurodivergenteIds.length > 0) {
+                fetch(`/fetch_problems/?neurodivergente_ids=${neurodivergenteIds.join(',')}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        problemasContainer.innerHTML = data.html;
+                        body.classList.add('problems-visible'); // Add class to body when problems are visible
+                    });
+            } else {
+                problemasContainer.innerHTML = ''; // Clear the problems container when no neurodivergence is selected
+                body.classList.remove('problems-visible'); // Remove class from body when problems are not visible
+            }
+        }
+
+        neurodivergenteSelect.forEach(neurodivergente => {
+            neurodivergente.addEventListener('change', updateProblemas);
+        });
+
+        updateProblemas(); // Initial call to populate problems if any neurodivergence is pre-selected
+    });
+</script>
 {% endblock %}
