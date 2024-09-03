@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Persona Info</title>
@@ -14,7 +14,7 @@
     <h2>Nome: {{ persona.nome }}</h2>
     <h3>Idade: {{ persona.idade }}</h3>
     <h3>Sexo: {{ persona.get_sexo_display }}</h3>
-    <h3>Profissão: {{persona.profissao}} <h3>
+    <h3>Profissão: {{ persona.profissao }}</h3>
 
     <h3>Neurodivergências:</h3>
     {% for info in info_neurodivergencias %}
@@ -26,7 +26,14 @@
                     <ul>
                         {% for solucao in info.solucoes %}
                             {% if solucao.problema == problema %}
-                                <li>Solução: {{ solucao.descricao }}</li>
+                                <li>
+                                    <strong>Solução:</strong> {{ solucao.descricao }}<br>
+                                    <strong>Por que resolver:</strong> {{ solucao.por_que_resolver }}<br>
+                                    <strong>Exemplo:</strong> {{ solucao.exemplo_texto }}<br>
+                                    {% if solucao.exemplo_foto %}
+                                        <img src="{{ solucao.exemplo_foto }}" alt="Exemplo" style="max-width: 200px; max-height: 200px;"><br>
+                                    {% endif %}
+                                </li>
                             {% endif %}
                         {% endfor %}
                     </ul>

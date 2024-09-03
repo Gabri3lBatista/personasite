@@ -16,7 +16,7 @@
         margin-left: 0;
     }
 
-    .no-espaco > .col-md-6 {
+    .no-espaco>.col-md-6 {
         padding-right: 0;
         padding-left: 0;
     }
@@ -39,13 +39,13 @@
             <button onclick="window.history.back()" class="btn btn-primary">
                 <i class="fa-solid fa-arrow-left"></i> Voltar
             </button>
-            <a  href="{% url 'persona:generate_pdf' persona.id %}" class="btn btn-secondary">
+            <a href="{% url 'persona:generate_pdf' persona.id %}" class="btn btn-secondary">
                 <span class="text-white m-0"> <i class="fa-solid fa-file-pdf"></i> Baixar PDF</span>
             </a>
-            <a  href="{% url 'persona:persona_update' persona.id %}" class="btn btn-warning">
+            <a href="{% url 'persona:persona_update' persona.id %}" class="btn btn-warning">
                 <span class=" m-0"> <i class="fa-solid "></i> Editar Persona</span>
             </a>
-            <a  href="{% url 'persona:persona_delete' persona.id %}" class="btn btn-danger">
+            <a href="{% url 'persona:persona_delete' persona.id %}" class="btn btn-danger">
                 <span class="text-white m-0"> <i class="fa-solid fa-trash"></i> Deletar Persona</span>
             </a>
         </div>
@@ -65,13 +65,13 @@
                 <li>Neurodivergências:
                     <ul class="m-0 ps-3">
                         {% for info_neurodivergencia in info_neurodivergencias %}
-                            {% if info_neurodivergencia.neurodivergencia.nome == 'Autismo' %}
-                            <li><strong>Autismo (Grau 1º)</strong></li>
-                            {% elif info_neurodivergencia.neurodivergencia.nome == 'TDAH' %}    
-                            <li><strong>Transtorno do déficit de atenção com hiperatividade</strong></li>
-                            {% elif info_neurodivergencia.neurodivergencia.nome == 'Dislexia' %}
-                            <li><strong>Dislexia</strong></li>
-                            {% endif %}
+                        {% if info_neurodivergencia.neurodivergencia.nome == 'Autismo' %}
+                        <li><strong>Autismo (Grau 1º)</strong></li>
+                        {% elif info_neurodivergencia.neurodivergencia.nome == 'TDAH' %}
+                        <li><strong>Transtorno do déficit de atenção com hiperatividade</strong></li>
+                        {% elif info_neurodivergencia.neurodivergencia.nome == 'Dislexia' %}
+                        <li><strong>Dislexia</strong></li>
+                        {% endif %}
                         {% endfor %}
                     </ul>
                 </li>
@@ -92,30 +92,26 @@
                 <div class="row">
                     <div class="col-md-12 shadow">
                         <div>
-                            <h4 class="{{ random_colors }} py-2" > 
-                                
-                                    <img src="{% static '../media/neuro.png' %} " class="" style="width: 40px;" alt="">
-                           
+                            <h4 class="{{ random_colors }} py-2">
+
+                                <img src="{% static '../media/neuro.png' %} " class="" style="width: 40px;" alt="">
+
                                 <strong>Neurodivergências</strong>
                             </h4>
-                            <div class="row m-0 ">
+                            <div class="row m-0">
                                 {% for info_neurodivergencia in info_neurodivergencias %}
-                                <div class=" {% if info_neurodivergencias|length == 1 %}col-12{% elif info_neurodivergencias|length == 2 %}col-6{% elif info_neurodivergencias|length >= 3 %}col-4{% endif %} mb-4">
+                                <div
+                                    class="{% if info_neurodivergencias|length == 1 %}col-12{% elif info_neurodivergencias|length == 2 %}col-6{% elif info_neurodivergencias|length >= 3 %}col-4{% endif %} mb-4">
                                     <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
-                                    <ul class="list-unstyled  ">
+                                    <ul class="list-unstyled">
                                         {% for problema in info_neurodivergencia.problemas %}
-                                        <li>Problema: {{ problema.descricao }}</li>
-                                        <ul class="list-unstyled  bg-white rounded ">
-                                            {% for solucao in info_neurodivergencia.solucoes %}
-                                            {% if solucao.problema == problema %}
-                                            <li>
-                                                <a href="#" class="text-decoration-none text-danger" data-bs-toggle="modal" data-bs-target="#solutionModal" data-solution-id="{{ solucao.id }}">
-                                                    Solução: {{ solucao.descricao|truncatechars:9 }}
-                                                </a>
-                                            </li>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </ul>
+                                        <li>
+                                            Problema: {{ problema.descricao }}
+                                            <button class="btn btn-success m-1" data-bs-toggle="modal"
+                                                data-bs-target="#solutionModal" data-problem-id="{{ problema.id }}">
+                                                Soluções
+                                            </button>
+                                        </li>
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -129,19 +125,23 @@
     </div>
 
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="solutionModal" tabindex="-1" aria-labelledby="solutionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-dark">
-                <h5 class="modal-title" id="solutionModalLabel">Detalhes da Solução</h5>
+                <h5 class="modal-title" id="solutionModalLabel">Soluções para o Problema</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body bg-dark">
-                <h5 id="solutionDescription"></h5>
-                <p id="solutionProblem"></p>
-                <p id="solutionDetails"></p>
+                <div id="solutionButtons" class="bg-white rounded p-3"></div>
+                <div id="solutionDetail" class="bg-white rounded p-3" style="display: none;">
+                    <h4 id="solutionDescription"></h4>
+                    <p id="solutionWhy"></p>
+                    <p id="solutionText"></p>
+                    <img id="solutionImage" src="{% static 'path/to/your/exemplo1.jpg' %}" alt="Exemplo de Solução"
+                        class="img-fluid">
+                </div>
             </div>
             <div class="modal-footer bg-dark">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -150,27 +150,64 @@
     </div>
 </div>
 {% endblock %}
-
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-
 <script>
     $(document).ready(function () {
         $('#solutionModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
-            var solutionId = button.data('solution-id');
+            var problemId = button.data('problem-id');
 
             $.ajax({
                 url: "{% url 'persona:solution_detail' %}",
-                data: { 'id': solutionId },
+                data: { 'pk': problemId },
                 success: function (data) {
-                    $('#solutionDescription').text(data.description);
-                    $('#solutionProblem').text("Problema relacionado: " + data.problem);
-                    $('#solutionDetails').text(data.details);
+                    $('#solutionButtons').html(''); // Limpa os botões antigos
+                    $('#solutionDetail').hide(); // Oculta os detalhes da solução
+
+                    data.solutions.forEach(function (solucao) {
+                        $('#solutionButtons').append(
+                            `<button class="btn btn-primary m-1" data-solution-id="${solucao.id}">
+                            ${solucao.descricao}
+                        </button>`
+                        );
+                    });
+
+                    $('#solutionButtons button').click(function () {
+                        var solutionId = $(this).data('solution-id');
+                        var selectedSolution = data.solutions.find(sol => sol.id == solutionId);
+
+                        $('#solutionDescription').text(selectedSolution.descricao);
+                        $('#solutionWhy').text(selectedSolution.por_que_resolver);
+                        $('#solutionText').text(selectedSolution.exemplo_texto);
+                        console.log(selectedSolution.exemplo_foto); // Adicione esta linha para depuração
+
+                        // Atualiza a URL da imagem no modal
+                        if (selectedSolution.exemplo_foto) {
+                            let imagePath = selectedSolution.exemplo_foto;
+
+                            // Verifica se o caminho já inclui 'media/' para evitar duplicação
+                            if (!imagePath.startsWith('/media/')) {
+                                imagePath = '/media/' + imagePath;
+                            }
+
+                            $('#solutionImage').attr('src', imagePath).show();
+                        } else {
+                            $('#solutionImage').hide();
+                        }
+                        console.log("Image URL:", selectedSolution.exemplo_foto);
+
+
+                        $('#solutionDetail').show();
+                    });
+                },
+                error: function () {
+                    $('#solutionButtons').html('<p>Ocorreu um erro ao carregar as soluções.</p>');
                 }
             });
         });
     });
+
 </script>
 {% endblock %}

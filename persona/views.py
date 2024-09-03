@@ -59,7 +59,7 @@ def persona_list(request):
 #ramdomizar as cores
 
 def random_color():
-    colors = ['bg-primary', 'bg-secondary', 'bg-success', 'bg-danger',  'bg-info', ]
+    colors = ['bg-primary', 'bg-secondary', 'bg-success', ]
     return random.choice(colors)
 
 
@@ -67,7 +67,7 @@ def random_color():
 @login_required
 def persona_info(request, pk):
     persona = get_object_or_404(Persona, pk=pk)
-    color = random_color()  # Gerar cor aleatória
+    color = random_color()
 
     if persona.user != request.user:
         return redirect('persona:persona_list')
@@ -82,9 +82,15 @@ def persona_info(request, pk):
         info_neurodivergencias.append({
             'neurodivergencia': neurodivergencia,
             'problemas': problemas,
-            'solucoes': solucoes,
-             # Passar cor para o contexto
-
+            'solucoes': [
+                {
+                    'descricao': solucao.descricao,
+                    'por_que_resolver': solucao.por_que_resolver,
+                    'exemplo_texto': solucao.exemplo_texto,
+                    'exemplo_foto': solucao.exemplo_foto.url if solucao.exemplo_foto else None,  # Obter o URL da foto se existir
+                }
+                for solucao in solucoes
+            ]
         })
 
     context = {
@@ -96,11 +102,22 @@ def persona_info(request, pk):
     return render(request, 'personas/persona_info.html', context)
 
 # Função para exibir soluções para um problema específico
+@login_required
 def problema_solucoes(request, pk):
     problema = get_object_or_404(Problemas, pk=pk)
     solucoes = Solucoes.objects.filter(problema=problema)
 
-    return render(request, 'personas/problema_solucoes.html', {'problema': problema, 'solucoes': solucoes})
+    solucoes_detalhadas = [
+        {
+            'descricao': solucao.descricao,
+            'por_que_resolver': solucao.por_que_resolver,
+            'exemplo_texto': solucao.exemplo_texto,
+            'exemplo_foto': solucao.exemplo_foto.url if solucao.exemplo_foto else None,
+        }
+        for solucao in solucoes
+    ]
+
+    return render(request, 'personas/problema_solucoes.html', {'problema': problema, 'solucoes': solucoes_detalhadas})
 
 # Função para criar uma nova persona
 
@@ -173,10 +190,12 @@ def persona_delete(request, pk):
 
 
 @login_required
-@login_required
 def fetch_problems(request):
     neurodivergente_ids = request.GET.get('neurodivergente_ids', '').split(',')
+    print("Neurodivergente IDs recebidos:", neurodivergente_ids)  # Verifique os IDs recebidos
+
     problemas = Problemas.objects.filter(neurodivergente__id__in=neurodivergente_ids).distinct()
+    print("Problemas encontrados:", problemas)  # Verifique os problemas encontrados
 
     problemas_por_neurodivergencia = {}
     for problema in problemas:
@@ -188,18 +207,24 @@ def fetch_problems(request):
     html = render_to_string('personas/problemas_list.html', {'problemas_por_neurodivergencia': problemas_por_neurodivergencia})
     return JsonResponse({'html': html})
 
-
 def solution_detail(request):
-    solution_id = request.GET.get('id')
+    solution_id = request.GET.get('pk')
     solucao = get_object_or_404(Solucoes, pk=solution_id)
     data = {
         'description': solucao.descricao,
         'problem': solucao.problema.descricao,
+        'solutions': [
+            {
+                'id': s.id,
+                'descricao': s.descricao,
+                'por_que_resolver': s.por_que_resolver,
+                'exemplo_texto': s.exemplo_texto,
+                'exemplo_foto': s.exemplo_foto.url if s.exemplo_foto else None,
+            }
+            for s in Solucoes.objects.filter(problema=solucao.problema)
+        ],
     }
     return JsonResponse(data)
-
-
-
 # Função para gerar o PDF
 @login_required
 def generate_pdf(request, persona_id):
@@ -216,7 +241,15 @@ def generate_pdf(request, persona_id):
         info_neurodivergencias.append({
             'neurodivergencia': neurodivergencia,
             'problemas': problemas,
-            'solucoes': solucoes,
+            'solucoes': [
+                {
+                    'descricao': solucao.descricao,
+                    'por_que_resolver': solucao.por_que_resolver,
+                    'exemplo_texto': solucao.exemplo_texto,
+                    'exemplo_foto': solucao.exemplo_foto.url if solucao.exemplo_foto else None,
+                }
+                for solucao in solucoes
+            ]
         })
 
     html_string = render_to_string('personas/info_persona_pdf.html', {
@@ -231,4 +264,3 @@ def generate_pdf(request, persona_id):
     response = HttpResponse(result, content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename=persona_{persona_id}.pdf'
     return response
-

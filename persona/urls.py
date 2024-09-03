@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import persona_list, persona_create, sobre_page, persona_delete, persona_update,fetch_problems, main_page, persona_info, solution_detail, generate_pdf
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'persona'
 
@@ -17,3 +19,4 @@ urlpatterns = [
 
 
 ]
+

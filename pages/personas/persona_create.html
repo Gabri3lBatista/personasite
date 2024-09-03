@@ -89,31 +89,33 @@
 {% block scripts %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const neurodivergenteSelect = document.querySelectorAll('input[name="neurodivergente"]');
-        const problemasContainer = document.getElementById('problemas-container');
-        const body = document.querySelector('body');
+    const neurodivergenteSelect = document.querySelectorAll('input[name="neurodivergente"]');
+    const problemasContainer = document.getElementById('problemas-container');
+    const body = document.querySelector('body');
 
-        function updateProblemas() {
-            const neurodivergenteIds = Array.from(neurodivergenteSelect).filter(input => input.checked).map(input => input.value);
+    function updateProblemas() {
+    const neurodivergenteIds = Array.from(document.querySelectorAll('input[name="neurodivergente"]:checked'))
+        .map(input => input.value);
 
-            if (neurodivergenteIds.length > 0) {
-                fetch(`/fetch_problems/?neurodivergente_ids=${neurodivergenteIds.join(',')}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        problemasContainer.innerHTML = data.html;
-                        body.classList.add('problems-visible'); // Add class to body when problems are visible
-                    });
-            } else {
-                problemasContainer.innerHTML = ''; // Clear the problems container when no neurodivergence is selected
-                body.classList.remove('problems-visible'); // Remove class from body when problems are not visible
-            }
-        }
+    if (neurodivergenteIds.length > 0) {
+        fetch(`/fetch_problems/?neurodivergente_ids=${neurodivergenteIds.join(',')}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('problemas-container').innerHTML = data.html;
+            })
+            .catch(error => {
+                console.error("Erro ao buscar problemas:", error);
+            });
+    } else {
+        document.getElementById('problemas-container').innerHTML = '';
+    }
+}
 
-        neurodivergenteSelect.forEach(neurodivergente => {
-            neurodivergente.addEventListener('change', updateProblemas);
-        });
-
-        updateProblemas(); // Initial call to populate problems if any neurodivergence is pre-selected
+    neurodivergenteSelect.forEach(neurodivergente => {
+        neurodivergente.addEventListener('change', updateProblemas);
     });
+
+    updateProblemas();
+});
 </script>
 {% endblock %}

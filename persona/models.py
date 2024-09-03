@@ -17,7 +17,10 @@ class Problemas(models.Model):
 class Solucoes(models.Model):
     problema = models.ForeignKey(Problemas, on_delete=models.CASCADE)
     descricao = models.TextField()
-    
+    por_que_resolver = models.TextField()  # Novo campo para "por que resolver"
+    exemplo_texto = models.TextField()  # Novo campo para explicar o exemplo em texto
+    exemplo_foto = models.ImageField(upload_to='exemplos/', blank=True, null=True)  # Novo campo para explicar o exemplo em foto
+
     def __str__(self):
         return self.descricao
 
@@ -39,5 +42,5 @@ class Persona(models.Model):
     def __str__(self):
         return self.nome
 
-# Adicione o limit_choices_to dentro da classe Meta de Neurodivergente
+# Adiciona o limit_choices_to dentro da classe Meta de Neurodivergente
 Neurodivergente._meta.limit_choices_to = models.Q(nome='Dislexia') | models.Q(nome='Autismo') | models.Q(nome='TDAH')
