@@ -18,13 +18,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="/static/css/main_page.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_page.css' %}">
 
     <script src="https://kit.fontawesome.com/c19fb70d9b.js" crossorigin="anonymous"></script>   
     
-    
     {% block style %}
-
+    <style>
+        body {
+            font-family: 'Verdana', sans-serif;
+        }
+    </style>
     {% endblock %}
 
 </head>
@@ -54,15 +57,9 @@
                     {% block content %}
 
                     {% endblock %}
-                        </div>
+                </div>
             </main>
-          
-            <!--<footer class="text-white-50 mt-1 custom-footer">
-                <p>Site desenvolvido pelo <a href="https://www.linkedin.com/in/gabriel-batista1/" class="text-white">Gabriel Batista</a>, veja o <a href="https://github.com/Gabri3lBatista/personasite" class="text-white">Github do Projeto</a>.</p>
-            </footer> 
-        -->
         </div>
-
     </div>
     {% block scripts %}
     <script>
@@ -74,8 +71,8 @@
         })
 
         function changeContrast() {
-        var body = document.body;
-        var currentContrast = body.classList.contains('high-contrast');
+            var body = document.body;
+            var currentContrast = body.classList.contains('high-contrast');
             if (currentContrast) {
                 body.classList.remove('high-contrast');
             } else {
@@ -84,7 +81,6 @@
         }
     </script>
 
-    
     {% endblock %}
     
 </body>

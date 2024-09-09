@@ -65,6 +65,7 @@ def random_color():
 
 # Função para exibir informações detalhadas da persona
 @login_required
+@login_required
 def persona_info(request, pk):
     persona = get_object_or_404(Persona, pk=pk)
     color = random_color()
@@ -77,20 +78,18 @@ def persona_info(request, pk):
 
     for neurodivergencia in neurodivergencias:
         problemas = Problemas.objects.filter(neurodivergente=neurodivergencia, id__in=persona.problemas.all())
-        solucoes = Solucoes.objects.filter(problema__in=problemas)
+        problemas_com_solucoes = []
+
+        for problema in problemas:
+            solucoes = Solucoes.objects.filter(problema=problema)
+            problemas_com_solucoes.append({
+                'descricao': problema.descricao,
+                'solucoes': solucoes  # Associa as soluções diretamente ao problema
+            })
 
         info_neurodivergencias.append({
             'neurodivergencia': neurodivergencia,
-            'problemas': problemas,
-            'solucoes': [
-                {
-                    'descricao': solucao.descricao,
-                    'por_que_resolver': solucao.por_que_resolver,
-                    'exemplo_texto': solucao.exemplo_texto,
-                    'exemplo_foto': solucao.exemplo_foto.url if solucao.exemplo_foto else None,  # Obter o URL da foto se existir
-                }
-                for solucao in solucoes
-            ]
+            'problemas': problemas_com_solucoes,
         })
 
     context = {
@@ -100,7 +99,6 @@ def persona_info(request, pk):
     }
 
     return render(request, 'personas/persona_info.html', context)
-
 # Função para exibir soluções para um problema específico
 @login_required
 def problema_solucoes(request, pk):
@@ -211,18 +209,11 @@ def solution_detail(request):
     solution_id = request.GET.get('pk')
     solucao = get_object_or_404(Solucoes, pk=solution_id)
     data = {
-        'description': solucao.descricao,
-        'problem': solucao.problema.descricao,
-        'solutions': [
-            {
-                'id': s.id,
-                'descricao': s.descricao,
-                'por_que_resolver': s.por_que_resolver,
-                'exemplo_texto': s.exemplo_texto,
-                'exemplo_foto': s.exemplo_foto.url if s.exemplo_foto else None,
-            }
-            for s in Solucoes.objects.filter(problema=solucao.problema)
-        ],
+        'descricao': solucao.descricao,
+        'problema_descricao': solucao.problema.descricao,
+        'por_que_resolver': solucao.por_que_resolver,
+        'exemplo_texto': solucao.exemplo_texto,
+        'exemplo_foto': solucao.exemplo_foto.url if solucao.exemplo_foto else None,
     }
     return JsonResponse(data)
 # Função para gerar o PDF
