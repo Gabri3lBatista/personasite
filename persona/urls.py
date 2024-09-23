@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import persona_list, persona_create, sobre_page, persona_delete, persona_update,fetch_problems, main_page, persona_info, solution_detail, generate_pdf
+from .views import  get_solutions, persona_list, persona_create, sobre_page, persona_delete, persona_update,fetch_problems, main_page, persona_info, solution_detail, generate_pdf
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -16,6 +16,7 @@ urlpatterns = [
     path('solution_detail/', solution_detail, name='solution_detail'),
     path('fetch_problems/', fetch_problems, name='fetch_problems'),
     path('info_persona/<int:persona_id>/pdf/', generate_pdf, name='generate_pdf'),
+    path('get-solutions/', get_solutions, name='get_solutions'),
 
 
 ]

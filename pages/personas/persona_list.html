@@ -37,8 +37,6 @@
                                     <tr>
                                         <th>Nome</th>
                                         <th>Idade</th>
-                                        <th>Interesses</th>
-                                        <th>Sexo</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
@@ -47,8 +45,7 @@
                                     <tr>
                                         <td>{{ persona.nome }}</td>
                                         <td>{{ persona.idade }}</td>
-                                        <td>{{ persona.interesses }}</td>
-                                        <td>{{ persona.get_sexo_display }}</td>
+                                       
                                         <td >
                                             <div class="d-flex justify-content-center " role="group">
                                                 <a href="{% url 'persona:persona_info' persona.id %}"

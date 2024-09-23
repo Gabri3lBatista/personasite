@@ -107,6 +107,7 @@ def problema_solucoes(request, pk):
 
     solucoes_detalhadas = [
         {
+            'nome': solucao.nome,
             'descricao': solucao.descricao,
             'por_que_resolver': solucao.por_que_resolver,
             'exemplo_texto': solucao.exemplo_texto,
@@ -118,6 +119,11 @@ def problema_solucoes(request, pk):
     return render(request, 'personas/problema_solucoes.html', {'problema': problema, 'solucoes': solucoes_detalhadas})
 
 # Função para criar uma nova persona
+
+def get_solutions(request):
+    problem_id = request.GET.get('problem_id')
+    solucoes = Solucoes.objects.filter(problema_id=problem_id).values('id', 'nome')
+    return JsonResponse({'solucoes': list(solucoes)})
 
 
 @login_required
@@ -207,8 +213,11 @@ def fetch_problems(request):
 
 def solution_detail(request):
     solution_id = request.GET.get('pk')
+    print(f"Solução ID recebida: {solution_id}")  # Log
     solucao = get_object_or_404(Solucoes, pk=solution_id)
+    print(f"Solução: {solucao.descricao}")  # Log
     data = {
+        'nome': solucao.nome,
         'descricao': solucao.descricao,
         'problema_descricao': solucao.problema.descricao,
         'por_que_resolver': solucao.por_que_resolver,

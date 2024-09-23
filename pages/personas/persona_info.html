@@ -31,9 +31,11 @@
     }
 
     .custom-modal-width {
-    max-width: 90%; /* ou o valor que você deseja */
-    width: 90%; /* Define a largura para 90% da tela */
-}
+        max-width: 90%;
+        /* ou o valor que você deseja */
+        width: 90%;
+        /* Define a largura para 90% da tela */
+    }
 </style>
 {% endblock %}
 
@@ -111,12 +113,10 @@
                                         <li>
                                             Problema: {{ problema.descricao }}
                                             <div>
-                                                <!-- Itera sobre as soluções desse problema -->
                                                 {% for solucao in problema.solucoes %}
-                                                    <button class="btn btn-success m-1" data-bs-toggle="modal"
-                                                        data-bs-target="#solutionModal" data-solution-id="{{ solucao.id }}">
-                                                        Solução {{ forloop.counter }}
-                                                    </button>
+                                                <button class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#solutionModal" data-solution-id="{{ solucao.id }}">
+                                                    Solução {{ solucao.nome }}
+                                                </button>
                                                 {% endfor %}
                                             </div>
                                         </li>
@@ -137,10 +137,12 @@
 <div class="modal fade" id="solutionModal" tabindex="-1" aria-labelledby="solutionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg custom-modal-width">
         <div class="modal-content">
-            
-            <div class=" modal-header bg-dark ">
-                
-                <h5 class="modal-title justify-content-center text-center" id="solutionModalLabel">Detalhes da Solução</h5>
+
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title d-flex align-items-center justify-content-center">
+                   Solução:
+                    <span class="text-warning ms-2" id="solutionNome"></span>
+                </h5>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
             </div>
             <div class="modal-body bg-dark text-light">
@@ -158,12 +160,13 @@
                             <div id="solutionDescription" class="p-2 text-start"></div>
 
                         </div>
-                        <div class="como bg-white rounded-1 border-dark align-content-center justify-content-center text-center ">
-                                <h4 class="text-warning pt-2 fw-bold">Como</h4>
-                                <hr class="border border-dark">
-                                <div class="text-dark text-start p-2 " id="solutionText"></div>
-                            
-                           
+                        <div
+                            class="como bg-white rounded-1 border-dark align-content-center justify-content-center text-center ">
+                            <h4 class="text-warning pt-2 fw-bold">Como</h4>
+                            <hr class="border border-dark">
+                            <div class="text-dark text-start p-2 " id="solutionText"></div>
+
+
                         </div>
                     </div>
                     <div class="col-6 ">
@@ -187,31 +190,31 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function () {
-    $('#solutionModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var solutionId = button.data('solution-id'); // Corrija o nome da variável para 'solutionId'
+        $('#solutionModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var solutionId = button.data('solution-id'); // Certifique-se de que o ID da solução está correto
 
-        $.ajax({
-            url: "{% url 'persona:solution_detail' %}",
-            data: { 'pk': solutionId },
-            success: function (data) {
-                // Preenche o modal com os dados da solução
-                $('#solutionDescription').html(`<h6 class="text-dark"> ${data.descricao}</h6>`);
-                $('#solutionWhy').html(`<p> ${data.por_que_resolver}</p>`);
-                $('#solutionText').html(`<p> ${data.exemplo_texto}</p>`);
-                if (data.exemplo_foto) {
-                    $('#solutionImageElement').attr('src', data.exemplo_foto);
-                    $('#solutionImage').show();
-                } else {
-                    $('#solutionImage').hide();
-                }
-            },
-            error: function () {
-                $('#solutionDetail').html('<p>Ocorreu um erro ao carregar a solução.</p>');
+    $.ajax({
+        url: "{% url 'persona:solution_detail' %}",
+        data: { 'pk': solutionId },
+        success: function (data) {
+            $('#solutionNome').html(` ${data.nome}`);
+            $('#solutionDescription').html(`<h6 class="text-dark"> ${data.descricao}</h6>`);
+            $('#solutionWhy').html(`<p> ${data.por_que_resolver}</p>`);
+            $('#solutionText').html(`<p> ${data.exemplo_texto}</p>`);
+            if (data.exemplo_foto) {
+                $('#solutionImageElement').attr('src', data.exemplo_foto);
+                $('#solutionImage').show();
+            } else {
+                $('#solutionImage').hide();
             }
-        });
+        },
+        error: function () {
+            $('#solutionDetail').html('<p>Ocorreu um erro ao carregar a solução.</p>');
+        }
     });
 });
+    });
 
 
 </script>
