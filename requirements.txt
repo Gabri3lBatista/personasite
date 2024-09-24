@@ -41,6 +41,6 @@ tzdata==2023.4
 virtualenv==20.25.0
 virtualenv-clone==0.5.7
 virtualenvwrapper==6.0.0
-weasyprint==62.3
+
 webencodings==0.5.1
 zopfli==0.2.3
