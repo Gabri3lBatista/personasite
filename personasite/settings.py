@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-hvpnw=)c4$(c@lc!)d1ucqj6(%yyie^5_j(vrtl4(@es%*_$h$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.railway.app', 'personasite.up.railway.app']
 
 AUTH_USER_MODEL = 'users.Usuario'
 
