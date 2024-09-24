@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     libpango-1.0-0 \
     libgdk-pixbuf2.0-0 \
-    libgobject-2.0-0 \
+    libgobject2.0-dev \
     libcairo2 \
     libffi-dev \
     shared-mime-info
