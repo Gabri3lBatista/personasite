@@ -1,30 +1,22 @@
-# Use a imagem oficial do Python como base
-FROM python:3.11-slim
+# Usar uma imagem base Python
+FROM python:3.12-slim
 
-# Definir o diretório de trabalho no contêiner
+# Definir o diretório de trabalho
 WORKDIR /app
 
-# Instalar as dependências do sistema necessárias para WeasyPrint
-RUN apt-get update && apt-get install -y \
-    libpango1.0-0 \
-    libgdk-pixbuf2.0-0 \
-    libcairo2 \
-    libffi-dev \
-    libpangoft2-1.0-0 \
-    libpangocairo-1.0-0 \
-    shared-mime-info
-
-# Copiar o arquivo de dependências do projeto (requirements.txt)
+# Copiar o arquivo de dependências para o contêiner
 COPY requirements.txt .
 
-# Instalar as dependências Python
+# Atualizar o pip e instalar as dependências
+RUN pip install --upgrade pip
+RUN apt-get update && apt-get install -y libpq-dev gcc
 RUN pip install -r requirements.txt
 
-# Copiar todo o código do projeto para o diretório de trabalho
+# Copiar o código do projeto
 COPY . .
 
-# Expor a porta que o Django vai rodar
+# Expor a porta que o contêiner vai rodar
 EXPOSE 8000
 
-# Comando para iniciar o servidor Django
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "personasite.wsgi:application"]
+# Comando para rodar a aplicação
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
