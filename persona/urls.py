@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import  get_solutions, persona_list, persona_create, sobre_page, persona_delete, persona_update,fetch_problems, main_page, persona_info, solution_detail, generate_pdf
+from .views import  get_solutions, persona_list, persona_create, sobre_page, persona_delete, persona_update,fetch_problems, main_page, persona_info, solution_detail
 from django.conf import settings
 from django.conf.urls.static import static
 
