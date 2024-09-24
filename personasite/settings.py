@@ -42,9 +42,8 @@ INSTALLED_APPS = [
     'users',
     'django_extensions',
     'django_bootstrap5',
-    'PIL',  # Check if it should be 'PIL' instead of 'pillow'
+    # 'pillow',  # Pode ser removido a menos que seja necessário
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
