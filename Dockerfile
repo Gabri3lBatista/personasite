@@ -6,11 +6,12 @@ WORKDIR /app
 
 # Instalar as dependências do sistema necessárias para WeasyPrint
 RUN apt-get update && apt-get install -y \
-    libpango-1.0-0 \
+    libpango1.0-0 \
     libgdk-pixbuf2.0-0 \
-    libgirepository1.0-dev \
     libcairo2 \
     libffi-dev \
+    libpangoft2-1.0-0 \
+    libpangocairo-1.0-0 \
     shared-mime-info
 
 # Copiar o arquivo de dependências do projeto (requirements.txt)

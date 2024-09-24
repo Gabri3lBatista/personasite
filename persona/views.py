@@ -226,6 +226,7 @@ def solution_detail(request):
     }
     return JsonResponse(data)
 # Função para gerar o PDF
+'''
 @login_required
 def generate_pdf(request, persona_id):
     persona = get_object_or_404(Persona, pk=persona_id)
@@ -264,3 +265,4 @@ def generate_pdf(request, persona_id):
     response = HttpResponse(result, content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename=persona_{persona_id}.pdf'
     return response
+'''
