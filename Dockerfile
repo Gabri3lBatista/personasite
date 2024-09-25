@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-# Instalar dependências do sistema
+# Atualizar repositórios e instalar dependências do sistema
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2 \
     libgdk-pixbuf2.0-0 \
@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpango1.0-0 \
     libpangocairo-1.0-0 \
     libffi-dev \
+    curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
