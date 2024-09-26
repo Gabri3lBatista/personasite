@@ -46,7 +46,7 @@
             <button onclick="window.history.back()" class="btn btn-primary">
                 <i class="fa-solid fa-arrow-left"></i> Voltar
             </button>
-            <a href="{% url 'persona:generate_pdf' persona.id %}" class="btn btn-secondary">
+            <a href="" class="btn btn-secondary">
                 <span class="text-white m-0"> <i class="fa-solid fa-file-pdf"></i> Baixar PDF</span>
             </a>
             <a href="{% url 'persona:persona_update' persona.id %}" class="btn btn-warning">
@@ -115,7 +115,7 @@
                                             <div>
                                                 {% for solucao in problema.solucoes %}
                                                 <button class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#solutionModal" data-solution-id="{{ solucao.id }}">
-                                                    Solução {{ solucao.nome }}
+                                                    {{ solucao.nome }}
                                                 </button>
                                                 {% endfor %}
                                             </div>

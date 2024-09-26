@@ -1,117 +1,86 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exemplo Acessível para Neurodivergentes</title>
+    <title>Exemplo Acessível de Cores e Contraste</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            line-height: 1.6;
+            background-color: #f9f9f9; /* Fundo claro */
+            color: #333; /* Texto escuro */
+            width: 50%;
         }
-
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
         .section {
-            background-color: #fff;
             border: 2px solid #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
         }
-
-        h1, h2 {
-            color: #00529b;
+        h1 {
+            font-size: 24px;
+            color: #005b96; /* Azul escuro para títulos */
         }
-
-        /* Cores de alto contraste */
-        .high-contrast {
-            background-color: #ffffff; /* fundo branco */
-            color: #000000; /* texto preto */
+        .important-info {
+            background-color: #005b96; /* Fundo azul escuro */
+            color: #ffffff; /* Texto branco para bom contraste */
             padding: 10px;
-            margin: 10px 0;
-        }
-
-        /* Exemplo de uso de cores simples para separar seções */
-        .section-blue {
-            background-color: #e0f7fa; /* Azul claro */
-        }
-
-        .section-pink {
-            background-color: #fce4ec; /* Rosa claro */
-        }
-
-        .example-box {
-            background-color: #ffeb3b;
-            padding: 10px;
-            margin-top: 15px;
             border-radius: 5px;
         }
-
-        /* Ícones e símbolos para reforçar a informação */
-        .icon {
-            font-size: 20px;
-            margin-right: 10px;
+        .highlight {
+            background-color: #ffeb3b; /* Destaque em amarelo */
+            color: #333;
+            padding: 5px;
+            border-radius: 3px;
         }
-
-        .tips {
-            background-color: #dcedc8;
+        a {
+            color: #1e90ff;
+        }
+        a:focus, a:hover {
+            background-color: #1e90ff;
+            color: #fff;
+            text-decoration: none;
+            padding: 2px 4px;
+        }
+        .contrast-check {
+            background-color: #ffffff;
+            color: #ff0000; /* Alto contraste entre texto e fundo */
+            border: 2px solid #ff0000;
             padding: 10px;
-            margin-top: 15px;
-            border-left: 5px solid #7cb342;
-        }
-
-        /* Evitar sobrecarga visual */
-        img {
-            max-width: 100%;
-            height: auto;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        
-        <div class="section section-blue">
-            <h2><span class="icon">🔵</span>Seção 1 - Contraste de Cores</h2>
-            <p>A cor de fundo deve ser clara e o texto em cor escura para garantir a legibilidade. Exemplo de texto em fundo azul claro e texto preto.</p>
 
-            <div class="high-contrast">
-                <strong>Texto com alto contraste:</strong> Este texto está em preto sobre um fundo branco, garantindo fácil leitura.
-            </div>
-        </div>
+    
+    <section class="section ">
+        <h2>Informação Importante</h2>
+        <p class="important-info">
+            Sempre associe cores com texto. Não dependa exclusivamente 
+            de cores para transmitir informações importantes.
+        </p>
+    </section>
 
-        <!-- Exemplo de uso de cores para diferenciar seções -->
-        <div class="section section-pink">
-            <h2><span class="icon">🔴</span>Seção 2 - Uso de Cores para Separar Seções</h2>
-            <p>Utilize cores suaves para diferenciar conteúdos sem sobrecarregar visualmente o usuário. Evite cores muito fortes que possam distrair ou causar desconforto.</p>
-        </div>
+    <section class="section">
+        <h2>Uso de Cores para Destaque</h2>
+        <p>
+            Use cores para chamar atenção para informações importantes:
+            <span class="highlight">Texto em amarelo destacado.</span>
+        </p>
+        <p>Note que o texto possui contraste suficiente com o fundo, garantindo legibilidade.</p>
+    </section>
 
-        <!-- Dica de Acessibilidade -->
-        <div class="tips">
-            <strong>Dica:</strong> Sempre verifique se o contraste entre o fundo e o texto é suficiente. Ferramentas como o <a href="https://webaim.org/resources/contrastchecker/" target="_blank">verificador de contraste WebAIM</a> podem ser úteis.
-        </div>
+    <section class="section">
+        <h2>Verificação de Contraste</h2>
+        <p class="contrast-check">
+            Exemplo de texto com contraste adequado: <strong>Fundo branco e texto vermelho.</strong>
+        </p>
+    </section>
 
-        <!-- Exemplo prático com reforço visual e textual -->
-        <div class="section">
-            <h2><span class="icon">🟢</span>Seção 3 - Evitar Dependência Exclusiva de Cores</h2>
-            <p>Ao usar cores para indicar estados ou categorias, sempre acompanhe com rótulos textuais e ícones para evitar que o usuário dependa apenas das cores para entender o conteúdo.</p>
-            <div class="example-box">
-                <p><strong>Exemplo:</strong> No formulário, ao invés de destacar "campos obrigatórios" apenas com cor vermelha, use uma combinação de cor e texto. Exemplo: <span style="color: red;">*</span> <strong>Campo Obrigatório</strong></p>
-            </div>
-        </div>
+    <footer>
+        <p>Este exemplo foi criado para demonstrar como cores e contrastes adequados podem ser usados para melhorar a acessibilidade.</p>
+        <p><a href="#">Leia mais sobre acessibilidade</a></p>
+    </footer>
 
-        <!-- Imagens podem complementar o conteúdo -->
-        <div class="section">
-            <h2><span class="icon">📊</span>Seção 4 - Uso de Gráficos ou Imagens</h2>
-            <p>Gráficos simples podem ajudar na compreensão de informações complexas. Certifique-se de que a imagem tenha uma descrição adequada para o contexto.</p>
-            <img src="exemplo-grafico.png" alt="Exemplo de gráfico que compara dados de forma simples">
-        </div>
-    </div>
 </body>
 </html>

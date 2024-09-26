@@ -102,9 +102,16 @@ def inicializar_dados(sender, **kwargs):
                     {
                         'nome': 'Cores',
                         'por_que_resolver': 'Elementos que usam apenas cores, sem imagens ou textos, podem atrair a atenção, especialmente de crianças, sem que elas compreendam o significado desses elementos. O baixo contraste entre o fundo e o texto ou objeto de primeiro plano dificulta a compreensão, a legibilidade e pode prejudicar a atenção de pessoas com TEA. No entanto, as cores e contrastes podem ser usados positivamente para guiar a atenção e diferenciar elementos.',
-                        'descricao': 'Cores - Cores devem ser usadas como complemento, e não como a única forma de transmitir informações. O contraste entre o fundo e o objeto de primeiro plano deve ser suficiente para garantir a legibilidade. É importante que o conteúdo seja compreensível sem depender apenas das cores, imagens ou estilos, garantindo acessibilidade.',
+                        'descricao': 'Cores devem ser usadas como complemento, e não como a única forma de transmitir informações. O contraste entre o fundo e o objeto de primeiro plano deve ser suficiente para garantir a legibilidade. É importante que o conteúdo seja compreensível sem depender apenas das cores, imagens ou estilos, garantindo acessibilidade.',
                         'exemplo_texto': 'Escolha cores de fundo que contrastem adequadamente com os objetos ou textos de primeiro plano, preferindo fundos claros ou brancos. * Use cores para diferenciar seções ou relacionar conteúdos similares, mas sempre com um complemento textual ou visual. * Certifique-se de que o conteúdo possa ser compreendido sem depender exclusivamente das cores. * Associe rótulos textuais a elementos visuais e utilize ferramentas de verificação de contraste para garantir que o contraste entre o plano de fundo e os objetos esteja adequado.',
-                        'exemplo_foto': 'exemplos/exemplo8.png',
+                        'exemplo_foto': 'exemplos/exemplo10.png',
+                    }, 
+                    {
+                        'nome': 'Texto',
+                        'por_que_resolver': 'Parágrafos complexos podem também ser distrativos e prejudicar a atenção ao conteúdo da página. Para crianças, o uso de linguagem simples e textos sucintos pode auxiliar não apenas na atenção e compreensão da linguagem, mas também na aquisição de vocabulário e letramento.',
+                        'descricao': 'A solução para melhorar a compreensão de textos por parte de pessoas com TEA é adotar uma linguagem visual e textual simples e objetiva. Isso inclui evitar o uso de jargões, termos técnicos, abreviações, acrônimos e expressões conotativas que possam confundir ou desviar a atenção. ',
+                        'exemplo_texto': 'Use linguagem simples e evite jargões, termos técnicos ou conotativos. * Mantenha parágrafos curtos e objetivos para facilitar a leitura e compreensão. * Evite o uso de metáforas ou expressões figurativas, adotando uma abordagem literal. * Utilize rótulos consistentes para botões, formulários e elementos interativos. * Evite o uso de abreviações e acrônimos que possam não ser familiares. * Adote símbolos e ícones reconhecíveis, que auxiliem na navegação. * Revise o conteúdo para garantir a ausência de erros ortográficos e gramaticais.',
+                        'exemplo_foto': 'exemplos/exemplo11.png',
                     }, 
                 ],
                 
