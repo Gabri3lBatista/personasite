@@ -1,11 +1,17 @@
-FROM python:3.12-slim
+# Escolher imagem Python
+FROM python:3.12
 
-# Atualizar repositórios e instalar dependências do sistema
+# Definir diretório de trabalho
+WORKDIR /app
+
+# Copiar os arquivos do projeto
+COPY . .
+
+# Instalar dependências do sistema
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2 \
     libgdk-pixbuf2.0-0 \
     libglib2.0-0 \
-    libgobject-2.0-0 \
     libpango1.0-0 \
     libpangocairo-1.0-0 \
     libffi-dev \
@@ -13,15 +19,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Definir o diretório de trabalho
-WORKDIR /app
+# Instalar dependências do Python
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-# Copiar o requirements.txt e instalar as dependências Python
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copiar todo o código do projeto para o diretório de trabalho
-COPY . .
-
-# Comando para iniciar a aplicação
-CMD ["gunicorn", "personasite.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Executar o servidor Django
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "personasite.wsgi:application"]
