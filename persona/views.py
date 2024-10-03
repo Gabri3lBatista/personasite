@@ -82,8 +82,9 @@ def persona_info(request, pk):
         for problema in problemas:
             solucoes = Solucoes.objects.filter(problema=problema)
             problemas_com_solucoes.append({
+                'id': problema.id,  # Adiciona o ID do problema
                 'descricao': problema.descricao,
-                'solucoes': solucoes  # Associa as soluções diretamente ao problema
+                'solucoes': solucoes
             })
 
         info_neurodivergencias.append({
@@ -100,12 +101,14 @@ def persona_info(request, pk):
     return render(request, 'personas/persona_info.html', context)
 # Função para exibir soluções para um problema específico
 @login_required
+
 def problema_solucoes(request, pk):
     problema = get_object_or_404(Problemas, pk=pk)
     solucoes = Solucoes.objects.filter(problema=problema)
 
     solucoes_detalhadas = [
         {
+            'id': solucao.id,
             'nome': solucao.nome,
             'descricao': solucao.descricao,
             'por_que_resolver': solucao.por_que_resolver,
@@ -115,8 +118,10 @@ def problema_solucoes(request, pk):
         for solucao in solucoes
     ]
 
-    return render(request, 'personas/problema_solucoes.html', {'problema': problema, 'solucoes': solucoes_detalhadas})
-
+    return JsonResponse({
+        'problem_title': problema.descricao,  # Use descrição em vez de nome
+        'solucoes': solucoes_detalhadas
+    })
 # Função para criar uma nova persona
 
 def get_solutions(request):
@@ -210,20 +215,16 @@ def fetch_problems(request):
     html = render_to_string('personas/problemas_list.html', {'problemas_por_neurodivergencia': problemas_por_neurodivergencia})
     return JsonResponse({'html': html})
 
-def solution_detail(request):
-    solution_id = request.GET.get('pk')
-    print(f"Solução ID recebida: {solution_id}")  # Log
-    solucao = get_object_or_404(Solucoes, pk=solution_id)
-    print(f"Solução: {solucao.descricao}")  # Log
-    data = {
-        'nome': solucao.nome,
-        'descricao': solucao.descricao,
-        'problema_descricao': solucao.problema.descricao,
-        'por_que_resolver': solucao.por_que_resolver,
-        'exemplo_texto': solucao.exemplo_texto,
-        'exemplo_foto': solucao.exemplo_foto.url if solucao.exemplo_foto else None,
-    }
-    return JsonResponse(data)
+def solution_detail(request, id):
+    # Lógica para buscar a solução usando o ID
+    solution = get_object_or_404(Solucoes, pk=id)
+    # Retorne os dados que você deseja, normalmente em formato JSON se for uma chamada AJAX
+    return JsonResponse({
+        'descricao': solution.descricao,
+        'por_que_resolver': solution.por_que_resolver,
+        'exemplo_texto': solution.exemplo_texto,
+        'exemplo_foto': solution.exemplo_foto.url,  # Certifique-se de que isso está correto
+    })
 # Função para gerar o PDF
 '''
 @login_required

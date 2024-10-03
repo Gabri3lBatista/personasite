@@ -21,7 +21,11 @@ class Solucoes(models.Model):
     exemplo_texto = models.TextField()  # Campo para explicar o exemplo em texto
     exemplo_foto = models.ImageField(upload_to='exemplos/', blank=True, null=True)  # Campo para exemplo em foto
     nome = models.CharField(max_length=100)
-
+    
+    def clean(self):
+        if not self.exemplo_texto and not self.exemplo_foto:
+            raise ValidationError('Pelo menos um exemplo (texto ou foto) deve ser fornecido.')
+    
     def __str__(self):
         return self.descricao
 

@@ -32,9 +32,7 @@
 
     .custom-modal-width {
         max-width: 90%;
-        /* ou o valor que você deseja */
         width: 90%;
-        /* Define a largura para 90% da tela */
     }
 </style>
 {% endblock %}
@@ -59,25 +57,18 @@
     </div>
     <div class="row">
         <div class="col-4 p-0 m-0 border rounded-start">
-            {% if persona.sexo == 'M' %}
-            <img src="{% static '../media/man.png' %}" class="img-fluid bg-warning" alt="Imagem de uma pessoa">
-            {% else %}
-            <img src="{% static '../media/woman.png' %}" class="img-fluid bg-warning" alt="Imagem de uma pessoa">
-            {% endif %}
+            <img src="{% static '../media/' %}{% if persona.sexo == 'M' %}man.png{% else %}woman.png{% endif %}"
+                class="img-fluid bg-warning" alt="Imagem de uma pessoa">
             <h4 class="{{ random_colors }}">Nome: <strong>{{ persona.nome }}</strong></h4>
             <ul class="list-unstyled text-start ps-2">
-                <li>Idade: <strong>{{ persona.idade }}</strong> </li>
+                <li>Idade: <strong>{{ persona.idade }}</strong></li>
                 <li>Sexo: <strong>{{ persona.get_sexo_display }}</strong></li>
-                <li>Profissão: <strong>{{persona.profissao}}</strong> </li>
+                <li>Profissão: <strong>{{ persona.profissao }}</strong></li>
                 <li>Neurodivergências:
                     <ul class="m-0 ps-3">
                         {% for info_neurodivergencia in info_neurodivergencias %}
-                        {% if info_neurodivergencia.neurodivergencia.nome == 'Autismo' %}
-                        <li><strong>Autismo (Grau 1º)</strong></li>
-                        {% elif info_neurodivergencia.neurodivergencia.nome == 'TDAH' %}
-                        <li><strong>Transtorno do déficit de atenção com hiperatividade</strong></li>
-                        {% elif info_neurodivergencia.neurodivergencia.nome == 'Dislexia' %}
-                        <li><strong>Dislexia</strong></li>
+                        {% if info_neurodivergencia.neurodivergencia.nome %}
+                        <li><strong>{{ info_neurodivergencia.neurodivergencia.nome }}</strong></li>
                         {% endif %}
                         {% endfor %}
                     </ul>
@@ -90,9 +81,7 @@
                     <h4><i class="fa-solid fa-user fs-5 pe-1"></i> <strong>Sobre</strong></h4>
                 </div>
                 <div class="p-3">
-                    <p>
-                        {{ persona.interesses }}
-                    </p>
+                    <p>{{ persona.interesses }}</p>
                 </div>
             </div>
             <div>
@@ -100,31 +89,30 @@
                     <div class="col-md-12 shadow">
                         <div>
                             <h4 class="{{ random_colors }} py-2">
-                                <img src="{% static '../media/neuro.png' %} " class="" style="width: 40px;" alt="">
+                                <img src="{% static '../media/neuro.png' %}" style="width: 40px;" alt="">
                                 <strong>Neurodivergências</strong>
                             </h4>
                             <div class="row m-0">
                                 {% for info_neurodivergencia in info_neurodivergencias %}
                                 <div
-                                    class="{% if info_neurodivergencias|length == 1 %}col-12{% elif info_neurodivergencias|length == 2 %}col-6{% elif info_neurodivergencias|length >= 3 %}col-4{% endif %} mb-4">
+                                    class="{% if info_neurodivergencias|length == 1 %}col-12{% elif info_neurodivergencias|length == 2 %}col-6{% else %}col-4{% endif %} mb-4">
                                     <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
                                     <ul class="list-unstyled">
                                         {% for problema in info_neurodivergencia.problemas %}
                                         <li>
-                                            Problema: {{ problema.descricao }}
-                                            <div>
-                                                {% for solucao in problema.solucoes %}
-                                                <button class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#solutionModal" data-solution-id="{{ solucao.id }}">
-                                                    {{ solucao.nome }}
-                                                </button>
-                                                {% endfor %}
-                                            </div>
+                                            <button class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                                data-bs-target="#problemModal" data-problem-id="{{ problema.id }}">
+                                                {{ problema.descricao }}
+                                            </button>
+                                           
+
                                         </li>
                                         {% endfor %}
                                     </ul>
                                 </div>
                                 {% endfor %}
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -133,51 +121,24 @@
     </div>
 
 </div>
-<!-- Modal --><!-- Modal -->
-<div class="modal fade" id="solutionModal" tabindex="-1" aria-labelledby="solutionModalLabel" aria-hidden="true">
+
+<!-- Modal para Problemas e Soluções -->
+<div class="modal fade" id="problemModal" tabindex="-1" aria-labelledby="problemModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg custom-modal-width">
         <div class="modal-content">
-
             <div class="modal-header bg-dark">
                 <h5 class="modal-title d-flex align-items-center justify-content-center">
-                   Solução:
-                    <span class="text-warning ms-2" id="solutionNome"></span>
+                    Problema: <span class="text-warning ms-2" id="problemTitle"></span>
                 </h5>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
             </div>
             <div class="modal-body bg-dark text-light">
-                <div id="solutionDetail" class="bg-dark rounded p-2 row">
-                    <div class="col-6">
-                        <div class="problema bg-white rounded-1 mb-3">
-                            <h4 class="text-danger fw-bold pt-2">Problema</h4>
-                            <hr class="border border-dark">
-                            <p class="text-dark text-start p-2 " id="solutionWhy"></p>
+                <p class="m-0">Escolha uma solução:</p>
 
-                        </div>
-                        <div class="solucao bg-white rounded-1 mb-3">
-                            <h4 class="text-info fw-bold pt-2 ">Solução </h4>
-                            <hr class="border border-dark">
-                            <div id="solutionDescription" class="p-2 text-start"></div>
+                <div id="problemSolutions" class=" bg-dark rounded p-2 row"></div>
+                <!-- Local onde os botões das soluções aparecerão -->
 
-                        </div>
-                        <div
-                            class="como bg-white rounded-1 border-dark align-content-center justify-content-center text-center ">
-                            <h4 class="text-warning pt-2 fw-bold">Como</h4>
-                            <hr class="border border-dark">
-                            <div class="text-dark text-start p-2 " id="solutionText"></div>
-
-
-                        </div>
-                    </div>
-                    <div class="col-6 ">
-                        <div class="bg-white mb-2 rounded-1">
-                            <p class="text-dark">Na imagem abaixo há um exemplo visual de como deve ser feito.</p>
-                        </div>
-                        <div class="bg-white">
-                            <img id="solutionImageElement" src="" alt="Exemplo de Solução" class="img-fluid">
-                        </div>
-                    </div>
-                </div>
+                <div id="solutionDetail" class=""></div> <!-- Local onde os detalhes da solução aparecerão -->
             </div>
         </div>
     </div>
@@ -190,32 +151,113 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#solutionModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var solutionId = button.data('solution-id'); // Certifique-se de que o ID da solução está correto
+        $('.solution-button').on('click', function () {
+            const problemId = $(this).data('problem-id');
+            console.log('Problem ID:', problemId);
 
-    $.ajax({
-        url: "{% url 'persona:solution_detail' %}",
-        data: { 'pk': solutionId },
-        success: function (data) {
-            $('#solutionNome').html(` ${data.nome}`);
-            $('#solutionDescription').html(`<h6 class="text-dark"> ${data.descricao}</h6>`);
-            $('#solutionWhy').html(`<p> ${data.por_que_resolver}</p>`);
-            $('#solutionText').html(`<p> ${data.exemplo_texto}</p>`);
-            if (data.exemplo_foto) {
-                $('#solutionImageElement').attr('src', data.exemplo_foto);
-                $('#solutionImage').show();
-            } else {
-                $('#solutionImage').hide();
-            }
-        },
-        error: function () {
-            $('#solutionDetail').html('<p>Ocorreu um erro ao carregar a solução.</p>');
-        }
+            $.ajax({
+                url: `/problem_solutions/${problemId}/`,  // URL da sua view Django
+                method: 'GET',
+                success: function (data) {
+                    console.log("URL da requisição:", "{% url 'persona:problem_solutions' 0 %}".replace(0, problemId));
+
+                    // Manipular a resposta aqui
+                    console.log(data);
+                    // Exibir as soluções no modal ou em outro lugar da página
+                    $('#modal .modal-body').html(data);  // Exemplo de como preencher o modal
+                    $('#modal').modal('show');  // Mostrar o modal (se estiver usando Bootstrap)
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erro ao buscar soluções:', error);
+                }
+            });
+        });
+
+        // Quando o modal for aberto ao clicar no botão do problema
+        $('#problemModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);  // O botão que acionou o modal
+            var problemId = button.data('problem-id');  // Captura o ID do problema corretamente
+            console.log('Problem ID:', problemId); // Verifique o valor aqui
+
+            // Fazer uma requisição AJAX para obter as soluções do problema
+            $.ajax({
+                url: `/problem_solutions/${problemId}/`,  // URL da sua view Django
+                method: 'GET',
+                success: function (data) {
+                    console.log("URL da requisição:", `/problem_solutions/${problemId}/`); // Verifica a URL
+
+                    // Preencher o título do problema
+                    $('#problemTitle').html(data.problem_title);
+
+                    // Exibir os botões das soluções
+                    var solutionsHtml = '';
+                    data.solucoes.forEach(function (solucao) {
+                        solutionsHtml += `
+                    <li class="nav nav-item">
+                        
+                    <button class="btn btn-success m-1 solution-btn" data-solution-id="${solucao.id}" style="width: 100%;">
+                ${solucao.nome}
+            </button>
+        </li>
+                `;
+                    });
+                    $('#problemSolutions').html(solutionsHtml);
+
+                    // Limpar o conteúdo dos detalhes da solução
+                    $('#solutionDetail').html('');
+                },
+                error: function () {
+                    $('#problemSolutions').html('<p>Erro ao carregar as soluções.</p>');
+                }
+            });
+        });
+
+        // Quando clicar em um botão de solução
+        $(document).on('click', '.solution-btn', function () {
+            var solutionId = $(this).data('solution-id');  // Captura o ID da solução
+
+            // Fazer uma requisição AJAX para obter os detalhes da solução
+            $.ajax({
+                url: `{% url 'persona:solution_detail' 0 %}`.replace(0, solutionId),  // Usar solutionId
+                success: function (data) {
+                    // Exibir os detalhes da solução no layout
+                    $('#solutionDetail').html(`
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="problema bg-white rounded-1 mb-3">
+                                    <h4 class="text-danger fw-bold pt-2">Problema</h4>
+                                    <hr class="border border-dark">
+                                    <p class="text-dark text-start p-2">${data.por_que_resolver}</p>
+                                </div>
+                                <div class="solucao bg-white rounded-1 mb-3">
+                                    <h4 class="text-info fw-bold pt-2">Solução</h4>
+                                    <hr class="border border-dark">
+                                    <p class="text-dark text-start p-2">${data.descricao}</p>
+                                </div>
+                                <div class="como bg-white rounded-1 mb-3">
+                                    <h4 class="text-warning fw-bold pt-2">Como</h4>
+                                    <hr class="border border-dark">
+                                    <p class="text-dark text-start p-2">${data.exemplo_texto}</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-white mb-2 rounded-1">
+                                    <p class="text-dark">Na imagem abaixo há um exemplo visual de como deve ser feito.</p>
+                                </div>
+                                <div class="bg-white">
+                                    <img id="solutionImageElement" src="${data.exemplo_foto}" alt="Exemplo de Solução" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    `);
+
+                },
+                error: function () {
+                    $('#solutionDetail').html('<p>Erro ao carregar os detalhes da solução.</p>');
+                }
+            });
+        });
+
     });
-});
-    });
-
-
 </script>
 {% endblock %}

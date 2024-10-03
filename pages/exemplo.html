@@ -1,86 +1,112 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exemplo Acessível de Cores e Contraste</title>
+    <title>Navegação Simples</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9; /* Fundo claro */
-            color: #333; /* Texto escuro */
-            width: 50%;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
-        .section {
-            border: 2px solid #ccc;
-            padding: 20px;
-            margin: 20px 0;
+
+        .navbar {
+            background-color: #0077cc;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            color: white;
         }
-        h1 {
-            font-size: 24px;
-            color: #005b96; /* Azul escuro para títulos */
-        }
-        .important-info {
-            background-color: #005b96; /* Fundo azul escuro */
-            color: #ffffff; /* Texto branco para bom contraste */
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .highlight {
-            background-color: #ffeb3b; /* Destaque em amarelo */
-            color: #333;
-            padding: 5px;
-            border-radius: 3px;
-        }
-        a {
-            color: #1e90ff;
-        }
-        a:focus, a:hover {
-            background-color: #1e90ff;
-            color: #fff;
+
+        .navbar a {
+            color: white;
             text-decoration: none;
-            padding: 2px 4px;
+            margin: 0 10px;
+            font-size: 1.2rem;
         }
-        .contrast-check {
-            background-color: #ffffff;
-            color: #ff0000; /* Alto contraste entre texto e fundo */
-            border: 2px solid #ff0000;
+
+        .breadcrumb {
+            margin: 20px;
             padding: 10px;
-            margin: 20px 0;
+            background-color: #eee;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: #0077cc;
+        }
+
+        .container {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .progress {
+            margin: 20px;
+            padding: 10px;
+            background-color: #e7f3ff;
+            border-left: 5px solid #0077cc;
+            font-size: 1.2rem;
+        }
+
+        .global-nav {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .global-nav button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #0077cc;
+            color: white;
+        }
+
+        .global-nav button:hover {
+            background-color: #005fa3;
         }
     </style>
 </head>
 <body>
 
-    
-    <section class="section ">
-        <h2>Informação Importante</h2>
-        <p class="important-info">
-            Sempre associe cores com texto. Não dependa exclusivamente 
-            de cores para transmitir informações importantes.
-        </p>
-    </section>
+    <!-- Navbar simples -->
+    <div class="navbar">
+        <a href="#">Página Inicial</a>
+        <a href="#">Seção 1</a>
+        <a href="#">Seção 2</a>
+        <a href="#">Ajuda</a>
+    </div>
 
-    <section class="section">
-        <h2>Uso de Cores para Destaque</h2>
-        <p>
-            Use cores para chamar atenção para informações importantes:
-            <span class="highlight">Texto em amarelo destacado.</span>
-        </p>
-        <p>Note que o texto possui contraste suficiente com o fundo, garantindo legibilidade.</p>
-    </section>
+    <!-- Breadcrumbs para indicar localização -->
+    <div class="breadcrumb">
+        <a href="#">Página Inicial</a> > <a href="#">Seção</a> > <a href="#">Subseção</a>
+    </div>
 
-    <section class="section">
-        <h2>Verificação de Contraste</h2>
-        <p class="contrast-check">
-            Exemplo de texto com contraste adequado: <strong>Fundo branco e texto vermelho.</strong>
-        </p>
-    </section>
+    <div class="container">
+        <h1>Navegação Simples</h1>
+        <p>Esta é uma página de exemplo que mostra como a navegação pode ser simplificada. A navegação global permanece consistente em todas as páginas e há um indicador de progresso e localização (trilha de navegação).</p>
 
-    <footer>
-        <p>Este exemplo foi criado para demonstrar como cores e contrastes adequados podem ser usados para melhorar a acessibilidade.</p>
-        <p><a href="#">Leia mais sobre acessibilidade</a></p>
-    </footer>
+        <!-- Indicador de progresso -->
+        <div class="progress">
+            Progresso: Página 2 de 5
+        </div>
+
+        <!-- Botões globais de navegação -->
+        <div class="global-nav">
+            <button onclick="location.href='#'">Voltar</button>
+            <button onclick="location.href='#'">Página Inicial</button>
+            <button onclick="location.href='#'">Próxima Página</button>
+            <button onclick="location.href='#'">Ajuda</button>
+        </div>
+    </div>
 
 </body>
 </html>
