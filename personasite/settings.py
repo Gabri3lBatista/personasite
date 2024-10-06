@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from django.core.wsgi import get_wsgi_application
 
 # Diretório base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,6 +10,8 @@ SECRET_KEY = 'sua-chave-secreta-aqui'
 
 # Debug: mantenha como True para desenvolvimento local
 DEBUG = False
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'personasite.settings')
+application = get_wsgi_application()
 
 AUTH_USER_MODEL = 'users.Usuario'
 
