@@ -10,8 +10,7 @@ SECRET_KEY = 'sua-chave-secreta-aqui'
 
 # Debug: mantenha como True para desenvolvimento local
 DEBUG = False
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'personasite.settings')
-application = get_wsgi_application()
+
 
 AUTH_USER_MODEL = 'users.Usuario'
 
