@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'sua-chave-secreta-aqui'
 
 # Debug: mantenha como True para desenvolvimento local
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 
 AUTH_USER_MODEL = 'users.Usuario'

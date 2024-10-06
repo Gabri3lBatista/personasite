@@ -1,1 +1,1 @@
-web: gunicorn personasite.wsgi --log-file -
+web: gunicorn personasite.wsgi --bind 0.0.0.0:$PORT
