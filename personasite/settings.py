@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from django.core.wsgi import get_wsgi_application
+import dj_database_url
 
 # Diretório base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,11 +76,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'personasite.wsgi.application'
 
 # Banco de dados: SQLite por padrão
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')  # O Railway vai fornecer esta variável de ambiente
+    )
 }
 
 # Validação de senha
