@@ -77,11 +77,18 @@ WSGI_APPLICATION = 'personasite.wsgi.application'
 
 # Banco de dados: SQLite por padrão
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')  # O Railway vai fornecer esta variável de ambiente
-    )
-}
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 # Validação de senha
 AUTH_PASSWORD_VALIDATORS = [
