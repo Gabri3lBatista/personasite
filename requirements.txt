@@ -22,6 +22,7 @@ packaging==24.1
 pbr==6.0.0
 pillow==10.2.0
 platformdirs==4.1.0
+psycopg2==2.9.9
 psycopg2-binary==2.9.9
 pycodestyle==2.12.1
 pycountry==23.12.11

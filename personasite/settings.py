@@ -8,12 +8,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'sua-chave-secreta-aqui'
 
 # Debug: mantenha como True para desenvolvimento local
-DEBUG = True
+DEBUG = False
 
 AUTH_USER_MODEL = 'users.Usuario'
 
 # Hosts permitidos (modifique conforme necessário para produção)
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['personasite-production-4137.up.railway.app', 'localhost', '127.0.0.1']
 
 # Aplicativos instalados
 INSTALLED_APPS = [
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -103,8 +104,12 @@ USE_TZ = True
 
 # Arquivos estáticos
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+

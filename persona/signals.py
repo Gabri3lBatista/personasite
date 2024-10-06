@@ -10,7 +10,7 @@ def inicializar_dados(sender, **kwargs):
 
         dados_neurodivergentes = {
             'Dislexia': {
-                'Problemas com Fontes': [
+                'Fontes': [
                     {   
                         'nome': 'Fontes Sans-Serifadas',
                         'descricao': '''
@@ -29,7 +29,7 @@ def inicializar_dados(sender, **kwargs):
                         'exemplo_foto': 'exemplos/exemplo2.png',
                     },
                 ],
-                'Problemas com texto': [
+                'Texto': [
                     {
                         'nome': 'Texto em Colunas',
                         'descricao': 'Considere distribuir seu texto em colunas menores a fim de facilitar a leitura. Costuma-se trabalhar com o padrão de 12 colunas em um ambiente desktop. Com isso, é ideal dispor o texto em colunas com 45 até 70 caracteres por linha. Forneça um espaçamento adequado entre cada coluna.',
@@ -62,7 +62,7 @@ def inicializar_dados(sender, **kwargs):
                         'exemplo_foto': 'exemplos/exemplo6.png',
                     }, 
                 ],
-                'Problemas com Interpretação': [
+                'Interpretação': [
                   {
                         'nome': 'Formulários Acessíveis',
                         'descricao': 'Criar um formulário acessível e organizado, com campos claros, opções automáticas e sugestões, minimizando a necessidade de inserção manual e reduzindo o esforço cognitivo.',
@@ -101,7 +101,7 @@ def inicializar_dados(sender, **kwargs):
                 # Adicione mais problemas e soluções conforme necessário...
             },
             'Autismo': {
-                'Problemas visuais e textuais': [
+                'Visuais e textuais': [
                     {
                         'nome': 'Cores',
                         'por_que_resolver': 'Elementos que usam apenas cores, sem imagens ou textos, podem atrair a atenção, especialmente de crianças, sem que elas compreendam o significado desses elementos. O baixo contraste entre o fundo e o texto ou objeto de primeiro plano dificulta a compreensão, a legibilidade e pode prejudicar a atenção de pessoas com TEA. No entanto, as cores e contrastes podem ser usados positivamente para guiar a atenção e diferenciar elementos.',
@@ -173,20 +173,53 @@ def inicializar_dados(sender, **kwargs):
                         'exemplo_texto': 'Consistência na navegação: Mantenha o mesmo menu e as mesmas opções de navegação em todas as páginas, garantindo uma experiência contínua e previsível. - Indicadores de progresso: Utilize elementos como "breadcrumbs" (trilhas de navegação) para mostrar onde o usuário está no site. Exemplo: Página inicial > Seção > Subseção. - Botões essenciais: Inclua botões globais como "Sair", "Voltar para a página inicial", "Ajuda", e "Avançar" ou "Voltar" para facilitar a navegação. - Formas alternativas de navegação: Forneça menus hierárquicos ou opções de busca para que o usuário possa encontrar facilmente o que precisa.',
                         'exemplo_foto': 'exemplos/exemplo18.png',
                     }, 
-                 ]
-                
-                
+                    {
+                        'nome': 'Evitar redirecionamentos',
+                        'por_que_resolver': 'Redirecionamentos automáticos e expiração de tarefas por tempo podem causar desconforto e frustração, especialmente para usuários com Transtorno do Espectro Autista (TEA). Essas ações tiram o controle da navegação e podem interromper abruptamente o fluxo de trabalho do usuário. Pessoas com TEA podem precisar de mais tempo para completar tarefas e preferem rotinas previsíveis. Mudanças repentinas, como redirecionamentos automáticos, podem causar confusão e estresse.',
+                        'descricao': 'Evite redirecionamentos automáticos de página e expiração de tarefas com base em tempo. Se essas ações forem necessárias, ofereça avisos claros ao usuário, com opções para cancelar ou adiar a ação. Além disso, forneça botões de navegação para permitir que o usuário escolha ações como sair, voltar ou continuar, garantindo controle sobre a navegação.',
+                        'exemplo_texto': 'Não redirecione automaticamente o usuário ou expire tarefas sem notificação. * Quando um redirecionamento for necessário, ofereça mensagens claras ao usuário. * Proporcione uma opção de controle, como botões de "Cancelar" ou "Continuar". * Mantenha uma navegação simples e clara, com botões visíveis para ajudar o usuário a se mover pela página.',
+                        'exemplo_foto': 'exemplos/exemplo21.png',
+                    },
+                 ],       
             },
             
             'TDAH': {
-                  'Problemas ': [
+                  'Padrões ': [
                     {
-                        'por_que_resolver': 'Elementos que usam apenas cores, sem imagens ou textos, podem atrair a atenção, especialmente de crianças, sem que elas compreendam o significado desses elementos. O baixo contraste entre o fundo e o texto ou objeto de primeiro plano dificulta a compreensão, a legibilidade e pode prejudicar a atenção de pessoas com TEA. No entanto, as cores e contrastes podem ser usados positivamente para guiar a atenção e diferenciar elementos.',
-                        'descricao': 'Cores - Cores devem ser usadas como complemento, e não como a única forma de transmitir informações. O contraste entre o fundo e o objeto de primeiro plano deve ser suficiente para garantir a legibilidade. É importante que o conteúdo seja compreensível sem depender apenas das cores, imagens ou estilos, garantindo acessibilidade.',
-                        'exemplo_texto': 'Escolha cores de fundo que contrastem adequadamente com os objetos ou textos de primeiro plano, preferindo fundos claros ou brancos. * Use cores para diferenciar seções ou relacionar conteúdos similares, mas sempre com um complemento textual ou visual. * Certifique-se de que o conteúdo possa ser compreendido sem depender exclusivamente das cores. * Associe rótulos textuais a elementos visuais e utilize ferramentas de verificação de contraste para garantir que o contraste entre o plano de fundo e os objetos esteja adequado.',
-                        'exemplo_foto': 'exemplos/exemplo8.png',
+                        'nome': 'Reconhecimento de padrões',
+                        'por_que_resolver': 'Pessoas com TEA podem ter dificuldades para se localizar em páginas com grande quantidade de informações e links. Navegações complexas podem causar frustração e confusão, dificultando a tarefa de encontrar a informação desejada. Por isso, é importante fornecer uma navegação simples, consistente e clara, ajudando o usuário a manter o controle e a previsibilidade dentro do ambiente digital.',
+                        'descricao': 'Fornecer uma navegação que seja previsível, com indicadores de localização (como trilhas de navegação), progressos claros, e um design consistente. Botões de navegação global como "Sair", "Voltar para página inicial" e "Ajuda" devem estar presentes em todas as páginas.',
+                        'exemplo_texto': 'Consistência na navegação: Mantenha o mesmo menu e as mesmas opções de navegação em todas as páginas, garantindo uma experiência contínua e previsível. - Indicadores de progresso: Utilize elementos como "breadcrumbs" (trilhas de navegação) para mostrar onde o usuário está no site. Exemplo: Página inicial > Seção > Subseção. - Botões essenciais: Inclua botões globais como "Sair", "Voltar para a página inicial", "Ajuda", e "Avançar" ou "Voltar" para facilitar a navegação. - Formas alternativas de navegação: Forneça menus hierárquicos ou opções de busca para que o usuário possa encontrar facilmente o que precisa.',
+                        'exemplo_foto': 'exemplos/exemplo19.png',
+                    }, 
+                    {
+                        'nome': 'Reforço positivo',
+                        'por_que_resolver': 'Crianças com TDAH respondem bem a ambientes de alto reforço, onde são recompensadas por bom comportamento e pelo cumprimento de tarefas.',
+                        'descricao': ' Implementar recompensas ou feedback positivo ao completar tarefas.',
+                        'exemplo_texto': 'Adicionar feedback positivo como mensagens de congratulação ao completar tarefas no software, evitando exageros que possam ser percebidos como infantis por outros usuários.',
+                        'exemplo_foto': 'exemplos/exemplo20.png',
+                    }, 
+                    
+                ], 
+                  'Lembretes': [
+                    {
+                        'nome': 'Memória prospectiva',
+                        'por_que_resolver': 'Usuários com TDAH, entre outros, frequentemente têm dificuldades com a memória prospectiva, que envolve lembrar-se de compromissos e tarefas futuras. Sem lembretes visíveis e contínuos, eles podem esquecer compromissos importantes, como reuniões ou consultas médicas, o que pode levar a consequências negativas no seu dia a dia.',
+                        'descricao': 'A solução envolve o uso de lembretes proativos que estejam visíveis de forma contínua e em locais estratégicos na interface do usuário. Além disso, deve haver a opção de integrar esses compromissos com aplicativos de calendário e gestão de tempo, como Google Calendar. Isso garante que o usuário seja constantemente lembrado e tenha maior controle sobre sua agenda e tarefas futuras.',
+                        'exemplo_texto': 'Para ajudar usuários, especialmente com TDAH, é importante exibir lembretes de compromissos de forma contínua e visível, como em um painel lateral ou com notificações pop-up. A integração com calendários, como o Google Calendar, permite sincronizar e gerenciar compromissos em várias plataformas. Além disso, o uso de breadcrumbs ajuda na navegação, lembrando o usuário do seu progresso e contexto dentro do sistema.',
+                        'exemplo_foto': 'exemplos/exemplo18.png',
                     }, 
                 ],  
+                  'Interfaces': [
+                    {
+                        'nome': 'Memória prospectiva',
+                        'por_que_resolver': 'Interfaces desorganizadas dificultam a concentração, especialmente para usuários com TDAH, aumentando a confusão e o tempo necessário para encontrar informações.',
+                        'descricao': 'Manter o layout simples e organizado, com a interface limpa e sem distrações visuais.',
+                        'exemplo_texto': 'Utilizar um design minimalista, sem sobrecarregar a interface com informações desnecessárias, e garantir que os elementos importantes sejam dispostos de maneira consistente.',
+                        'exemplo_foto': 'exemplos/exemplo18.png',
+                    }, 
+                ],  
+                  
             },
         }
 

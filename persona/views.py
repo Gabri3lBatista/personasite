@@ -64,7 +64,6 @@ def random_color():
 
 # Função para exibir informações detalhadas da persona
 @login_required
-@login_required
 def persona_info(request, pk):
     persona = get_object_or_404(Persona, pk=pk)
     color = random_color()
@@ -198,22 +197,35 @@ def persona_delete(request, pk):
 
 
 @login_required
+
 def fetch_problems(request):
     neurodivergente_ids = request.GET.get('neurodivergente_ids', '').split(',')
-    print("Neurodivergente IDs recebidos:", neurodivergente_ids)  # Verifique os IDs recebidos
+    
+    # Filtrando valores vazios ou inválidos
+    neurodivergente_ids = [id for id in neurodivergente_ids if id.isdigit() and id]
+    
+    if neurodivergente_ids:
+        print("Neurodivergente IDs recebidos:", neurodivergente_ids)  # Verifique os IDs recebidos
 
-    problemas = Problemas.objects.filter(neurodivergente__id__in=neurodivergente_ids).distinct()
-    print("Problemas encontrados:", problemas)  # Verifique os problemas encontrados
+        # Filtra os problemas com base nos neurodivergente_ids válidos
+        problemas = Problemas.objects.filter(neurodivergente__id__in=neurodivergente_ids).distinct()
+        print("Problemas encontrados:", problemas)  # Verifique os problemas encontrados
 
-    problemas_por_neurodivergencia = {}
-    for problema in problemas:
-        neurodivergencia = problema.neurodivergente.nome
-        if neurodivergencia not in problemas_por_neurodivergencia:
-            problemas_por_neurodivergencia[neurodivergencia] = []
-        problemas_por_neurodivergencia[neurodivergencia].append(problema)
+        problemas_por_neurodivergencia = {}
+        for problema in problemas:
+            neurodivergencia = problema.neurodivergente.nome
+            if neurodivergencia not in problemas_por_neurodivergencia:
+                problemas_por_neurodivergencia[neurodivergencia] = []
+            problemas_por_neurodivergencia[neurodivergencia].append(problema)
 
-    html = render_to_string('personas/problemas_list.html', {'problemas_por_neurodivergencia': problemas_por_neurodivergencia})
-    return JsonResponse({'html': html})
+        # Renderiza o template e retorna o HTML gerado
+        html = render_to_string('personas/problemas_list.html', {
+            'problemas_por_neurodivergencia': problemas_por_neurodivergencia
+        })
+        return JsonResponse({'html': html})
+    else:
+        # Se nenhum neurodivergente_id for válido, retorna um HTML vazio
+        return JsonResponse({'html': ''})
 
 def solution_detail(request, id):
     # Lógica para buscar a solução usando o ID

@@ -92,17 +92,22 @@
                                 <img src="{% static '../media/neuro.png' %}" style="width: 40px;" alt="">
                                 <strong>Neurodivergências</strong>
                             </h4>
-                            <div class="row m-0">
+                            <div class="row m-0 p-0">
+                                
                                 {% for info_neurodivergencia in info_neurodivergencias %}
-                                <div
-                                    class="{% if info_neurodivergencias|length == 1 %}col-12{% elif info_neurodivergencias|length == 2 %}col-6{% else %}col-4{% endif %} mb-4">
+                                <div class=" border-bottom pt-2 ">
                                     <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
-                                    <ul class="list-unstyled">
+                                    Clique nos problemas para ver as soluções:
+
+                                    <ul class="list-unstyled ">
                                         {% for problema in info_neurodivergencia.problemas %}
-                                        <li>
-                                            <button class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                        
+                                        <li data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clique para abrir as soluções" class="text-start">
+                                            <button  class="btn btn-primary mt-2 w-100 fw-bolder" data-bs-toggle="modal"
                                                 data-bs-target="#problemModal" data-problem-id="{{ problema.id }}">
-                                                {{ problema.descricao }}
+                                                <span  >
+                                                    {{ problema.descricao }}
+                                                </span> 
                                             </button>
                                            
 
@@ -130,7 +135,7 @@
                 <h5 class="modal-title d-flex align-items-center justify-content-center">
                     Problema: <span class="text-warning ms-2" id="problemTitle"></span>
                 </h5>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
+                <button data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clique para fechar a tela" type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
             </div>
             <div class="modal-body bg-dark text-light">
                 <p class="m-0">Escolha uma solução:</p>
@@ -138,7 +143,7 @@
                 <div id="problemSolutions" class=" bg-dark rounded p-2 row"></div>
                 <!-- Local onde os botões das soluções aparecerão -->
 
-                <div id="solutionDetail" class=""></div> <!-- Local onde os detalhes da solução aparecerão -->
+                <div id="solutionDetail"  class=""></div> <!-- Local onde os detalhes da solução aparecerão -->
             </div>
         </div>
     </div>
@@ -195,7 +200,7 @@
                         solutionsHtml += `
                     <li class="nav nav-item">
                         
-                    <button class="btn btn-success m-1 solution-btn" data-solution-id="${solucao.id}" style="width: 100%;">
+                    <button data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clique para aparecer a solução" class="btn btn-success m-1 solution-btn" data-solution-id="${solucao.id}" style="width: 100%;">
                 ${solucao.nome}
             </button>
         </li>
@@ -224,20 +229,20 @@
                     $('#solutionDetail').html(`
                         <div class="row">
                             <div class="col-6">
-                                <div class="problema bg-white rounded-1 mb-3">
-                                    <h4 class="text-danger fw-bold pt-2">Problema</h4>
+                                <div class="problema bg-white rounded-1 ">
+                                    <h4 class=" fw-bold pt-2" style="color: #5C5C5C;">Problema</h4>
                                     <hr class="border border-dark">
-                                    <p class="text-dark text-start p-2">${data.por_que_resolver}</p>
+                                    <p class="text-dark  fs-5 text-start p-2">${data.por_que_resolver}</p>
                                 </div>
-                                <div class="solucao bg-white rounded-1 mb-3">
-                                    <h4 class="text-info fw-bold pt-2">Solução</h4>
+                                <div class="solucao bg-white rounded-1 ">
+                                    <h4 class=" fw-bold pt-2 " style="color: #5C5C5C;">Solução</h4>
                                     <hr class="border border-dark">
-                                    <p class="text-dark text-start p-2">${data.descricao}</p>
+                                    <p class="text-dark fs-5 text-start p-2">${data.descricao}</p>
                                 </div>
-                                <div class="como bg-white rounded-1 mb-3">
-                                    <h4 class="text-warning fw-bold pt-2">Como</h4>
+                                <div class="como bg-white rounded-1 ">
+                                    <h4 class="  fw-bold pt-2" style="color: #5C5C5C;">Como</h4>
                                     <hr class="border border-dark">
-                                    <p class="text-dark text-start p-2">${data.exemplo_texto}</p>
+                                    <p class="text-dark fs-5 text-start p-2">${data.exemplo_texto}</p>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -245,7 +250,7 @@
                                     <p class="text-dark">Na imagem abaixo há um exemplo visual de como deve ser feito.</p>
                                 </div>
                                 <div class="bg-white">
-                                    <img id="solutionImageElement" src="${data.exemplo_foto}" alt="Exemplo de Solução" class="img-fluid">
+                                    <img data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exemplo em forma de imagem" id="solutionImageElement" src="${data.exemplo_foto}" alt="Exemplo de Solução" class="img-fluid">
                                 </div>
                             </div>
                         </div>
