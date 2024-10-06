@@ -123,3 +123,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://personasite-production-4137.up.railway.app',
+]
