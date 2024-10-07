@@ -1,6 +1,4 @@
-main {
-   
-}
+
 
 .neuro{
     background-color: #0656ad;
@@ -37,7 +35,6 @@ main p {
     margin-bottom: -1rem; /* Adiciona margem inferior negativa para remover espaço extra */
     border-radius: 1rem;
     padding: 10px;
-    background-color: black;
     border-radius: 1px solid red;
 }
 
@@ -64,6 +61,28 @@ main p {
 }
 
 .botao-persona:focus {
+    background: #3e3e3e;
+    color: white;
+}
+
+
+
+.botao-info {
+    margin-top: 0.25rem;
+    padding: 0.5rem;
+    width: 40%;
+    color: black;
+    background: yellow;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .5);
+}
+
+.botao-info:hover {
+    background: rgb(87, 87, 87);
+    color: white;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .5);
+}
+
+.botao-info:focus {
     background: #3e3e3e;
     color: white;
 }
