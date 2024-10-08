@@ -6,6 +6,10 @@ from django.contrib.auth import authenticate, login
 from .forms import RegistroForm, LoginForm
 from .models import Usuario
 from django.contrib.auth import logout
+from django.contrib import messages
+from django.http import JsonResponse
+from django.urls import reverse
+
 
 def minha_view_login(request):
     if request.method == 'POST':
@@ -16,30 +20,39 @@ def minha_view_login(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                return redirect('persona:persona_create')
+                return JsonResponse({'success': True, 'message': 'Login realizado com sucesso!'})
             else:
-                # Adicione uma mensagem de erro se a autenticação falhar
-                form.add_error(None, 'Usuário ou senha incorretos')
+                return JsonResponse({'success': False, 'message': 'Nome de usuário ou senha incorretos.'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Por favor, corrija os erros no formulário.'})
     else:
         form = LoginForm()
+    
+    # Se não for um POST, renderiza o template com o formulário
     return render(request, 'user/login.html', {'form': form})
 
 
 def logoutUsuario(request):
-    logout(request)
-    return redirect('../')
+    logout(request)  # Desconecta o usuário
+    return redirect('users:login')  # Redireciona para a URL de login
+    
+    
 class RegistrarUsuario(View):
-    template_name = 'register.html'
+    template_name = 'user/register.html'
 
     def get(self, request):
         form = RegistroForm()
-        return render(request, 'user/register.html', {'form': form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request):
         form = RegistroForm(request.POST)
         if form.is_valid():
             novo_usuario = form.save()
-            return redirect('users:login')  # Redireciona para login
+            return JsonResponse({'success': True, 'message': 'Registro realizado com sucesso!'})
         else:
-            # Exibe os erros no template
-            return render(request, 'user/register.html', {'form': form, 'errors': form.errors})
+            # Retorna os erros como JSON
+            return JsonResponse({
+                'success': False,
+                'message': 'Por favor, corrija os erros no formulário.',
+                'errors': form.errors
+            })

@@ -1,42 +1,136 @@
 {% extends 'base.html' %}
 
-
 {% block style %}
- <link rel="stylesheet" href="/static/css/user/user_login.css">
+<link rel="stylesheet" href="/static/css/user/user_login.css">
+<style>
+    .alert {
+        margin-top: 20px;
+    }
+
+    #loading-indicator {
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<main >
-<div class="container  ">
-    <div class="row justify-content-center align-items-center min-vh-100 ">
-        <div class="col-lg-6 col-md-6">
-            <form class="p-4 border rounded shadow text-start" method="post" action="{% url 'users:login' %}">
-                {% csrf_token %}
-                <h4 class="text-center mb-4">Faça seu Login</h4>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Usuário:</label>
-                    <input placeholder="Ex: Joao, Gabriel"  type="text" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" title="Digite o nome do usuario"id="username" name="username">
-                    {% if form.username.errors %}
-                    <div class="text-danger">{{ form.username.errors }}</div>
-                    {% endif %}
+<main>
+    <div class="container">
+        <div class="row justify-content-center pt-2  ">
+            <div class="col-lg-12 col-md-10 col-sm-12 border rounded" style="position: relative;">
+                <div id="loading-indicator" style="display: none;">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
-                <div class="mb-3  ">
-                    <label for="password" class="form-label">Senha:</label>
-                    <input  placeholder="**********" type="password" data-bs-toggle="tooltip" data-bs-placement="right" title="Digite sua senha"class="form-control" id="password" name="password">
-                    {% if form.password.errors %}
-                    <div class="text-danger">{{ form.password.errors }}</div>
-                    {% endif %}
-                </div>
-                <div class="d-grid gap-2">
-                    <button class="btn login" type="submit">Login</button>
-                </div>
-                <div class="d-grid gap-2 mt-3 ">
-                    <a href="{% url 'users:register' %}" class="btn registrar">Registrar</a>
-                </div>
-            </form>
+                <div id="message-container"></div> <!-- Container para mensagens -->
+                <h4 class="text-center mt-4">Login</h4>
+                <hr>
+                <form id="login-form" class="p-4    text-start">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuário:</label>
+                        <input placeholder="Ex: Joao, Gabriel" type="text" class="form-control" id="username" name="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Senha:</label>
+                        <input placeholder="**********" type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn login" type="submit">Login</button>
+                    </div>
+                    <div class="d-grid gap-2 mt-3 ">
+                        <a href="{% url 'users:register' %}" class="btn registrar">Registrar</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
+    
 </main>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   // Função para obter o valor do token CSRF do cookie
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Verifica se este cookie começa com o nome que queremos
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+$(document).ready(function() {
+    $('#login-form').on('submit', function(event) {
+        event.preventDefault(); // Impede o envio do formulário padrão
+
+        $('#loading-indicator').show(); // Exibe o indicador de carregamento
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "users:login" %}', // URL da sua view
+            data: $(this).serialize(), // Serializa os dados do formulário
+            beforeSend: function(xhr) {
+                // Adiciona o token CSRF ao cabeçalho da requisição
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            },
+            success: function(response) {
+                $('#loading-indicator').hide(); // Esconde o indicador de carregamento
+                
+                // Se o login for bem-sucedido
+                if (response.success) {
+                    $('#message-container').html('<div class="alert alert-success">' + response.message + '</div>');
+                    
+                    // Atrasa o redirecionamento em 1,5 segundos
+                    setTimeout(function() {
+                        window.location.href = "{% url 'persona:persona_create' %}"; // Redireciona após login
+                    }, 1500); // 1,5 segundos de atraso
+                } else {
+                    $('#message-container').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    // Se você também retornar erros do formulário, pode exibi-los aqui
+                    if (response.errors) {
+                        $.each(response.errors, function(key, value) {
+                            $('#message-container').append('<div class="alert alert-danger">' + value[0].message + '</div>');
+                        });
+                    }
+                }
+
+                // Timeout para remover a mensagem após 1,5 segundos
+                setTimeout(function() {
+                    $('#message-container').fadeOut('slow', function() {
+                        $(this).empty().show(); // Limpa e mostra novamente para a próxima mensagem
+                    });
+                }, 1500); // 1,5 segundos para mensagens
+            },
+            error: function(xhr, status, error) {
+                $('#loading-indicator').hide(); // Esconde o indicador de carregamento
+
+                $('#message-container').html('<div class="alert alert-danger">Erro ao processar o pedido. Tente novamente mais tarde.</div>');
+
+                // Timeout para mensagens de erro também
+                setTimeout(function() {
+                    $('#message-container').fadeOut('slow', function() {
+                        $(this).empty().show(); // Limpa e mostra novamente para a próxima mensagem
+                    });
+                }, 1500); // 1,5 segundos para mensagens de erro
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

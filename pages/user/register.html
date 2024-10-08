@@ -2,33 +2,52 @@
 
 {% block style %}
 <link rel="stylesheet" href="/static/css/user/user_register.css">
+<style>
+    #loading-indicator {
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <main>
     <div class="container">
-        <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-lg-6 col-md-6">
-                <form class="p-4 border rounded shadow text-start" method="post">
+        <div class="row justify-content-center align-items-center pt-2">
+            <div class="col-lg-12 col-md-10 col-sm-12 border rounded" style="position: relative;">
+                <div id="loading-indicator">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div id="message-container" class="pt-2"></div> <!-- Container para mensagens -->
+                <h4 class="text-center mt-3">Faça seu cadastro</h4>
+                <hr>
+                <form id="register-form" class="p-4  shadow text-start" method="post">
                     {% csrf_token %}
-                    <h4 class="text-center mb-4">Faça seu Registro</h4>
                     <div class="mb-3">
                         <label for="username" class="form-label">Nome do usuário:</label>
-                        <input placeholder="Coloque seu nome aqui" type="text" class="form-control" id="username" name="username" >
+                        <input placeholder="Coloque seu nome aqui" type="text" class="form-control" id="username"
+                            name="username" required>
                         {% if form.username.errors %}
                         <div class="text-danger">{{ form.username.errors }}</div>
                         {% endif %}
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Senha:</label>
-                        <input placeholder="Coloque sua senha aqui" type="password" class="form-control" id="password" name="password">
+                        <input placeholder="Coloque sua senha aqui" type="password" class="form-control" id="password"
+                            name="password" required>
                         {% if form.password.errors %}
                         <div class="text-danger">{{ form.password.errors }}</div>
                         {% endif %}
                     </div>
                     <div class="mb-3">
                         <label for="password_confirmation" class="form-label">Confirmar senha:</label>
-                        <input placeholder="Reescreva sua senha" type="password" class="form-control" id="password_confirmation" name="senha_confirmacao">
+                        <input placeholder="Reescreva sua senha" type="password" class="form-control"
+                            id="password_confirmation" name="senha_confirmacao" required>
                         {% if form.senha_confirmacao.errors %}
                         <div class="text-danger">{{ form.senha_confirmacao.errors }}</div>
                         {% endif %}
@@ -44,4 +63,66 @@
         </div>
     </div>
 </main>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#register-form').on('submit', function (event) {
+            event.preventDefault(); // Impede o envio do formulário padrão
+
+            $('#loading-indicator').show(); // Exibe o indicador de carregamento
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "users:register" %}', // URL da sua view de registro
+                data: $(this).serialize(), // Serializa os dados do formulário
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken')); // Adiciona o token CSRF
+                },
+                success: function (response) {
+                    $('#loading-indicator').hide(); // Esconde o indicador de carregamento
+                    if (response.success) {
+                        $('#message-container').html('<div class="alert alert-success">' + response.message + '</div>');
+                        setTimeout(function () {
+                            window.location.href = "{% url 'users:login' %}"; // Redireciona após registro
+                        }, 1500); // 1,5 segundos de atraso
+                    } else {
+                        $('#message-container').html('<div class="alert alert-danger">' + response.message + '</div>');
+                        if (response.errors) {
+                            // Mostra erros adicionais
+                            $.each(response.errors, function (key, messages) {
+                                $('#message-container').append('<div class="alert alert-danger">' + messages[0] + '</div>');
+                            });
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#loading-indicator').hide(); // Esconde o indicador de carregamento
+                    $('#message-container').html('<div class="alert alert-danger">Erro ao processar o pedido. Tente novamente mais tarde.</div>');
+                },
+                complete: function () {
+                    $('#loading-indicator').hide(); // Esconde o indicador de carregamento após a requisição
+                }
+            });
+        });
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Verifica se este cookie começa com o nome que buscamos
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
 {% endblock %}
