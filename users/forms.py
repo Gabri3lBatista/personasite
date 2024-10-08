@@ -6,7 +6,7 @@ class RegistroForm(forms.ModelForm):
 
     class Meta:
         model = Usuario
-        fields = ("username", "password")
+        fields = ("username", "email", "password")  # Adicionar "email" se necessário
         widgets = {
             'password': forms.PasswordInput,
         }
@@ -23,10 +23,11 @@ class RegistroForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
+        user.set_password(self.cleaned_data["password"])  # Hash de senha
         if commit:
             user.save()
         return user
+    
     
 class LoginForm(forms.Form):
     username = forms.CharField()
