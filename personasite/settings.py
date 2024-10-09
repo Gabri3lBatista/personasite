@@ -7,10 +7,10 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Chave secreta (você pode manter a sua ou gerar uma nova)
-SECRET_KEY = 'sua-chave-secreta-aqui'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'sua-chave-secreta-aqui')
 
 # Debug: mantenha como True para desenvolvimento local
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 
 AUTH_USER_MODEL = 'users.Usuario'
@@ -125,4 +125,5 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 CSRF_TRUSTED_ORIGINS = [
     'https://personasite-production-4137.up.railway.app',
+    'http://localhost:8000',  # Para desenvolvimento local, se necessário
 ]
