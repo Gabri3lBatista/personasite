@@ -1,3 +1,3 @@
 release: python manage.py collectstatic --noinput
 
-web: gunicorn personasite.wsgi --log-file -
+web: gunicorn personasite.wsgi:application
