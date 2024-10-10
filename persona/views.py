@@ -234,14 +234,14 @@ def solution_detail(request, id):
     solution = get_object_or_404(Solucoes, pk=id)
     
     # Gerar a URL completa da imagem de exemplo
-    exemplo_foto_url = urljoin(settings.MEDIA_URL, solution.exemplo_foto.name) if solution.exemplo_foto else None
+    exemplo_foto_url = request.build_absolute_uri(solution.exemplo_foto.url)
   
     # Retorne os dados em formato JSON
     return JsonResponse({
         'descricao': solution.descricao,
         'por_que_resolver': solution.por_que_resolver,
         'exemplo_texto': solution.exemplo_texto,
-        'exemplo_foto': exemplo_foto_url,  # Certifique-se de retornar a URL gerada corretamente
+        'exemplo_foto': exemplo_foto_url ,  # Certifique-se de retornar a URL gerada corretamente
     })
 
 # Função para gerar o PDF
