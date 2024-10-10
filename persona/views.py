@@ -233,7 +233,7 @@ def solution_detail(request, id):
     solution = get_object_or_404(Solucoes, pk=id)
     
     # Gerar a URL completa da imagem de exemplo
-    exemplo_foto_url = f"{settings.MEDIA_URL}{solution.exemplo_foto}" if solution.exemplo_foto else None
+    exemplo_foto_url = solution.exemplo_foto.url if solution.exemplo_foto else None
 
     # Retorne os dados em formato JSON
     return JsonResponse({
