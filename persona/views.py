@@ -234,7 +234,7 @@ def solution_detail(request, id):
     
     # Gerar a URL completa da imagem de exemplo
     exemplo_foto_url = solution.exemplo_foto.url if solution.exemplo_foto else None
-
+  
     # Retorne os dados em formato JSON
     return JsonResponse({
         'descricao': solution.descricao,
