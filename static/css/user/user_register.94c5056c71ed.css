@@ -1,0 +1,23 @@
+
+.registrar {
+    background-color: green;
+    color: beige;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .5);
+}
+.registrar:hover {
+    background: yellow;
+    color: black;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .5);
+}
+
+.registrar:focus {
+    background: #3e3e3e;
+    color: white;
+}
+
+
+.login {
+    color: beige;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .5);
+    width: 100%;
+}

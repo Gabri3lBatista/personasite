@@ -1,0 +1,28 @@
+
+ h4{
+    color: #fff;
+}
+.box-form{
+   
+  
+}
+
+body.problems-visible .custom-footer {
+    margin-top: 50px; /* Ajuste conforme necessário */
+}
+.custom-form-group {
+    margin-bottom: 1rem; /* Adiciona margem inferior para separar os elementos */
+}
+
+options{
+    color: #000000;
+}
+
+
+form{
+    height: 100%;
+}
+
+button{
+ border: 3vh solid red;
+}
