@@ -5,6 +5,7 @@ import dj_database_url
 
 # Diretório base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
+exemplo_foto_url = f"{settings.MEDIA_URL}{solucao.exemplo_foto}"  # Isso deve garantir que o caminho esteja correto
 
 # Chave secreta (você pode manter a sua ou gerar uma nova)
 SECRET_KEY = os.environ.get('SECRET_KEY', 'sua-chave-secreta-aqui')
