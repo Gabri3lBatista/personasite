@@ -234,7 +234,7 @@ def solution_detail(request, id):
     solution = get_object_or_404(Solucoes, pk=id)
     
     # Gerar a URL completa da imagem de exemplo
-    exemplo_foto_url = urljoin(request.build_absolute_uri('/'), solution.exemplo_foto.url)
+    exemplo_foto_url = urljoin(settings.MEDIA_URL, solution.exemplo_foto.name) if solution.exemplo_foto else None
   
     # Retorne os dados em formato JSON
     return JsonResponse({
