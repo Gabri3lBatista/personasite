@@ -93,7 +93,7 @@
                                 <strong>Neurodivergências</strong>
                             </h4>
                             <div class="row m-0 p-0">
-                                
+
                                 {% for info_neurodivergencia in info_neurodivergencias %}
                                 <div class=" border-bottom pt-2 ">
                                     <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
@@ -101,15 +101,16 @@
 
                                     <ul class="list-unstyled ">
                                         {% for problema in info_neurodivergencia.problemas %}
-                                        
-                                        <li data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clique para abrir as soluções" class="text-start">
-                                            <button  class="btn btn-primary mt-2 w-100 fw-bolder" data-bs-toggle="modal"
+
+                                        <li data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                            title="Clique para abrir as soluções" class="text-start">
+                                            <button class="btn btn-primary mt-2 w-100 fw-bolder" data-bs-toggle="modal"
                                                 data-bs-target="#problemModal" data-problem-id="{{ problema.id }}">
-                                                <span  >
+                                                <span>
                                                     {{ problema.descricao }}
-                                                </span> 
+                                                </span>
                                             </button>
-                                           
+
 
                                         </li>
                                         {% endfor %}
@@ -135,7 +136,8 @@
                 <h5 class="modal-title d-flex align-items-center justify-content-center">
                     Problema: <span class="text-warning ms-2" id="problemTitle"></span>
                 </h5>
-                <button data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clique para fechar a tela" type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
+                <button data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clique para fechar a tela"
+                    type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
             </div>
             <div class="modal-body bg-dark text-light">
                 <p class="m-0">Escolha uma solução:</p>
@@ -143,7 +145,7 @@
                 <div id="problemSolutions" class=" bg-dark rounded p-2 row"></div>
                 <!-- Local onde os botões das soluções aparecerão -->
 
-                <div id="solutionDetail"  class=""></div> <!-- Local onde os detalhes da solução aparecerão -->
+                <div id="solutionDetail" class=""></div> <!-- Local onde os detalhes da solução aparecerão -->
             </div>
         </div>
     </div>
@@ -223,8 +225,11 @@
 
             // Fazer uma requisição AJAX para obter os detalhes da solução
             $.ajax({
-                url: `{% url 'persona:solution_detail' 0 %}`.replace(0, solutionId),  // Usar solutionId
+                url: `{% url 'persona:solution_detail' 0 %}`.replace(0, solutionId),
                 success: function (data) {
+
+                    console.log('Caminho da imagem:', data.exemplo_foto);
+
                     // Exibir os detalhes da solução no layout
                     $('#solutionDetail').html(`
                         <div class="row">
