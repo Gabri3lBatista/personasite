@@ -18,6 +18,8 @@ import random
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 import tempfile
+from django.conf import settings
+
 
 
 
@@ -228,15 +230,19 @@ def fetch_problems(request):
         return JsonResponse({'html': ''})
 
 def solution_detail(request, id):
-    # Lógica para buscar a solução usando o ID
     solution = get_object_or_404(Solucoes, pk=id)
-    # Retorne os dados que você deseja, normalmente em formato JSON se for uma chamada AJAX
+    
+    # Gerar a URL completa da imagem de exemplo
+    exemplo_foto_url = f"{settings.MEDIA_URL}{solution.exemplo_foto}" if solution.exemplo_foto else None
+
+    # Retorne os dados em formato JSON
     return JsonResponse({
         'descricao': solution.descricao,
         'por_que_resolver': solution.por_que_resolver,
         'exemplo_texto': solution.exemplo_texto,
-        'exemplo_foto': solution.exemplo_foto.url,  # Certifique-se de que isso está correto
+        'exemplo_foto': exemplo_foto_url,  # Certifique-se de retornar a URL gerada corretamente
     })
+
 # Função para gerar o PDF
 '''
 @login_required
