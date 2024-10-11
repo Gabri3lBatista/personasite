@@ -235,7 +235,7 @@ def solution_detail(request, id):
     
     # Gerar a URL completa da imagem de exemplo
     exemplo_foto_url = request.build_absolute_uri(solution.exemplo_foto.url)
-    exemplo_foto_url = exemplo_foto_url.replace('/app/media/', '')  
+    exemplo_foto_url = exemplo_foto_url.replace('/app/media/', '/')  
     
     # Retorne os dados em formato JSON
     return JsonResponse({
