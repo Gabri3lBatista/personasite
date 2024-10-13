@@ -1,5 +1,5 @@
 from django import forms
-from .models import Persona, Neurodivergente, Problemas
+from .models import Persona, Neurodivergente, Problemas, Solucoes
 
 class PersonaForm(forms.ModelForm):
     neurodivergente = forms.ModelMultipleChoiceField(
@@ -43,3 +43,53 @@ class PersonaForm(forms.ModelForm):
         else:
             # Nenhum neurodivergente foi selecionado ainda
             self.fields['problemas'].queryset = Problemas.objects.none()
+
+
+
+
+class ProblemaForm(forms.ModelForm):
+    class Meta:
+        model = Problemas
+        fields = ['neurodivergente', 'descricao']
+
+
+        
+
+class SolucaoForm(forms.ModelForm):
+    neurodivergente = forms.ModelChoiceField(
+        queryset=Neurodivergente.objects.all(),
+        label="Neurodivergência",
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    
+    problema = forms.ModelChoiceField(
+        queryset=Problemas.objects.none(),  # Inicialmente vazio até a neurodivergência ser escolhida
+        label="Problema",
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+
+    class Meta:
+        model = Solucoes
+        fields = ['neurodivergente', 'problema', 'descricao', 'por_que_resolver', 'exemplo_texto', 'exemplo_foto', 'nome']
+
+       # Personalizar os labels de cada campo
+    labels = {
+        'problema': 'Problema Relacionado',
+        'descricao': 'Qual a solução?',
+        'por_que_resolver': 'Por que resolver?',
+        'exemplo_texto': 'Como fazer?',
+        'exemplo_foto': 'Exemplo em Foto',
+        'nome': 'Nome da Solução',
+    }
+    def __init__(self, *args, **kwargs):
+        super(SolucaoForm, self).__init__(*args, **kwargs)
+        if 'neurodivergente' in self.data:
+            try:
+                neurodivergente_id = int(self.data.get('neurodivergente'))
+                self.fields['problema'].queryset = Problemas.objects.filter(neurodivergente_id=neurodivergente_id)
+            except (ValueError, TypeError):
+                self.fields['problema'].queryset = Problemas.objects.none()
+        elif self.instance.pk:
+            self.fields['problema'].queryset = self.instance.neurodivergente.problemas_set.all()

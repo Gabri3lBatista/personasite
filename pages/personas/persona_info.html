@@ -3,44 +3,16 @@
 
 {% block style %}
 <style>
-    .persona-info {
-        padding: 0;
-    }
-
-    .persona-info h4 {
-        margin-top: 0;
-    }
-
-    .no-espaco {
-        margin-right: 0;
-        margin-left: 0;
-    }
-
-    .no-espaco>.col-md-6 {
-        padding-right: 0;
-        padding-left: 0;
-    }
-
-    .full-width {
-        width: 100%;
-        padding: 0;
-    }
-
-    .border {
-        box-sizing: border-box;
-    }
-
-    .custom-modal-width {
-        max-width: 90%;
-        width: 90%;
+    .tamanho{
+        width: 45em;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-2 rounded">
-    <div class="row">
-        <div class="col-12 text-start p-0 mb-2">
+<div class="container mt-2 tamanho">
+    <div class="row ">
+        <div class="col-12  px-4 pt-2 text-start  mb-2">
             <button onclick="window.history.back()" class="btn btn-primary">
                 <i class="fa-solid fa-arrow-left"></i> Voltar
             </button>
@@ -55,7 +27,7 @@
             </a>
         </div>
     </div>
-    <div class="row">
+    <div class="row px-4  pb-2">
         <div class="col-4 p-0 m-0 border rounded-start">
             <img src="{% static '../media/' %}{% if persona.sexo == 'M' %}man.png{% else %}woman.png{% endif %}"
                 class="img-fluid bg-warning" alt="Imagem de uma pessoa">
@@ -76,7 +48,7 @@
             </ul>
         </div>
         <div class="col-8 border p-0 m-0 rounded-end">
-            <div class="border">
+            <div class="">
                 <div class="{{ random_colors }} text-white">
                     <h4><i class="fa-solid fa-user fs-5 pe-1"></i> <strong>Sobre</strong></h4>
                 </div>

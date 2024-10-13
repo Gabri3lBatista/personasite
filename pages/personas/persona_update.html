@@ -6,12 +6,12 @@
 
 {% block content %}
 <main class="mt-2">
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <form class="col-md-12 border rounded shadow" method="post">
+    <div class="container ">
+        <div class="row justify-content-center   align-items-center">
+            <form class="col-md-12  border rounded shadow" method="post">
                 {% csrf_token %}
-                <div class="px-4 pt-4 pb-2 text-start">
-                    <div class="col-md-12 text-start">
+                <div class="px-4 pt-4 pb-2 text-start  ">
+                    <div class="col-md-12 text-start mb-3">
                         <button type="button" onclick="window.history.back()" class="btn btn-primary">
                             <i class="fa-solid fa-arrow-left"></i> Voltar 
                         </button>
@@ -66,11 +66,11 @@
                         <p class="error-message">{{ form.neurodivergente.errors }}</p>
                         {% endif %}
                     </div>
-                    <div class="mb-3 fw-bold">
+                    <div class="mb-3 fw-bold " style="max-width: 700px; margin: auto;">
                         <label class="form-label">Problemas:</label>
                         <div id="problemas-container">
                             {% for problema in form.fields.problemas.queryset %}
-                            <div class="form-check">
+                            <div class="form-check ">
                                 <input class="form-check-input" type="checkbox" name="problemas" value="{{ problema.id }}" id="problema{{ problema.id }}" 
                                 {% if problema in form.instance.problemas.all %} checked {% endif %}>
                                 <label class="form-check-label" for="problema{{ problema.id }}">

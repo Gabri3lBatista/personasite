@@ -1,34 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4 mb-5 p-4 rounded border shadow-sm bg-dark">
+<div class="container mt-2">
     <div class="row">
-        <div class="col-12 text-start mb-3">
-            <button onclick="window.history.back()" class="btn btn-primary">
-                <i class="fa-solid fa-arrow-left"></i> Voltar
-            </button>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="text-center">
-                <div class="alert alert-warning" role="alert">
-                    <h2 class="mb-4"><i class="fa-solid fa-exclamation-triangle"></i> Confirmar Exclusão</h2>
-                    <p>Tem certeza de que deseja excluir <strong class="text-dark">"{{ persona.nome }}"</strong>? Esta ação não pode ser desfeita.</p>
+        <div class="col-md-12 border rounded shadow pb-3">
+            <div class="px-4 pt-4 pb-2 text-start">
+                <div class="col-12 text-start mb-3">
+                    <button onclick="window.history.back()" class="btn btn-primary">
+                        <i class="fa-solid fa-arrow-left"></i> Voltar
+                    </button>
                 </div>
-                <form method="post" action="{% url 'persona:persona_delete' persona.id %}">
-                    {% csrf_token %}
-                    <div class="row justify-content-around mt-4">
-                        <button type="submit" class="btn btn-danger border-dark col-6 ">
-                            <i class="fa-solid fa-trash"></i> Confirmar Exclusão
-                        </button>
-                        <a href="{% url 'persona:persona_list' %}" class="text-light col-4 btn btn-outline-secondary ">
-                            <i class="fa-solid fa-times"></i> Cancelar
-                        </a>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <div class=" bg-secondary rounded" role="alert">
+                                <h2 class=""><i class="fa-solid fa-exclamation-triangle"></i> Confirmar Exclusão
+                                </h2>
+                                <p>Tem certeza de que deseja excluir <strong>"{{ persona.nome }}"</strong>? Esta ação não pode ser desfeita.</p>
+                                {% if persona.sexo ==  %}
+                            </div>
+                        </div>
                     </div>
-                </form>
+                        <form method="post" action="{% url 'persona:persona_delete' persona.id %}">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-around ">
+                                <button type="submit" class="btn btn-danger border-dark col-6 ">
+                                    <i class="fa-solid fa-trash"></i> Confirmar Exclusão
+                                </button>
+                                <a href="{% url 'persona:persona_list' %}"
+                                    class="text-light col-6 btn btn-outline-secondary ">
+                                    <i class="fa-solid fa-times"></i> Cancelar
+                                </a>
+                            </div>
+                        </form>
+                   
+
+                </div>
             </div>
         </div>
+
     </div>
+
 </div>
 {% endblock %}

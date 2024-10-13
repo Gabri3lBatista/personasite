@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/css/personas/create.css">
+{% endblock %}
+
+{% block content %}
+<main class="mt-2 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <form class="col-md-12 border rounded shadow" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="px-4 pt-4 pb-2 text-start">
+                    <div class="col-md-12 text-start mb-3">
+                        <button onclick="window.history.back()" class="btn btn-primary">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar 
+                        </button>
+                    </div>
+
+                    <!-- Título centralizado -->
+                    <h4 class="text-center fw-bold">Cadastre sua solução</h4>
+
+                    <!-- Campo Neurodivergência -->
+                    <div class="mb-3">
+                        <label for="neurodivergente" class="form-label fw-bold">Neurodivergência:</label>
+                        {{ form.neurodivergente }}
+                        {% if form.neurodivergente.errors %}
+                        <p class="error-message">{{ form.neurodivergente.errors }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Campo Problema Relacionado -->
+                    <div class="mb-3">
+                        <label for="problema" class="form-label fw-bold">Problema Relacionado:</label>
+                        {{ form.problema }}
+                        {% if form.problema.errors %}
+                        <p class="error-message">{{ form.problema.errors }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Campo Nome da Solução -->
+                    <div class="mb-3">
+                        <label for="nome" class="form-label fw-bold">Nome da Solução:</label>
+                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome da solução">
+                        {% if form.nome.errors %}
+                        <p class="error-message">{{ form.nome.errors }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="por_que_resolver" class="form-label fw-bold">Por que resolver?</label>
+                        <textarea class="form-control" id="por_que_resolver" name="por_que_resolver" rows="3" placeholder="Explique por que resolver esse problema"></textarea>
+                        {% if form.por_que_resolver.errors %}
+                        <p class="error-message">{{ form.por_que_resolver.errors }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Campo Descrição -->
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label fw-bold">Qual a Solução?:</label>
+                        <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Digite a descrição da solução">
+                        {% if form.descricao.errors %}
+                        <p class="error-message">{{ form.descricao.errors }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Campo Por que resolver -->
+                   
+                    <!-- Campo Exemplo Texto -->
+                    <div class="mb-3">
+                        <label for="exemplo_texto" class="form-label fw-bold">Como fazer?:</label>
+                        <textarea class="form-control" id="exemplo_texto" name="exemplo_texto" rows="3" placeholder="Descreva um exemplo"></textarea>
+                        {% if form.exemplo_texto.errors %}
+                        <p class="error-message">{{ form.exemplo_texto.errors }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Campo Exemplo Foto -->
+                    <div class="mb-3">
+                        <label for="exemplo_foto" class="form-label fw-bold">Exemplo em Foto:</label>
+                        <input type="file" class="form-control" id="exemplo_foto" name="exemplo_foto">
+                        {% if form.exemplo_foto.errors %}
+                        <p class="error-message">{{ form.exemplo_foto.errors }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Botão de submissão -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Clique para salvar a solução">Salvar Solução</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const neurodivergenteSelect = document.querySelector('#id_neurodivergente');
+        const problemaSelect = document.querySelector('#id_problema');
+
+        neurodivergenteSelect.addEventListener('change', function () {
+            const neurodivergenteId = neurodivergenteSelect.value;
+
+            fetch(`/fetchs/?neurodivergente_id=${neurodivergenteId}`)
+                .then(response => response.json())
+                .then(data => {
+                    problemaSelect.innerHTML = data.html;
+                })
+                .catch(error => console.error("Erro ao carregar problemas:", error));
+        });
+    });
+</script>
+{% endblock %}

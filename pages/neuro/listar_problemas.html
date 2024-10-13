@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<h1>Lista de Problemas</h1>
+<ul>
+    {% for problema in problemas %}
+        <li>{{ problema.descricao }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

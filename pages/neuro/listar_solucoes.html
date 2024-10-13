@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<h1>Lista de solucoes</h1>
+<ul>
+    {% for solucao in solucoes %}
+        <li>{{ solucao.nome }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

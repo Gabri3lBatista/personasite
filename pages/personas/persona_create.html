@@ -5,22 +5,22 @@
 {% endblock %}
 
 {% block content %}
-<main class="mt-2"> <!-- Added mb-5 to add bottom margin -->
+<main class="mt-2 mb-5">
     <div class="container">
         <div class="row justify-content-center">
-           
             <form class="col-md-12 border rounded shadow" method="post">
                 {% csrf_token %}
-
-                
                 <div class="px-4 pt-4 pb-2 text-start">
-
-                    <div class="col-md-12  text-start">
+                    <div class="col-md-12 text-start mb-3">
                         <button onclick="window.history.back()" class="btn btn-primary">
                             <i class="fa-solid fa-arrow-left"></i> Voltar 
                         </button>
                     </div>
+
+                    <!-- Título centralizado -->
                     <h4 class="text-center fw-bold">Cadastre sua persona</h4>
+
+                    <!-- Campo Nome -->
                     <div class="mb-3">
                         <label for="nome" class="form-label fw-bold">Nome:</label>
                         <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome da sua persona">
@@ -28,6 +28,8 @@
                         <p class="error-message">{{ form.nome.errors }}</p>
                         {% endif %}
                     </div>
+
+                    <!-- Campos Idade e Sexo, lado a lado em telas maiores -->
                     <div class="row">
                         <div class="mb-3 col-md-6">
                             <label for="idade" class="form-label fw-bold">Idade:</label>
@@ -36,7 +38,7 @@
                             <p class="error-message">{{ form.idade.errors }}</p>
                             {% endif %}
                         </div>
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 fw-bold  col-md-6">
                             <label class="form-label fw-bold">Sexo:</label>
                             <select class="form-select" id="id_sexo" name="sexo" aria-label="Escolha o sexo da sua persona" required>
                                 <option value="" disabled selected hidden>Escolha uma opção</option>
@@ -47,13 +49,17 @@
                             {{ form.sexo.errors }}
                         </div>
                     </div>
+
+                    <!-- Campo Profissão -->
                     <div class="mb-3">
-                        <label for="interesses" class="form-label fw-bold">Profissão:</label>
+                        <label for="profissao" class="form-label fw-bold">Profissão:</label>
                         <input type="text" class="form-control" id="profissao" name="profissao" placeholder="Digite a profissão da sua persona">
                         {% if form.interesses.errors %}
                         <p class="error-message">{{ form.profissao.errors }}</p>
                         {% endif %}
                     </div>
+
+                    <!-- Campo Sobre -->
                     <div class="mb-3">
                         <label for="interesses" class="form-label fw-bold">Sobre:</label>
                         <input type="text" class="form-control" id="interesses" name="interesses" placeholder="Digite os interesses da sua persona">
@@ -61,6 +67,8 @@
                         <p class="error-message">{{ form.interesses.errors }}</p>
                         {% endif %}
                     </div>
+
+                    <!-- Neurodivergente -->
                     <div class="mb-3">
                         <label class="form-label fw-bold">Neurodivergente:</label>
                         {{ form.neurodivergente }}
@@ -68,6 +76,8 @@
                         <p class="error-message">{{ form.neurodivergente.errors }}</p>
                         {% endif %}
                     </div>
+
+                    <!-- Problemas relacionados à neurodivergência -->
                     <div class="mb-3">
                         <div id="problemas-container">
                             {{ form.problemas }}
@@ -76,8 +86,10 @@
                         <p class="error-message">{{ form.problemas.errors }}</p>
                         {% endif %}
                     </div>
+
+                    <!-- Botão de submissão -->
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Clique pra criar outra persona">Criar Persona</button>
+                        <button type="submit" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Clique para criar outra persona">Criar Persona</button>
                     </div>
                 </div>
             </form>
@@ -89,33 +101,32 @@
 {% block scripts %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const neurodivergenteSelect = document.querySelectorAll('input[name="neurodivergente"]');
-    const problemasContainer = document.getElementById('problemas-container');
-    const body = document.querySelector('body');
+        const neurodivergenteSelect = document.querySelectorAll('input[name="neurodivergente"]');
+        const problemasContainer = document.getElementById('problemas-container');
 
-    function updateProblemas() {
-    const neurodivergenteIds = Array.from(document.querySelectorAll('input[name="neurodivergente"]:checked'))
-        .map(input => input.value);
+        function updateProblemas() {
+            const neurodivergenteIds = Array.from(document.querySelectorAll('input[name="neurodivergente"]:checked'))
+                .map(input => input.value);
 
-    if (neurodivergenteIds.length > 0) {
-        fetch(`/fetch_problems/?neurodivergente_ids=${neurodivergenteIds.join(',')}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('problemas-container').innerHTML = data.html;
-            })
-            .catch(error => {
-                console.error("Erro ao buscar problemas:", error);
-            });
-    } else {
-        document.getElementById('problemas-container').innerHTML = '';
-    }
-}
+            if (neurodivergenteIds.length > 0) {
+                fetch(`/fetch_problems/?neurodivergente_ids=${neurodivergenteIds.join(',')}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        problemasContainer.innerHTML = data.html;
+                    })
+                    .catch(error => {
+                        console.error("Erro ao buscar problemas:", error);
+                    });
+            } else {
+                problemasContainer.innerHTML = '';
+            }
+        }
 
-    neurodivergenteSelect.forEach(neurodivergente => {
-        neurodivergente.addEventListener('change', updateProblemas);
+        neurodivergenteSelect.forEach(neurodivergente => {
+            neurodivergente.addEventListener('change', updateProblemas);
+        });
+
+        updateProblemas();
     });
-
-    updateProblemas();
-});
 </script>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Persona, Neurodivergente, Problemas, Solucoes
-from .forms import PersonaForm
+from .forms import PersonaForm, SolucaoForm, ProblemaForm
+
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
@@ -286,3 +287,46 @@ def generate_pdf(request, persona_id):
     response['Content-Disposition'] = f'inline; filename=persona_{persona_id}.pdf'
     return response
 '''
+
+
+
+def fetchs(request):
+    neurodivergente_id = request.GET.get('neurodivergente_id')
+    problemas = Problemas.objects.filter(neurodivergente_id=neurodivergente_id)
+    problemas_html = ''.join([f'<option value="{p.id}">{p.descricao}</option>' for p in problemas])
+    return JsonResponse({'html': problemas_html})
+#CRIAR PROBLEMA 
+
+def criar_problema(request):
+    if request.method == 'POST':
+        form = ProblemaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_problemas')  # Redirecione após o sucesso
+    else:
+        form = ProblemaForm()
+    return render(request, 'neuro/criar_problema.html', {'form': form})
+
+#LISTAR PROBLEMAS
+
+
+def criar_solucao(request):
+    if request.method == 'POST':
+        form = SolucaoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save() 
+            return redirect('listar_problemas')  # Redirecione após o sucesso
+    else:
+        form = SolucaoForm()
+    return render(request, 'neuro/criar_solucao.html', {'form': form})
+
+
+
+def listar_problemas(request):
+    problemas = Problemas.objects.all()
+    return render(request, 'neuro/listar_problemas.html', {'problemas': problemas})
+
+
+def listar_solucoes(request):
+    solucoes = Solucoes.objects.all()
+    return render(request, 'neuro/listar_solucoes.html', {'solucoes': solucoes})

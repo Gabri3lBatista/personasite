@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<style>
+    #id_descricao {
+        width: 100%;
+        /* ou ajuste como preferir */
+        max-width: 500px;
+        /* Limita o tamanho máximo */
+        max-height: 50px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="mt-2">
+    <div class="container">
+        <div class="row justify-content-center">
+            <form class="col-md-12 border rounded shadow" method="post">
+                {% csrf_token %}
+                <div class="px-4 pt-4 pb-2 text-start">
+                    <div class="col-md-12 text-start mb-3">
+                        <button onclick="window.history.back()" class="btn btn-primary">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar
+                        </button>
+                    </div>
+                    <h4 class="text-center  fw-bold">Cadastre um problema</h4>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="neurodivergente" class="form-label fw-bold">Neurodivergencia:</label>
+                        <div> {{ form.neurodivergente }}</div>
+                        {% if form.neurodivergente.errors %}
+                        <p class="error-message">{{ form.neurodivergente.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label fw-bold">Nome do problema:</label>
+                        <div class="rounded">{{ form.descricao }} </div>
+                        {% if form.descricao.errors %}
+                        <p class="error-message">{{ form.descricao.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-success">Criar Problema</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
