@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block content %}
-<main class="mt-2 mb-5">
+<main class="mt-2 ">
     <div class="container">
-        <div class="row justify-content-center">
-            <form class="col-md-12 border rounded shadow" method="post">
+        <div class="row ">
+            <form class="col-md-12 border mb-5 pb-3 rounded shadow" method="post">
                 {% csrf_token %}
                 <div class="px-4 pt-4 pb-2 text-start">
-                    <div class="col-md-12 text-start mb-3">
+                    <div class="col-md-12 text-start ">
                         <button onclick="window.history.back()" class="btn btn-primary">
                             <i class="fa-solid fa-arrow-left"></i> Voltar 
                         </button>
@@ -19,7 +19,7 @@
 
                     <!-- Título centralizado -->
                     <h4 class="text-center fw-bold">Cadastre sua persona</h4>
-
+                    <hr>
                     <!-- Campo Nome -->
                     <div class="mb-3">
                         <label for="nome" class="form-label fw-bold">Nome:</label>
@@ -40,8 +40,8 @@
                         </div>
                         <div class="mb-3 fw-bold  col-md-6">
                             <label class="form-label fw-bold">Sexo:</label>
-                            <select class="form-select" id="id_sexo" name="sexo" aria-label="Escolha o sexo da sua persona" required>
-                                <option value="" disabled selected hidden>Escolha uma opção</option>
+                            <select class="form-select" id="id_sexo" name="sexo" required>
+                                <option style="color: #6c757d" value=""  selected hidden>Escolha uma opção</option>
                                 {% for choice in form.sexo.field.choices %}
                                 <option value="{{ choice.0 }}" {% if choice.0 == form.sexo.value %} selected {% endif %}>{{ choice.1 }}</option>
                                 {% endfor %}
@@ -70,15 +70,15 @@
 
                     <!-- Neurodivergente -->
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Neurodivergente:</label>
-                        {{ form.neurodivergente }}
+                        <label class="form-label fw-bold">Escolha a Neurodivergência:</label>
+                        <span class="fs-6"> {{ form.neurodivergente }}</span>
                         {% if form.neurodivergente.errors %}
                         <p class="error-message">{{ form.neurodivergente.errors }}</p>
                         {% endif %}
                     </div>
 
                     <!-- Problemas relacionados à neurodivergência -->
-                    <div class="mb-3">
+                    <div class="mb-4 " style="max-width: 700px; ">
                         <div id="problemas-container">
                             {{ form.problemas }}
                         </div>
@@ -88,8 +88,8 @@
                     </div>
 
                     <!-- Botão de submissão -->
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Clique para criar outra persona">Criar Persona</button>
+                    <div class="d-grid m-auto" >
+                        <button type="submit" class="btn btn-success fw-bolder" data-bs-toggle="tooltip" data-bs-placement="top" title="Clique para criar outra persona">Criar Persona</button>
                     </div>
                 </div>
             </form>

@@ -1,13 +1,66 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
-<h1>Lista de Problemas</h1>
-<ul>
-    {% for problema in problemas %}
-        <li>{{ problema.descricao }}</li>
-    {% endfor %}
-</ul>
+<main class="mt-2">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 border rounded shadow mb-5">
+                <div class="px-4 pt-4 pb-2 text-start">
+                    <div class="col-md-12 text-start ">
+                        <button onclick="window.history.back()" class="btn btn-primary">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar
+                        </button>
+                    </div>
+                    <h4 class="text-center fw-bold">Lista de Problemas</h4>
+                    <hr>
 
+                    <!-- Filtro de Neurodivergência -->
+                    <div class="mb-4">
+                        <label for="neurodivergencia" class="form-label fw-bold">Filtrar por Neurodivergência:</label>
+                        <select id="neurodivergencia" class="form-select" name="neurodivergencia" onchange="filtrarProblemas()">
+                            <option value="">Todas as Neurodivergências</option>
+                            {% for neuro in neurodivergencias %}
+                                <option value="{{ neuro.id }}" {% if request.GET.neurodivergencia_id == neuro.id|stringformat:"d" %}selected{% endif %}>{{ neuro.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Tabela de Problemas -->
+                    <div class="table-responsive table-dark">
+                        <table class="table table-striped table-dark table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nome do Problema</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for problema in problemas %}
+                                <tr>
+                                    <td>{{ problema.descricao }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center" role="group">
+                                            <a href="{% url 'persona:update_problema' problema.id %}" class="btn btn-warning m-1">Editar</a>
+                                            <a href="{% url 'persona:delete_problema' problema.id %}" class="btn btn-danger m-1" title="Excluir o Problema">Excluir</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Script para atualizar a lista de problemas com base na neurodivergência -->
+<script>
+    function filtrarProblemas() {
+        const neurodivergencia = document.getElementById('neurodivergencia').value;
+        window.location.href = `?neurodivergencia_id=${neurodivergencia}`;
+    }
+</script>
 {% endblock %}

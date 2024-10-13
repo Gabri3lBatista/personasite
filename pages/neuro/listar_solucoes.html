@@ -1,13 +1,93 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
-<h1>Lista de solucoes</h1>
-<ul>
-    {% for solucao in solucoes %}
-        <li>{{ solucao.nome }}</li>
-    {% endfor %}
-</ul>
+<main class="mt-2 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 border rounded shadow mb-5">
+                <div class="px-4 pt-4 pb-2 text-start">
+                    <div class="col-md-12 text-start ">
+                        <button onclick="window.history.back()" class="btn btn-primary">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar
+                        </button>
+                    </div>
+                    <h4 class="text-center fw-bold">Lista de Soluções</h4>
+                    <hr>
 
+                    <!-- Filtro de Neurodivergência -->
+                    <div class="mb-4">
+                        <label for="neurodivergencia" class="form-label fw-bold">Filtrar por Neurodivergência:</label>
+                        <select id="neurodivergencia" class="form-select" name="neurodivergencia" onchange="carregarProblemas()">
+                            <option value="">Todas as Neurodivergências</option>
+                            {% for neuro in neurodivergencias %}
+                                <option value="{{ neuro.id }}" {% if neuro.id == neurodivergencia_id|stringformat:"d" %}selected{% endif %}>{{ neuro.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Filtro de Problema -->
+                    <div class="mb-4">
+                        <label for="problema" class="form-label fw-bold">Filtrar por Problema:</label>
+                        <select id="problema" class="form-select" name="problema" onchange="filtrarSolucoes()">
+                            <option value="">Todos os Problemas</option>
+                            {% for problema in problemas %}
+                                <option value="{{ problema.id }}" {% if problema.id == problema_id|stringformat:"d" %}selected{% endif %}>{{ problema.descricao }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Tabela de Soluções -->
+                    <div class="table-responsive table-dark">
+                        <table class="table table-striped table-dark table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nome da Solução</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for solucao in solucoes %}
+                                <tr>
+                                    <td>{{ solucao.nome }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center" role="group">
+                                            <a href="{% url 'persona:update_solucao' solucao.id %}" class="btn btn-warning m-1" title="Editar a Solução">Editar</a>
+                                            <a href="{% url 'persona:delete_solucao' solucao.id %}" class="btn btn-danger m-1" title="Excluir a Solução">Excluir</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Script para carregar os problemas com base na neurodivergência selecionada -->
+<script>
+    function carregarProblemas() {
+        const neurodivergenciaId = document.getElementById('neurodivergencia').value;
+
+        fetch(`/fetchs/?neurodivergencia_id=${neurodivergenciaId}`)
+            .then(response => response.json())
+            .then(data => {
+                const problemaSelect = document.getElementById('problema');
+                problemaSelect.innerHTML = '<option value="">Todos os Problemas</option>';
+                data.problemas.forEach(problema => {
+                    problemaSelect.innerHTML += `<option value="${problema.id}">${problema.descricao}</option>`;
+                });
+            })
+            .catch(error => console.error('Erro ao carregar problemas:', error));
+    }
+
+    function filtrarSolucoes() {
+        const neurodivergenciaId = document.getElementById('neurodivergencia').value;
+        const problemaId = document.getElementById('problema').value;
+        window.location.href = `?neurodivergencia_id=${neurodivergenciaId}&problema_id=${problemaId}`;
+    }
+</script>
 {% endblock %}

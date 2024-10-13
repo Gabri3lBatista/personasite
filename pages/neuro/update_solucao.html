@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-<main class="mt-2 ">
-    <div class="container ">
+<main class="mt-2 mb-5">
+    <div class="container">
         <div class="row justify-content-center">
-            <form class="col-md-12 border mb-5 pb-3 rounded shadow" method="post" enctype="multipart/form-data">
+            <form class="col-md-12 border rounded shadow" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="px-4 pt-4 pb-2 text-start">
                     <div class="col-md-12 text-start ">
@@ -18,8 +18,8 @@
                     </div>
 
                     <!-- Título centralizado -->
-                    <h4 class="text-center fw-bold">Cadastre uma Solução</h4>
-                    <hr>
+                    <h4 class="text-center fw-bold">Cadastre sua solução</h4>
+
                     <!-- Campo Neurodivergência -->
                     <div class="mb-3">
                         <label for="neurodivergente" class="form-label fw-bold">Neurodivergência:</label>
@@ -76,7 +76,7 @@
                     </div>
 
                     <!-- Campo Exemplo Foto -->
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label for="exemplo_foto" class="form-label fw-bold">Exemplo em Foto:</label>
                         <input type="file" class="form-control" id="exemplo_foto" name="exemplo_foto">
                         {% if form.exemplo_foto.errors %}

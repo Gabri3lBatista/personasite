@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block style %}
-<link rel="stylesheet" type="text/css" href="/static/css/personas/create.css">
+<style>
+    #id_descricao {
+        width: 100%;
+        /* ou ajuste como preferir */
+        max-width: 500px;
+        /* Limita o tamanho máximo */
+        max-height: 50px;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -17,17 +24,17 @@
                             <i class="fa-solid fa-arrow-left"></i> Voltar
                         </button>
                     </div>
-                    <h4 class="text-center  fw-bold">Cadastre um Problema</h4>
+                    <h4 class="text-center  fw-bold">Edite o problema</h4>
                     <hr>
                     <div class="mb-3">
-                        <label for="neurodivergente" class="form-label fw-bold">Escolha a Neurodivergencia:</label>
-                        <div> {{ form.neurodivergente }}</div>
+                        <label for="neurodivergente" class="form-label fw-bold">Neurodivergencia:</label>
+                        <div class="rounded fs-5"> {{ form.neurodivergente }}</div>
                         {% if form.neurodivergente.errors %}
                         <p class="error-message">{{ form.neurodivergente.errors }}</p>
                         {% endif %}
                     </div>
                     <div class="mb-3">
-                        <label for="descricao" class="form-label fw-bold">Diga o nome do problema:</label>
+                        <label for="descricao" class="form-label fw-bold">Nome do problema:</label>
                         <div class="rounded">{{ form.descricao }} </div>
                         {% if form.descricao.errors %}
                         <p class="error-message">{{ form.descricao.errors }}</p>

@@ -5,6 +5,7 @@ class PersonaForm(forms.ModelForm):
     neurodivergente = forms.ModelMultipleChoiceField(
         queryset=Neurodivergente.objects.all(),
         widget=forms.CheckboxSelectMultiple,
+        
     )
     problemas = forms.ModelMultipleChoiceField(
         queryset=Problemas.objects.none(),
@@ -15,6 +16,13 @@ class PersonaForm(forms.ModelForm):
         model = Persona
         fields = ['nome', 'idade', 'interesses', 'profissao', 'sexo', 'neurodivergente', 'problemas']
 
+    sexo = forms.ChoiceField(
+        label="Sexo",
+        choices=Persona.SEXO_CHOICES,
+        required=True,  
+        
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
@@ -51,8 +59,25 @@ class ProblemaForm(forms.ModelForm):
     class Meta:
         model = Problemas
         fields = ['neurodivergente', 'descricao']
+  
+    neurodivergente = forms.ModelChoiceField(
+        queryset=Neurodivergente.objects.all(),
+        label="Neurodivergência",
+        required=True,
+        empty_label="Clique e selecione uma neurodivergência",  # Aqui você define o texto do placeholder
 
-
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'style': 'color: #6c757d;',  # Aplica o estilo cinza para o placeholder
+            'onchange': "if(this.value !== '') { this.style.color = 'black'; }"  # Muda para preto após a seleção
+        })    )
+      
+    descricao = forms.CharField(
+        label="Descrição do Problema",
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite a descrição do problema'})
+    )
+    
         
 
 class SolucaoForm(forms.ModelForm):
@@ -60,13 +85,20 @@ class SolucaoForm(forms.ModelForm):
         queryset=Neurodivergente.objects.all(),
         label="Neurodivergência",
         required=True,
-        widget=forms.Select(attrs={'class': 'form-select'})
-    )
+        empty_label="Clique e selecione uma neurodivergência",  # Aqui você define o texto do placeholder
+
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'style': 'color: #6c757d;',  # Aplica o estilo cinza para o placeholder
+            'onchange': "if(this.value !== '') { this.style.color = 'black'; }"  # Muda para preto após a seleção
+        })    )
     
     problema = forms.ModelChoiceField(
         queryset=Problemas.objects.none(),  # Inicialmente vazio até a neurodivergência ser escolhida
         label="Problema",
         required=True,
+        empty_label="Clique e selecione um problema",  # Aqui você define o texto do placeholder
+             
         widget=forms.Select(attrs={'class': 'form-select'})
     )
 

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="mt-2 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 border rounded shadow">
+                <div class="px-4 pt-4 pb-2 text-start">
+                    <div class="row justify-content-center">
+                        <div class=" col-md-12 text-center ">
+                            <h4 class="text-center fw-bold">Excluir Problema</h4>
+                            <p>Tem certeza que deseja excluir o problema "{{ problema.descricao }}"?</p>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Excluir</button>
+                                <a href="{% url 'persona:listar_problemas' %}" class="btn btn-secondary">Cancelar</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -294,7 +294,9 @@ def fetchs(request):
     neurodivergente_id = request.GET.get('neurodivergente_id')
     problemas = Problemas.objects.filter(neurodivergente_id=neurodivergente_id)
     problemas_html = ''.join([f'<option value="{p.id}">{p.descricao}</option>' for p in problemas])
-    return JsonResponse({'html': problemas_html})
+    problemas_data = [{'id': problema.id, 'descricao': problema.descricao} for problema in problemas]
+
+    return JsonResponse({'html': problemas_html}, {'problemas': problemas_data})
 #CRIAR PROBLEMA 
 
 def criar_problema(request):
@@ -302,10 +304,32 @@ def criar_problema(request):
         form = ProblemaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('listar_problemas')  # Redirecione após o sucesso
+            return redirect('persona:listar_problemas')  # Redirecione após o sucesso
     else:
         form = ProblemaForm()
     return render(request, 'neuro/criar_problema.html', {'form': form})
+
+#EDITAR PROBLEMA
+
+def update_problema(request, problema_id):
+    problema = get_object_or_404(Problemas, id=problema_id)
+    if request.method == 'POST':
+        form = ProblemaForm(request.POST, instance=problema)
+        if form.is_valid():
+            form.save()
+            return redirect('persona:listar_problemas')  # Redireciona após o sucesso
+    else:
+        form = ProblemaForm(instance=problema)
+    return render(request, 'neuro/update_problema.html', {'form': form})
+
+#DELETA PROBLEMAS
+
+def delete_problema(request, problema_id):
+    problema = get_object_or_404(Problemas, id=problema_id)
+    if request.method == 'POST':
+        problema.delete()
+        return redirect('persona:listar_problemas')  # Redireciona após a exclusão
+    return render(request, 'neuro/delete_problema.html', {'problema': problema})
 
 #LISTAR PROBLEMAS
 
@@ -315,18 +339,66 @@ def criar_solucao(request):
         form = SolucaoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save() 
-            return redirect('listar_problemas')  # Redirecione após o sucesso
+            return redirect('persona:listar_problemas')  # Redirecione após o sucesso
     else:
         form = SolucaoForm()
     return render(request, 'neuro/criar_solucao.html', {'form': form})
 
+def update_solucao(request, solucao_id):
+    solucao = get_object_or_404(Solucoes, id=solucao_id)
+    if request.method == 'POST':
+        form = SolucaoForm(request.POST, instance=solucao)
+        if form.is_valid():
+            form.save()
+            return redirect('persona:listar_solucoes')  # Redireciona após o sucesso
+    else:
+        form = SolucaoForm(instance=solucao)
+    return render(request, 'neuro/update_solucao.html', {'form': form})
+
+def delete_solucao(request, solucao_id):
+    solucao = get_object_or_404(Solucoes, id=solucao_id)
+    if request.method == 'POST':
+        solucao.delete()
+        return redirect('persona:listar_solucoes')  # Redireciona após a exclusão
+    return render(request, 'neuro/delete_solucao.html', {'solucao': solucao})
 
 
 def listar_problemas(request):
-    problemas = Problemas.objects.all()
-    return render(request, 'neuro/listar_problemas.html', {'problemas': problemas})
+    neurodivergencia_id = request.GET.get('neurodivergencia_id')
+    
+    if neurodivergencia_id:
+        problemas = Problemas.objects.filter(neurodivergente_id=neurodivergencia_id)
+    else:
+        problemas = Problemas.objects.all()  # Exibir todos se nenhuma neurodivergência for selecionada
+
+    neurodivergencias = Neurodivergente.objects.all()  # Para o filtro no frontend
+
+    return render(request, 'neuro/listar_problemas.html', {
+        'problemas': problemas,
+        'neurodivergencias': neurodivergencias
+    })
 
 
 def listar_solucoes(request):
+    neurodivergencia_id = request.GET.get('neurodivergencia_id')
+    problema_id = request.GET.get('problema_id')
+    
+    # Filtrar os problemas com base na neurodivergência selecionada
+    problemas = Problemas.objects.all()
+    if neurodivergencia_id:
+        problemas = problemas.filter(neurodivergente_id=neurodivergencia_id)
+    
+    # Filtrar as soluções com base no problema selecionado
     solucoes = Solucoes.objects.all()
-    return render(request, 'neuro/listar_solucoes.html', {'solucoes': solucoes})
+    if problema_id:
+        solucoes = solucoes.filter(problema_id=problema_id)
+
+    neurodivergencias = Neurodivergente.objects.all()
+
+    return render(request, 'neuro/listar_solucoes.html', {
+        'solucoes': solucoes,
+        'problemas': problemas,
+        'neurodivergencias': neurodivergencias,
+        'neurodivergencia_id': neurodivergencia_id,
+        'problema_id': problema_id
+    })
