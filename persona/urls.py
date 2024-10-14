@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import  get_solutions,fetchs, update_problema, update_solucao, delete_problema, delete_solucao,persona_list,listar_solucoes, problema_solucoes, persona_create, sobre_page, persona_delete, persona_update,fetch_problems, criar_problema, criar_solucao, listar_problemas, main_page, persona_info, solution_detail
+from .views import  get_solutions,fetchs, update_problema,fetchs_neuro, update_solucao, delete_problema, delete_solucao,persona_list,listar_solucoes, problema_solucoes, persona_create, sobre_page, persona_delete, persona_update,fetch_problems, criar_problema, criar_solucao, listar_problemas, main_page, persona_info, solution_detail
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -20,6 +20,7 @@ urlpatterns = [
 
     #neurodivergencias
     path('fetchs/', fetchs, name='fetchs'),
+    path('fetchs_neuro/', fetchs_neuro, name='fetchs'),
     path('criar_problema/', criar_problema, name='criar_problema'),
     path('criar_solucao/', criar_solucao, name='criar_solucao'),
     path('listar_problemas/', listar_problemas, name='listar_problemas'),

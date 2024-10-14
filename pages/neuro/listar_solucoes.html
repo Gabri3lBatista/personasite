@@ -72,7 +72,7 @@
     function carregarProblemas() {
         const neurodivergenciaId = document.getElementById('neurodivergencia').value;
 
-        fetch(`/fetchs/?neurodivergencia_id=${neurodivergenciaId}`)
+        fetch(`/fetchs_neuro/?neurodivergencia_id=${neurodivergenciaId}`)
             .then(response => response.json())
             .then(data => {
                 const problemaSelect = document.getElementById('problema');

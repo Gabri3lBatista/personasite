@@ -294,10 +294,16 @@ def fetchs(request):
     neurodivergente_id = request.GET.get('neurodivergente_id')
     problemas = Problemas.objects.filter(neurodivergente_id=neurodivergente_id)
     problemas_html = ''.join([f'<option value="{p.id}">{p.descricao}</option>' for p in problemas])
-    problemas_data = [{'id': problema.id, 'descricao': problema.descricao} for problema in problemas]
 
-    return JsonResponse({'html': problemas_html}, {'problemas': problemas_data})
+    return JsonResponse({'html': problemas_html})
 #CRIAR PROBLEMA 
+
+def fetchs_neuro(request):
+    neurodivergencia_id = request.GET.get('neurodivergencia_id')
+    problemas = Problemas.objects.filter(neurodivergente_id=neurodivergencia_id)
+    problemas_data = [{'id': problema.id, 'descricao': problema.descricao} for problema in problemas]
+    return JsonResponse({'problemas': problemas_data})
+
 
 def criar_problema(request):
     if request.method == 'POST':
