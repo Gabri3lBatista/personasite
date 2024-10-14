@@ -398,7 +398,7 @@ def listar_solucoes(request):
     solucoes = Solucoes.objects.all()
     if problema_id:
         solucoes = solucoes.filter(problema_id=problema_id)
-
+    
     neurodivergencias = Neurodivergente.objects.all()
 
     return render(request, 'neuro/listar_solucoes.html', {

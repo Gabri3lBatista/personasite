@@ -124,4 +124,4 @@ class SolucaoForm(forms.ModelForm):
             except (ValueError, TypeError):
                 self.fields['problema'].queryset = Problemas.objects.none()
         elif self.instance.pk:
-            self.fields['problema'].queryset = self.instance.neurodivergente.problemas_set.all()
+            self.fields['problema'].queryset = Problemas.objects.filter(neurodivergente=self.instance.problema.neurodivergente)

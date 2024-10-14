@@ -54,17 +54,54 @@
                                         <div class="d-flex justify-content-center" role="group">
                                             <a href="{% url 'persona:update_solucao' solucao.id %}" class="btn btn-warning m-1" title="Editar a Solução">Editar</a>
                                             <a href="{% url 'persona:delete_solucao' solucao.id %}" class="btn btn-danger m-1" title="Excluir a Solução">Excluir</a>
+                                            <!-- Botão para abrir o modal -->
+                                            <button class="btn btn-info m-1" title="Ver detalhes" data-bs-toggle="modal" data-bs-target="#solucaoModal{{ solucao.id }}">Ver</button>
                                         </div>
                                     </td>
                                 </tr>
+
+                                <!-- Modal de visualização da solução -->
+                                <div class="modal fade" id="solucaoModal{{ solucao.id }}" tabindex="-1" aria-labelledby="solucaoModalLabel{{ solucao.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-dark">
+                                                <h5 class="modal-title" id="solucaoModalLabel{{ solucao.id }}">Detalhes da Solução: {{ solucao.nome }}</h5>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
+                                            </div>
+                                            <div class="modal-body bg-dark">
+                                                
+                                                <p><strong>Problema Relacionado:</strong> {{ solucao.problema.descricao }}</p>
+                                                <p><strong>Descrição:</strong> {{ solucao.descricao }}</p>
+                                                <p><strong>Por que resolver:</strong> {{ solucao.por_que_resolver }}</p>
+                                                <p><strong>Exemplo de Texto:</strong> {{ solucao.exemplo_texto }}</p>
+
+                                                {% if solucao.exemplo_foto %}
+                                                <p><strong>Exemplo em Foto:</strong></p>
+                                                <img src="{{ solucao.exemplo_foto.url }}" alt="Exemplo da solução" class="img-fluid w-50">
+                                                {% endif %}
+                                            </div>
+                                            <div class="modal-footer  bg-dark">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
+                    
                 </div>
+                <div class="d-grid m-auto">
+                    <a href="{% url 'persona:persona_create' %}" style="margin-top: -25px" class="btn btn-success" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Clique pra adicionar outra persona">Adicionar Persona</a>
+                </div>
+               
             </div>
+            
         </div>
     </div>
+    
 </main>
 
 <!-- Script para carregar os problemas com base na neurodivergência selecionada -->

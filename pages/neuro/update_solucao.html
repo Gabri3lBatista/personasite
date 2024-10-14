@@ -18,12 +18,13 @@
                     </div>
 
                     <!-- Título centralizado -->
-                    <h4 class="text-center fw-bold">Cadastre sua solução</h4>
+                    <h4 class="text-center fw-bold">Editar sua solução</h4>
 
                     <!-- Campo Neurodivergência -->
                     <div class="mb-3">
                         <label for="neurodivergente" class="form-label fw-bold">Neurodivergência:</label>
                         {{ form.neurodivergente }}
+
                         {% if form.neurodivergente.errors %}
                         <p class="error-message">{{ form.neurodivergente.errors }}</p>
                         {% endif %}
@@ -41,15 +42,16 @@
                     <!-- Campo Nome da Solução -->
                     <div class="mb-3">
                         <label for="nome" class="form-label fw-bold">Nome da Solução:</label>
-                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome da solução">
+                        <input type="text" class="form-control" id="nome" name="nome" value="{{ form.instance.nome }}" placeholder="Digite o nome da solução">
                         {% if form.nome.errors %}
                         <p class="error-message">{{ form.nome.errors }}</p>
                         {% endif %}
                     </div>
 
+                    <!-- Campo Por que resolver -->
                     <div class="mb-3">
                         <label for="por_que_resolver" class="form-label fw-bold">Por que resolver?</label>
-                        <textarea class="form-control" id="por_que_resolver" name="por_que_resolver" rows="3" placeholder="Explique por que resolver esse problema"></textarea>
+                        <textarea class="form-control" id="por_que_resolver" name="por_que_resolver" rows="3" placeholder="Explique por que resolver esse problema">{{ form.instance.por_que_resolver }}</textarea>
                         {% if form.por_que_resolver.errors %}
                         <p class="error-message">{{ form.por_que_resolver.errors }}</p>
                         {% endif %}
@@ -58,18 +60,16 @@
                     <!-- Campo Descrição -->
                     <div class="mb-3">
                         <label for="descricao" class="form-label fw-bold">Qual a Solução?:</label>
-                        <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Digite a descrição da solução">
+                        <input type="text" class="form-control" id="descricao" name="descricao" value="{{ form.instance.descricao }}" placeholder="Digite a descrição da solução">
                         {% if form.descricao.errors %}
                         <p class="error-message">{{ form.descricao.errors }}</p>
                         {% endif %}
                     </div>
 
-                    <!-- Campo Por que resolver -->
-                   
                     <!-- Campo Exemplo Texto -->
                     <div class="mb-3">
                         <label for="exemplo_texto" class="form-label fw-bold">Como fazer?:</label>
-                        <textarea class="form-control" id="exemplo_texto" name="exemplo_texto" rows="3" placeholder="Descreva um exemplo"></textarea>
+                        <textarea class="form-control" id="exemplo_texto" name="exemplo_texto" rows="3" placeholder="Descreva um exemplo">{{ form.instance.exemplo_texto }}</textarea>
                         {% if form.exemplo_texto.errors %}
                         <p class="error-message">{{ form.exemplo_texto.errors }}</p>
                         {% endif %}
@@ -81,6 +81,9 @@
                         <input type="file" class="form-control" id="exemplo_foto" name="exemplo_foto">
                         {% if form.exemplo_foto.errors %}
                         <p class="error-message">{{ form.exemplo_foto.errors }}</p>
+                        {% endif %}
+                        {% if form.instance.exemplo_foto %}
+                        <img src="{{ form.instance.exemplo_foto.url }}" alt="Exemplo da solução" class="mt-3" style="max-width: 200px;">
                         {% endif %}
                     </div>
 
