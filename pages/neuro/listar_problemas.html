@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12 border rounded shadow mb-5">
                 <div class="px-4 pt-4 pb-2 text-start">
-                    <div class="col-md-12 text-start ">
+                    <div class="col-md-12 text-start">
                         <button onclick="window.history.back()" class="btn btn-primary">
                             <i class="fa-solid fa-arrow-left"></i> Voltar
                         </button>
@@ -32,7 +32,7 @@
                             <thead>
                                 <tr>
                                     <th>Nome do Problema</th>
-                                    <th>Ações</th>
+                                    <th class="text-center">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,11 +41,34 @@
                                     <td>{{ problema.descricao }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center" role="group">
+                                            <button class="btn btn-info m-1" title="Ver detalhes" data-bs-toggle="modal" data-bs-target="#problemaModal{{ problema.id }}">Visualizar</button>
                                             <a href="{% url 'persona:update_problema' problema.id %}" class="btn btn-warning m-1">Editar</a>
                                             <a href="{% url 'persona:delete_problema' problema.id %}" class="btn btn-danger m-1" title="Excluir o Problema">Excluir</a>
                                         </div>
                                     </td>
                                 </tr>
+
+                                <!-- Modal para visualização dos detalhes do problema -->
+                                <div class="modal fade" id="problemaModal{{ problema.id }}" tabindex="-1" aria-labelledby="problemaModalLabel{{ problema.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-dark">
+                                                <h5 class="modal-title" id="problemaModalLabel{{ problema.id }}">Detalhes do Problema: {{ problema.descricao }}</h5>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
+                                            </div>
+                                            <div class="modal-body bg-dark">
+                                                <p><strong>Descrição:</strong> {{ problema.descricao }}</p>
+                                                <p><strong>Data de Criação:</strong> {{ problema.neurodivergente}}</p>
+                                                <!-- Adicione mais detalhes se necessário -->
+                                            </div>
+                                            <div class="modal-footer bg-dark">
+                                                <a href="{% url 'persona:listar_solucoes'  %}" class="btn btn-success">Ver Soluções</a>
+
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {% endfor %}
                             </tbody>
                         </table>

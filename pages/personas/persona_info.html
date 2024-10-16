@@ -3,16 +3,30 @@
 
 {% block style %}
 <style>
-    .tamanho{
+    .tamanho {
         width: 45em;
+    }
+
+    @media (max-width: 576px) {
+        .tamanho {
+            width: 30em;
+        }
+        .custom-modal-width {
+            width: 100%;
+        }
+        .persona-img {
+            max-width: 200px; /* Ajusta o tamanho da imagem para telas pequenas */
+            height: auto; /* Preserva a proporção da imagem */
+    
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-2 tamanho">
-    <div class="row ">
-        <div class="col-12  px-4 pt-2 text-start  mb-2">
+<div class="container mt-2  tamanho">
+    <div class="row">
+        <div class="col-12 px-4 pt-2 text-start mb-2">
             <button onclick="window.history.back()" class="btn btn-primary">
                 <i class="fa-solid fa-arrow-left"></i> Voltar
             </button>
@@ -20,17 +34,17 @@
                 <span class="text-white m-0"> <i class="fa-solid fa-file-pdf"></i> Baixar PDF</span>
             </a>
             <a href="{% url 'persona:persona_update' persona.id %}" class="btn btn-warning">
-                <span class=" m-0"> <i class="fa-solid "></i> Editar Persona</span>
+                <span class="m-0"><i class="fa-solid"></i> Editar Persona</span>
             </a>
             <a href="{% url 'persona:persona_delete' persona.id %}" class="btn btn-danger">
-                <span class="text-white m-0"> <i class="fa-solid fa-trash"></i> Deletar Persona</span>
+                <span class="text-white m-0"><i class="fa-solid fa-trash"></i> Deletar Persona</span>
             </a>
         </div>
     </div>
-    <div class="row px-4  pb-2">
-        <div class="col-4 p-0 m-0 border rounded-start">
+    <div class="row px-4 pb-2">
+        <div class="col-md-4 col-sm-12 p-0 m-0 border rounded-start">
             <img src="{% static '../media/' %}{% if persona.sexo == 'M' %}man.png{% else %}woman.png{% endif %}"
-                class="img-fluid bg-warning" alt="Imagem de uma pessoa">
+                class="img-fluid bg-warning persona-img" alt="Imagem de uma pessoa">
             <h4 class="{{ random_colors }}">Nome: <strong>{{ persona.nome }}</strong></h4>
             <ul class="list-unstyled text-start ps-2">
                 <li>Idade: <strong>{{ persona.idade }}</strong></li>
@@ -47,7 +61,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-8 border p-0 m-0 rounded-end">
+        <div class="col-md-8 col-sm-12 border p-0 m-0 rounded-end">
             <div class="">
                 <div class="{{ random_colors }} text-white">
                     <h4><i class="fa-solid fa-user fs-5 pe-1"></i> <strong>Sobre</strong></h4>
@@ -65,15 +79,13 @@
                                 <strong>Neurodivergências</strong>
                             </h4>
                             <div class="row m-0 p-0">
-
                                 {% for info_neurodivergencia in info_neurodivergencias %}
-                                <div class=" border-bottom pt-2 ">
+                                <div class="border-bottom pt-2">
                                     <h3>{{ info_neurodivergencia.neurodivergencia.nome }}</h3>
                                     Clique nos problemas para ver as soluções:
 
-                                    <ul class="list-unstyled ">
+                                    <ul class="list-unstyled">
                                         {% for problema in info_neurodivergencia.problemas %}
-
                                         <li data-bs-toggle="tooltip" data-bs-placement="bottom"
                                             title="Clique para abrir as soluções" class="text-start">
                                             <button class="btn btn-primary mt-2 w-100 fw-bolder" data-bs-toggle="modal"
@@ -82,27 +94,24 @@
                                                     {{ problema.descricao }}
                                                 </span>
                                             </button>
-
-
                                         </li>
                                         {% endfor %}
                                     </ul>
                                 </div>
                                 {% endfor %}
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+
 
 <!-- Modal para Problemas e Soluções -->
 <div class="modal fade" id="problemModal" tabindex="-1" aria-labelledby="problemModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg custom-modal-width">
+    <div class="modal-dialog modal-dialog-centered modal-lg custom-modal-width">
         <div class="modal-content">
             <div class="modal-header bg-dark">
                 <h5 class="modal-title d-flex align-items-center justify-content-center">
@@ -114,14 +123,15 @@
             <div class="modal-body bg-dark text-light">
                 <p class="m-0">Escolha uma solução:</p>
 
-                <div id="problemSolutions" class=" bg-dark rounded p-2 row"></div>
+                <div id="problemSolutions" class="bg-dark rounded p-2 row"></div>
                 <!-- Local onde os botões das soluções aparecerão -->
 
-                <div id="solutionDetail" class=""></div> <!-- Local onde os detalhes da solução aparecerão -->
+                <div id="solutionDetail"></div> <!-- Local onde os detalhes da solução aparecerão -->
             </div>
         </div>
     </div>
 </div>
+
 
 {% endblock %}
 
@@ -205,7 +215,7 @@
                     // Exibir os detalhes da solução no layout
                     $('#solutionDetail').html(`
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-lg-6 col-sm-12">
                                 <div class="problema bg-white rounded-1 ">
                                     <h4 class=" fw-bold pt-2" style="color: #5C5C5C;">Problema</h4>
                                     <hr class="border border-dark">

@@ -20,70 +20,71 @@
         body {
             font-family: 'Verdana', sans-serif;
         }
-        .container {
-        width: 800px; /* Defina a largura que você deseja */
-        max-width: 100%; /* Para garantir que não exceda a largura da tela */
-    }
-        .tamanho{
-            width: 50em;
+
+        /* Garantir que o nav ocupe 100% da largura em qualquer tela */
+        .navbar {
+            width: 100%;
         }
-        
+
+        /* Estilos para limitar o tamanho da container no desktop */
+        .container {
+            max-width: 800px; /* Limita a largura no desktop */
+            width: 100%; /* Garante 100% da largura disponível */
+        }
+
+        /* Ajustes para telas pequenas */
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 1.5rem; /* Reduz o tamanho do título em telas pequenas */
+            }
+            .btn {
+                font-size: 0.9rem; /* Botões menores em telas pequenas */
+            }
+        }
     </style>
     {% endblock %}
 </head>
 
 <body class="bg-dark ">
-    <div class="d-flex text-center text-white" >
-        <div class=" d-flex mt-2 mx-auto flex-column">
-            <header class="">
+    <div class="d-flex text-center text-white">
+        <div class="d-flex mt-2 mx-auto flex-column">
+            <header>
                 <div>
-                    <nav class="navbar nav-masthead  navbar-expand-lg navbar-dark bg-dark  " style="width: 800px;">
-                        <div class="container-fluid  shadow">
-                            <a class="navbar-brand fs-3 " href="{% url 'persona:main_page' %}">NeuroPersona</a>
+                    <nav class="navbar nav-masthead navbar-expand-lg navbar-dark bg-dark shadow">
+                        <div class="container-fluid">
+                            <a class="navbar-brand fs-3" href="{% url 'persona:main_page' %}">NeuroPersona</a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
-                            <div class="collapse navbar-collapse  justify-content-start" style="padding: -10px;" id="navbarNavDropdown">
+                            <div class="collapse navbar-collapse justify-content-start" id="navbarNavDropdown">
                                 
-                                <!-- Links para Personas -->
                                 {% if user.is_authenticated %}
-                                <a class="nav-link active" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Criar nova persona" href="{% url 'persona:persona_create' %}">
-                                    Criar Persona
-                                </a>
-                                <a class="nav-link active me-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver lista de personas" href="{% url 'persona:persona_list' %}">
-                                    Lista de Personas
-                                </a>
+                                <a class="nav-link active" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Criar nova persona" href="{% url 'persona:persona_create' %}">Criar Persona</a>
+                                <a class="nav-link active me-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver lista de personas" href="{% url 'persona:persona_list' %}">Lista de Personas</a>
 
                                 <ul class="navbar-nav">
                                     <li class="nav-item dropdown">
                                         <a class="nav-link active text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Neurodivergencias</a>
                                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                                             <li><a class="dropdown-item" href="{% url 'persona:criar_problema' %}">Criar problema</a></li>
-                                            <li><a class="dropdown-item" href="{% url 'persona:criar_solucao' %}">Criar solucao</a></li>
+                                            <li><a class="dropdown-item" href="{% url 'persona:criar_solucao' %}">Criar solução</a></li>
                                             <li><a class="dropdown-item" href="{% url 'persona:listar_problemas' %}">Lista de problemas</a></li>
                                             <li><a class="dropdown-item" href="{% url 'persona:listar_solucoes' %}">Lista de soluções</a></li>
-
                                         </ul>
                                     </li>
                                 </ul>
-                                <!-- Logout -->
                                 
-                                <a href="{% url 'users:logout' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Sair da conta" class="ms-auto btn btn-danger">
-                                    Logout
-                                </a>
+                                <a href="{% url 'users:logout' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Sair da conta" class="ms-3 btn btn-danger">Logout</a>
                                 {% else %}
-                                <!-- Login -->
-                                <a href="{% url 'users:login' %}" class=" ms-auto btn btn-primary">Login</a>
+                                <a href="{% url 'users:login' %}" class=" ms-4 btn btn-primary">Login</a>
                                 {% endif %}
-
-                                    
                             </div>
                         </div>
                     </nav>
                 </div>
             </header>
             <main class="mt-2">
-                <div class="container ">
+                <div class="container">
                     {% block content %}
                     {% endblock %}
                 </div>
@@ -97,17 +98,8 @@
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl, { delay: { "show": 500, "hide": 100 } })
         })
-
-        function changeContrast() {
-            var body = document.body;
-            var currentContrast = body.classList.contains('high-contrast');
-            if (currentContrast) {
-                body.classList.remove('high-contrast');
-            } else {
-                body.classList.add('high-contrast');
-            }
-        }
     </script>
     {% endblock %}
 </body>
+
 </html>

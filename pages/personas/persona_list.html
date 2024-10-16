@@ -7,90 +7,108 @@
     .card-body {
         padding: 1rem;
     }
+
+    /* Ajustes para tabelas e botões em dispositivos menores */
+    @media (max-width: 576px) {
+        .table {
+            font-size: 0.9rem;
+        }
+        .btn {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+        }
+        .btn-group {
+            flex-direction: column;
+            align-items: center;
+        }
+        h4 {
+            font-size: 1.2rem;
+        }
+        .btn-group .btn {
+            font-size: 0.8rem;
+            width: 100%;
+        }
+    }
+
+    /* Centraliza e ajusta os botões em telas menores */
+    @media (max-width: 768px) {
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    
 </style>
 {% endblock %}
 
 {% block content %}
-
 <main class="mt-2">
     <div class="container">
-       
         <div class="row ">
-            
             <div class="campo col-lg-12 border rounded shadow ">
                 <div class="px-4 pt-4 pb-2 text-start">
-                    
-                    <div class=" bg-dark text-center">
-                            <div class="col-12 text-start ">
-                                <button onclick="window.history.back()" class="btn btn-primary">
-                                    <i class="fa-solid fa-arrow-left"></i> Voltar
-                                </button>
-                            </div>
+                    <div class="bg-dark text-center">
+                        <div class="col-12 text-start  pb-sm-4">
+                            <button onclick="window.history.back()" class="btn btn-primary">
+                                <i class="fa-solid fa-arrow-left"></i> Voltar
+                            </button>
+                        </div>
                         <h4 class="text-white fw-bold m-0">Lista de Personas</h4>
                         <hr>
                     </div>
-                    <div class="">
-                        <div class="table-responsive table-dark ">
-                            <table class="table table-striped table-dark table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Nome</th>
-                                        <th>Idade</th>
-                                        <th>Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for persona in personas %}
-                                    <tr>
-                                        <td>{{ persona.nome }}</td>
-                                        <td>{{ persona.idade }}</td>
-                                       
-                                        <td >
-                                            <div class="d-flex justify-content-center " role="group">
-                                                <a href="{% url 'persona:persona_info' persona.id %}"
-                                                    class="btn btn-info m-1" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Detalhes da Persona">Detalhes</a>
-                                                <a href="{% url 'persona:persona_update' persona.id %}"
-                                                    class="btn btn-warning m-1" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Editar a Persona">Editar</a>
-                                                <a href="{% url 'persona:persona_delete' persona.id %}"
-                                                    class="btn btn-danger m-1" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Excluir a Persona">Excluir</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+
+                    <!-- Responsividade para a tabela -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-dark table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Idade</th>
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for persona in personas %}
+                                <tr>
+                                    <td>{{ persona.nome }}</td>
+                                    <td>{{ persona.idade }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center btn-group" role="group">
+                                            <a href="{% url 'persona:persona_info' persona.id %}" class="btn btn-info m-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Detalhes da Persona">Visualizar</a>
+                                            <a href="{% url 'persona:persona_update' persona.id %}" class="btn btn-warning m-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar a Persona">Editar</a>
+                                            <a href="{% url 'persona:persona_delete' persona.id %}" class="btn btn-danger m-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir a Persona">Excluir</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="card-footer text-center">
-                        <a href="{% url 'persona:persona_create' %}" style="margin-top: -25px" class="btn btn-success" data-bs-toggle="tooltip"
-                            data-bs-placement="top" title="Clique pra adicionar outra persona">Adicionar Persona</a>
+
+                    <div class="card-footer text-center pt-1">
+                        <a href="{% url 'persona:persona_create' %}" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Clique pra adicionar outra persona">Adicionar Persona</a>
+
+                        <!-- Paginação -->
                         {% if personas.has_other_pages %}
                         <ul class="pagination justify-content-center mt-3">
                             {% if personas.has_previous %}
                             <li class="page-item">
-                                <a class="page-link" href="?page=1" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    title="Primeira página">Primeira</a>
+                                <a class="page-link" href="?page=1" data-bs-toggle="tooltip" data-bs-placement="top" title="Primeira página">Primeira</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ personas.previous_page_number }}"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Página anterior">Anterior</a>
+                                <a class="page-link" href="?page={{ personas.previous_page_number }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Página anterior">Anterior</a>
                             </li>
                             {% endif %}
                             <li class="page-item active">
-                                <a class="page-link" href="?page={{ personas.number }}" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="Número da página atual">{{ personas.number }}</a>
+                                <a class="page-link" href="?page={{ personas.number }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Número da página atual">{{ personas.number }}</a>
                             </li>
                             {% if personas.has_next %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ personas.next_page_number }}" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="Próxima página">Próxima</a>
+                                <a class="page-link" href="?page={{ personas.next_page_number }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Próxima página">Próxima</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ personas.paginator.num_pages }}"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Última página">Última</a>
+                                <a class="page-link" href="?page={{ personas.paginator.num_pages }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Última página">Última</a>
                             </li>
                             {% endif %}
                         </ul>
@@ -101,5 +119,4 @@
         </div>
     </div>
 </main>
-
 {% endblock %}

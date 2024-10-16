@@ -1,19 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<main class="mt-2 mb-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12 border rounded shadow">
-                <h4 class="text-center fw-bold">Excluir Solução</h4>
-                <p>Tem certeza que deseja excluir a solução "{{ solucao.descricao }}"?</p>
-                <form method="post">
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 border rounded shadow-lg pb-4">
+            <div class="px-4 pt-4 text-start">
+                
+                <!-- Botão para voltar -->
+                <div class=" bg-dark text-center">
+                    <div class="col-12 text-start ">
+                        <button onclick="window.history.back()" class="btn btn-primary">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar
+                        </button>
+                    </div>
+            </div>
+                <h4 class="text-center  fw-bold">
+                    Confirmar Exclusão: <span class="text-decoration-underline">"{{ solucao.nome }}"</span> 
+                </h4>
+                <hr>
+                <!-- Alerta de confirmação de exclusão -->
+                <div class="text-center">
+                    <div class="alert alert-warning rounded shadow-sm" role="alert">
+                      
+                        <p class="lead " style="color: black;"> <i class="fa-solid fa-exclamation-triangle"></i> Tem certeza de que deseja excluir <strong>"{{ solucao.nome }}"</strong>? Esta ação é irreversível.</p>
+                    </div>
+                </div>
+
+                <!-- Formulário de confirmação -->
+                <form method="post" action="{% url 'persona:delete_solucao' solucao.id %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Excluir</button>
-                    <a href="{% url 'persona:listar_solucoes' %}" class="btn btn-secondary">Cancelar</a>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        
+                        <!-- Botão de confirmar exclusão -->
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="fa-solid fa-trash"></i> Confirmar Exclusão
+                        </button>
+                        
+                        <!-- Botão de cancelar ação -->
+                        <a href="{% url 'persona:persona_list' %}" class="btn btn-secondary btn-lg text-white">
+                            <i class="fa-solid fa-times"></i> Cancelar
+                        </a>
+                    </div>
                 </form>
+                
             </div>
         </div>
     </div>
-</main>
+</div>
 {% endblock %}

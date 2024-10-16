@@ -43,7 +43,7 @@
                             <thead>
                                 <tr>
                                     <th>Nome da Solução</th>
-                                    <th>Ações</th>
+                                    <th class="text-center">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,10 +52,10 @@
                                     <td>{{ solucao.nome }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center" role="group">
+                                            <button class="btn btn-info m-1" title="Ver detalhes" data-bs-toggle="modal" data-bs-target="#solucaoModal{{ solucao.id }}">Visualizar</button>
                                             <a href="{% url 'persona:update_solucao' solucao.id %}" class="btn btn-warning m-1" title="Editar a Solução">Editar</a>
                                             <a href="{% url 'persona:delete_solucao' solucao.id %}" class="btn btn-danger m-1" title="Excluir a Solução">Excluir</a>
                                             <!-- Botão para abrir o modal -->
-                                            <button class="btn btn-info m-1" title="Ver detalhes" data-bs-toggle="modal" data-bs-target="#solucaoModal{{ solucao.id }}">Ver</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -92,7 +92,7 @@
                     </div>
                     
                 </div>
-                <div class="d-grid m-auto">
+                <div class="d-grid m-auto my-4">
                     <a href="{% url 'persona:persona_create' %}" style="margin-top: -25px" class="btn btn-success" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Clique pra adicionar outra persona">Adicionar Persona</a>
                 </div>
