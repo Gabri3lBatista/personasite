@@ -12,7 +12,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'sua-chave-secreta-aqui')
 # Debug: mantenha como True para desenvolvimento local
 DEBUG = True
 
-
+LOGIN_URL = '/login/'  # ou '/accounts/login/' dependendo do caminho correto
+LOGOUT_URL = '/logout/'
 AUTH_USER_MODEL = 'users.Usuario'
 
 # Hosts permitidos (modifique conforme necessário para produção)

@@ -27,9 +27,11 @@ from urllib.parse import urljoin
 
 
 # Função para a página principal
+@login_required
 def main_page(request):
     return render(request, 'index.html')
 
+@login_required
 def sobre_page(request):
     return render(request, 'sobre.html')
 
@@ -104,7 +106,6 @@ def persona_info(request, pk):
     return render(request, 'personas/persona_info.html', context)
 # Função para exibir soluções para um problema específico
 @login_required
-
 def problema_solucoes(request, pk):
     problema = get_object_or_404(Problemas, pk=pk)
     solucoes = Solucoes.objects.filter(problema=problema)
@@ -126,7 +127,7 @@ def problema_solucoes(request, pk):
         'solucoes': solucoes_detalhadas
     })
 # Função para criar uma nova persona
-
+@login_required
 def get_solutions(request):
     problem_id = request.GET.get('problem_id')
     solucoes = Solucoes.objects.filter(problema_id=problem_id).values('id', 'nome')
@@ -201,7 +202,6 @@ def persona_delete(request, pk):
 
 
 @login_required
-
 def fetch_problems(request):
     neurodivergente_ids = request.GET.get('neurodivergente_ids', '').split(',')
     
@@ -231,6 +231,7 @@ def fetch_problems(request):
         # Se nenhum neurodivergente_id for válido, retorna um HTML vazio
         return JsonResponse({'html': ''})
 
+@login_required
 def solution_detail(request, id):
     solution = get_object_or_404(Solucoes, pk=id)
     
@@ -289,7 +290,7 @@ def generate_pdf(request, persona_id):
 '''
 
 
-
+@login_required
 def fetchs(request):
     neurodivergente_id = request.GET.get('neurodivergente_id')
     problemas = Problemas.objects.filter(neurodivergente_id=neurodivergente_id)
@@ -298,13 +299,14 @@ def fetchs(request):
     return JsonResponse({'html': problemas_html})
 #CRIAR PROBLEMA 
 
+@login_required
 def fetchs_neuro(request):
     neurodivergencia_id = request.GET.get('neurodivergencia_id')
     problemas = Problemas.objects.filter(neurodivergente_id=neurodivergencia_id)
     problemas_data = [{'id': problema.id, 'descricao': problema.descricao} for problema in problemas]
     return JsonResponse({'problemas': problemas_data})
 
-
+@login_required
 def criar_problema(request):
     if request.method == 'POST':
         form = ProblemaForm(request.POST)
@@ -316,7 +318,7 @@ def criar_problema(request):
     return render(request, 'neuro/criar_problema.html', {'form': form})
 
 #EDITAR PROBLEMA
-
+@login_required
 def update_problema(request, problema_id):
     problema = get_object_or_404(Problemas, id=problema_id)
     if request.method == 'POST':
@@ -329,7 +331,7 @@ def update_problema(request, problema_id):
     return render(request, 'neuro/update_problema.html', {'form': form})
 
 #DELETA PROBLEMAS
-
+@login_required
 def delete_problema(request, problema_id):
     problema = get_object_or_404(Problemas, id=problema_id)
     if request.method == 'POST':
@@ -339,7 +341,7 @@ def delete_problema(request, problema_id):
 
 #LISTAR PROBLEMAS
 
-
+@login_required
 def criar_solucao(request):
     if request.method == 'POST':
         form = SolucaoForm(request.POST, request.FILES)
@@ -350,6 +352,7 @@ def criar_solucao(request):
         form = SolucaoForm()
     return render(request, 'neuro/criar_solucao.html', {'form': form})
 
+@login_required
 def update_solucao(request, solucao_id):
     solucao = get_object_or_404(Solucoes, id=solucao_id)
     if request.method == 'POST':
@@ -361,6 +364,7 @@ def update_solucao(request, solucao_id):
         form = SolucaoForm(instance=solucao)
     return render(request, 'neuro/update_solucao.html', {'form': form})
 
+@login_required
 def delete_solucao(request, solucao_id):
     solucao = get_object_or_404(Solucoes, id=solucao_id)
     if request.method == 'POST':
@@ -368,7 +372,7 @@ def delete_solucao(request, solucao_id):
         return redirect('persona:listar_solucoes')  # Redireciona após a exclusão
     return render(request, 'neuro/delete_solucao.html', {'solucao': solucao})
 
-
+@login_required
 def listar_problemas(request):
     neurodivergencia_id = request.GET.get('neurodivergencia_id')
     
@@ -384,7 +388,7 @@ def listar_problemas(request):
         'neurodivergencias': neurodivergencias
     })
 
-
+@login_required
 def listar_solucoes(request):
     neurodivergencia_id = request.GET.get('neurodivergencia_id')
     problema_id = request.GET.get('problema_id')
