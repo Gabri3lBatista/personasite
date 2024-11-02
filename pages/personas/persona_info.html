@@ -11,13 +11,17 @@
         .tamanho {
             width: 30em;
         }
+
         .custom-modal-width {
             width: 100%;
         }
+
         .persona-img {
-            max-width: 200px; /* Ajusta o tamanho da imagem para telas pequenas */
-            height: auto; /* Preserva a proporção da imagem */
-    
+            max-width: 200px;
+            /* Ajusta o tamanho da imagem para telas pequenas */
+            height: auto;
+            /* Preserva a proporção da imagem */
+
         }
     }
 </style>
@@ -110,8 +114,8 @@
 
 
 <!-- Modal para Problemas e Soluções -->
-<div class="modal fade" id="problemModal" tabindex="-1" aria-labelledby="problemModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg custom-modal-width">
+<div class="modal fade " id="problemModal" tabindex="-1" aria-labelledby="problemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-dark">
                 <h5 class="modal-title d-flex align-items-center justify-content-center">
@@ -215,7 +219,7 @@
                     // Exibir os detalhes da solução no layout
                     $('#solutionDetail').html(`
                         <div class="row">
-                            <div class="col-lg-6 col-sm-12">
+                            <div class="col-lg-12 col-sm-12">
                                 <div class="problema bg-white rounded-1 ">
                                     <h4 class=" fw-bold pt-2" style="color: #5C5C5C;">Problema</h4>
                                     <hr class="border border-dark">
@@ -232,12 +236,20 @@
                                     <p class="text-dark fs-5 text-start p-2">${data.exemplo_texto}</p>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-sm-12">
+                            <div class="col-lg-12 col-sm-12">
                                 <div class="bg-white mb-2 rounded-1">
                                     <p class="text-dark">Na imagem abaixo há um exemplo visual de como deve ser feito.</p>
                                 </div>
                                 <div class="bg-white">
-                                    <img data-bs-toggle="tooltip" onclick="window.open(this.src)" data-bs-placement="bottom" title="Exemplo em forma de imagem" id="solutionImageElement" src="${data.exemplo_foto}" alt="Exemplo de Solução" class="img-fluid">
+                                    <img data-bs-toggle="tooltip"  data-bs-placement="bottom" rounded title="Exemplo em forma de imagem" id="solutionImageElement" src="${data.exemplo_foto}" alt="Exemplo de Solução" class="img-fluid">
+                                </div>
+                                <div class="text-center mt-2 d-grid" >
+                                    <a href="{% url 'persona:persona_image' %}?img=${data.exemplo_foto}"  class="btn btn-primary" >
+                                        Expandir Imagem
+                                    </a>
+                                    <a href="${ data.exemplo_foto }" download class="btn btn-secondary mt-2 text-white">
+                                        Baixar Imagem
+                                    </a>
                                 </div>
                             </div>
                         </div>

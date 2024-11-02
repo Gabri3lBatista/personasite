@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import  get_solutions,fetchs, update_problema,fetchs_neuro, update_solucao, delete_problema, delete_solucao,persona_list,listar_solucoes, problema_solucoes, persona_create, sobre_page, persona_delete, persona_update,fetch_problems, criar_problema, criar_solucao, listar_problemas, main_page, persona_info, solution_detail
+from .views import  get_solutions,fetchs,persona_image, update_problema,fetchs_neuro, update_solucao, delete_problema, delete_solucao,persona_list,listar_solucoes, problema_solucoes, persona_create, sobre_page, persona_delete, persona_update,fetch_problems, criar_problema, criar_solucao, listar_problemas, main_page, persona_info, solution_detail
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -32,6 +32,7 @@ urlpatterns = [
     # URLs de Solução
     path('editar_solucao/<int:solucao_id>/', update_solucao, name='update_solucao'),
     path('deletar_solucao/<int:solucao_id>/', delete_solucao, name='delete_solucao'),
+    path('imagem_persona/', persona_image, name='persona_image'),
 
 ]
 

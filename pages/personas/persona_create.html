@@ -9,14 +9,14 @@
     <div class="container">
         <div class="row ">
             <form class="col-md-12 border mb-5 pb-3 rounded shadow" method="post">
-                {% csrf_token %}
+              
                 <div class="px-4 pt-4 pb-2 text-start">
                     <div class="col-md-12 text-start ">
                         <button onclick="window.history.back()" class="btn btn-primary">
                             <i class="fa-solid fa-arrow-left"></i> Voltar 
                         </button>
                     </div>
-
+                    {% csrf_token %}
                     <!-- Título centralizado -->
                     <h4 class="text-center fw-bold">Cadastre sua persona</h4>
                     <hr>

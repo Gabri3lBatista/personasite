@@ -412,3 +412,12 @@ def listar_solucoes(request):
         'neurodivergencia_id': neurodivergencia_id,
         'problema_id': problema_id
     })
+    
+    
+    
+    
+def persona_image(request):
+    img_url = request.GET.get('img')
+    if not img_url:
+        raise Http404('Imagem não encontrada')
+    return render(request, 'personas/persona_image.html', {'img_url': img_url})

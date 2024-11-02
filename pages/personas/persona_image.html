@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block style %}
+
+<style>
+    img {
+        max-width: 100px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 border rounded shadow-lg pb-4">
+            <div class="px-4 pt-4 text-start">
+
+                <!-- Botão para voltar -->
+                <div class=" bg-dark text-center">
+                    <div class="col-12 text-start ">
+                        <button onclick="window.history.back()" class="btn btn-primary">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar
+                        </button>
+                    </div>
+                </div>
+                <h4 class="text-center fw-bold">Cadastre sua persona</h4>
+                <hr>
+                <div class="mt-2 text-center">
+                    <img src="{{ img_url }}" alt="Imagem expandida" class="img-fluid rounded"
+                        style=" max-width: 600px;">
+
+                    <div class="mt-3">
+                        <a href="{{ img_url }}" download class="btn btn-primary">Baixar imagem</a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
