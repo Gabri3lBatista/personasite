@@ -28,7 +28,7 @@ urlpatterns = [
     path('editar_problema/<int:problema_id>/', update_problema, name='update_problema'),
     
     path('deletar_problema/<int:problema_id>/', delete_problema, name='delete_problema'),
-    path('persona/<int:persona_id>/pdf/', generate_pdf, name='generate_pdf'),
+
 
     # URLs de Solução
     path('editar_solucao/<int:solucao_id>/', update_solucao, name='update_solucao'),

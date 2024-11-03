@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Persona, Neurodivergente, Problemas, Solucoes
 from .forms import PersonaForm, SolucaoForm, ProblemaForm
-from weasyprint import HTML
+
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
@@ -248,7 +248,7 @@ def solution_detail(request, id):
     })
 
 # Função para gerar o PDF
-
+'''
 @login_required
 def generate_pdf(request, persona_id):
     persona = get_object_or_404(Persona, pk=persona_id)
@@ -287,7 +287,7 @@ def generate_pdf(request, persona_id):
     response = HttpResponse(result, content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename=persona_{persona_id}.pdf'
     return response
-
+'''
 
 
 @login_required
