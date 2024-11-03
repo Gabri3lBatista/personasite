@@ -34,7 +34,7 @@
             <button onclick="window.history.back()" class="btn btn-primary">
                 <i class="fa-solid fa-arrow-left"></i> Voltar
             </button>
-            <a href="" class="btn btn-secondary">
+            <a href="{% url 'persona:generate_pdf' persona.id %}" class="btn btn-secondary">
                 <span class="text-white m-0"> <i class="fa-solid fa-file-pdf"></i> Baixar PDF</span>
             </a>
             <a href="{% url 'persona:persona_update' persona.id %}" class="btn btn-warning">

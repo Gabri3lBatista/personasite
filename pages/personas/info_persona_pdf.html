@@ -2,44 +2,77 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Persona Info</title>
+    <title>PDF da Persona - {{ persona.nome }}</title>
     <style>
-        .{{ random_color }} {
-            background-color: #ccc; /* substitua pelo estilo desejado */
+        @page {
+            size: A4 landscape; /* Modo paisagem */
+            margin: 20mm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2, h3 {
+            color: {{ random_color }};
+            margin: 10px 0;
+        }
+        .container {
+            max-width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .neurodivergencia {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .neurodivergencia ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Informações da Persona</h1>
-    <h2>Nome: {{ persona.nome }}</h2>
-    <h3>Idade: {{ persona.idade }}</h3>
-    <h3>Sexo: {{ persona.get_sexo_display }}</h3>
-    <h3>Profissão: {{ persona.profissao }}</h3>
-
-    <h3>Neurodivergências:</h3>
-    {% for info in info_neurodivergencias %}
-        <div>
-            <h4>{{ info.neurodivergencia.nome }}</h4>
-            <ul>
-                {% for problema in info.problemas %}
-                    <li>Problema: {{ problema.descricao }}</li>
-                    <ul>
-                        {% for solucao in info.solucoes %}
-                            {% if solucao.problema == problema %}
-                                <li>
-                                    <strong>Solução:</strong> {{ solucao.descricao }}<br>
-                                    <strong>Por que resolver:</strong> {{ solucao.por_que_resolver }}<br>
-                                    <strong>Exemplo:</strong> {{ solucao.exemplo_texto }}<br>
-                                    {% if solucao.exemplo_foto %}
-                                        <img src="{{ solucao.exemplo_foto }}" alt="Exemplo" style="max-width: 200px; max-height: 200px;"><br>
-                                    {% endif %}
-                                </li>
+    <div class="container">
+        <h1>Persona: {{ persona.nome }}</h1>
+        <p><strong>Idade:</strong> {{ persona.idade }}</p>
+        <p><strong>Sexo:</strong> {{ persona.get_sexo_display }}</p>
+        <p><strong>Profissão:</strong> {{ persona.profissao }}</p>
+        
+        <h2>Neurodivergências</h2>
+        {% for info in info_neurodivergencias %}
+            <div class="neurodivergencia">
+                <h3>{{ info.neurodivergencia.nome }}</h3>
+                <p><strong>Problemas:</strong></p>
+                <ul>
+                    {% for problema in info.problemas %}
+                        <li>{{ problema.descricao }}</li>
+                    {% endfor %}
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    {% for solucao in info.solucoes %}
+                        <li>
+                            <p><strong>Descrição:</strong> {{ solucao.descricao }}</p>
+                            <p><strong>Por que resolver:</strong> {{ solucao.por_que_resolver }}</p>
+                            <p><strong>Exemplo:</strong> {{ solucao.exemplo_texto }}</p>
+                            {% if solucao.exemplo_foto %}
+                                <img src="{{ solucao.exemplo_foto }}" alt="Exemplo de solução">
                             {% endif %}
-                        {% endfor %}
-                    </ul>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
