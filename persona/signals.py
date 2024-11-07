@@ -14,12 +14,12 @@ def inicializar_dados(sender, **kwargs):
                     {   
                         'nome': 'Fontes Sans-Serifadas',
                         'descricao': '''
-                * Utilize fontes sans-serifadas para melhorar a legibilidade.
-                * Exemplos incluem: Tiresias, Verdana e Arial.
-                * As fontes sem serifas ajudam pessoas com dislexia a lerem melhor.''',
+                            * Utilize fontes sans-serifadas para melhorar a legibilidade.
+                            * Exemplos incluem: Tiresias, Verdana e Arial.
+                            * As fontes sem serifas ajudam pessoas com dislexia a lerem melhor.''',
                         'por_que_resolver': 'Para pessoas com TDAH e dislexia, geralmente, fontes do tipo sans-serif são mais fáceis de distinguir seus caracteres individualmente além de possuírem um espaçamento mínimo adequado entre cada caractere monospacing, sendo assim, diminui a possibilidade do usuário confundir a identificação de caracteres, sem atrasar sua leitura.',
                         'exemplo_texto': 'Utilize fontes como Tiresias, Verdana ou  pois se pode distinguir entre as letras “I” maiúscula e “l” minuscula.',
-                        'exemplo_foto': 'exemplos/exemplo1.jpg',  # Caminho relativo à pasta de mídia
+                        'exemplo_foto': 'exemplos/exemplo1.png',  # Caminho relativo à pasta de mídia
                     },
                     {
                         'nome': 'Tamanho da Fonte',
