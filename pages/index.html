@@ -18,7 +18,7 @@
                         <img src="../media/peop.webp" class=" img-fluid w-25 bg-white rounded" alt="Imagem de uma pessoa com um celular">
                     </div>
                     <div class="criar-persona text-center p-3" data-bs-toggle="tooltip" data-bs-placement="top"
-                        title="Crie sua persona ao clicar no botão verde">
+                        >
                         <hr>
                         <h1 class="text-">Crie sua persona <i class="bi bi-person"></i></h1>
                         {% if user.is_authenticated %}
@@ -31,8 +31,8 @@
                                 class="fa-solid fa-user pe-2" aria-hidden="true"></i>Criar</a>
                         {% endif %}
                         <a href="{% url 'persona:sobre_page' %}" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                        title="Clique para criar sua persona" class="btn botao-persona bg-warning text-dark "><i
-                            class="fa-solid fa-bars" aria-hidden="true"></i> Mais Informações</a>
+                        title="Clique para saber sobre o site" class="btn botao-persona bg-warning text-dark "><i
+                            class="fa-solid fa-bars" aria-hidden="true"></i> Sobre o NeuroPersona</a>
                     </div>
                 </div>
             </div>

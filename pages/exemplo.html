@@ -3,47 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acessibilidade - Redirecionamento</title>
+    <title>Exemplo de Contraste Adequado</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: black;
+            line-height: 1.6;
+        }
         .container {
-            text-align: center;
-            margin-top: 50px;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .message {
-            font-size: 1.5em;
-            margin-bottom: 20px;
+        .contrast-example {
+            background-color: #f2f2f2;
+            color: #4d4d4d;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 1.2em;
-            margin: 10px;
-            cursor: pointer;
+        a {
+            color: #3366cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="message" id="redirect-message">
-            Você será redirecionado em 30 segundos. Deseja cancelar o redirecionamento?
+        <h1>Exemplo de Contraste Adequado</h1>
+        <p>Evite o uso de cores como preto absoluto (#000000) ou branco absoluto (#FFFFFF), pois podem causar um contraste muito intenso, dificultando a leitura para algumas pessoas.</p>
+        
+        <p>Para uma leitura mais confortável, utilize tons de cinza e grafite claros. Veja o exemplo abaixo:</p>
+        
+        <div class="contrast-example">
+            Este bloco de texto usa um fundo cinza claro (#f2f2f2) com texto em grafite (#4d4d4d) para garantir uma leitura agradável e acessível.
         </div>
-        <button id="cancel-redirect">Cancelar Redirecionamento</button>
-        <button id="continue-redirect">Continuar Agora</button>
+        
+        <p>Além disso, os links devem ter contraste adequado, como este <a href="#">exemplo de link azul</a>, que garante a visibilidade e o reconhecimento do elemento interativo.</p>
     </div>
-
-    <script>
-        let redirectTimer = setTimeout(() => {
-            window.location.href = "https://exemplo.com/nova-pagina";
-        }, 30000); // 30 segundos
-
-        document.getElementById("cancel-redirect").addEventListener("click", () => {
-            clearTimeout(redirectTimer);
-            document.getElementById("redirect-message").textContent = "Redirecionamento cancelado.";
-        });
-
-        document.getElementById("continue-redirect").addEventListener("click", () => {
-            clearTimeout(redirectTimer);
-            window.location.href = "https://exemplo.com/nova-pagina";
-        });
-    </script>
 </body>
 </html>
