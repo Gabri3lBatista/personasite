@@ -14,7 +14,7 @@ class PersonaForm(forms.ModelForm):
 
     class Meta:
         model = Persona
-        fields = ['nome', 'idade', 'interesses', 'ocupacao', 'sexo', 'neurodivergente', 'problemas']
+        fields = ['nome', 'idade', 'interesses', 'profissao', 'sexo', 'neurodivergente', 'problemas']
 
     sexo = forms.ChoiceField(
         label="Sexo",

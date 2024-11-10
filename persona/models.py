@@ -39,7 +39,7 @@ class Persona(models.Model):
     nome = models.CharField(max_length=100)
     idade = models.IntegerField()
     interesses = models.TextField(max_length=255)
-    ocupacao = models.CharField(max_length=100)
+    profissao = models.CharField(max_length=100)
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
     neurodivergente = models.ManyToManyField('Neurodivergente', 
         limit_choices_to=models.Q(nome='Dislexia') | models.Q(nome='Autismo') | models.Q(nome='TDAH'))
