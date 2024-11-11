@@ -210,15 +210,8 @@ def inicializar_dados(sender, **kwargs):
                         'exemplo_foto': 'exemplos/exemplo18.png',
                     }, 
                 ],  
-                  'Interfaces': [
-                    {
-                        'nome': 'Memória prospectiva',
-                        'por_que_resolver': 'Interfaces desorganizadas dificultam a concentração, especialmente para usuários com TDAH, aumentando a confusão e o tempo necessário para encontrar informações.',
-                        'descricao': 'Manter o layout simples e organizado, com a interface limpa e sem distrações visuais.',
-                        'exemplo_texto': 'Utilizar um design minimalista, sem sobrecarregar a interface com informações desnecessárias, e garantir que os elementos importantes sejam dispostos de maneira consistente.',
-                        'exemplo_foto': 'exemplos/exemplo18.png',
-                    }, 
-                ],  
+                 
+                 
                   
             },
         }
