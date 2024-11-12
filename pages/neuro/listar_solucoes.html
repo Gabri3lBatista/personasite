@@ -76,19 +76,14 @@
                                             </div>
                                             <div class="modal-body bg-dark">
 
-                                                <p><strong>Problema Relacionado:</strong> {{
-                                                    solucao.problema.descricao }}</p>
+                                                <p><strong>Problema Relacionado:</strong> {{solucao.problema }}</p>
                                                 <p><strong>Descrição:</strong> {{ solucao.descricao }}</p>
                                                 <p><strong>Por que resolver:</strong> {{ solucao.por_que_resolver }}
                                                 </p>
                                                 <p><strong>Exemplo de Texto:</strong> {{ solucao.exemplo_texto }}
                                                 </p>
 
-                                                {% if solucao.exemplo_foto %}
-                                                <p><strong>Exemplo em Foto:</strong></p>
-                                                <img src="{{ solucao.exemplo_foto.url }}" alt="Exemplo da solução"
-                                                    class="img-fluid w-50">
-                                                {% endif %}
+                                              
                                             </div>
                                             <div class="modal-footer  bg-dark">
                                                 <button type="button" class="btn btn-secondary"
